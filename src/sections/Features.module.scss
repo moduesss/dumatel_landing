@@ -1,0 +1,7 @@
+@use "../styles/mixins" as *;
+
+.features {
+  @include section-spacing;
+}
+
+.features__grid {}

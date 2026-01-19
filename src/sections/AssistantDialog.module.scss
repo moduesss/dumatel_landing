@@ -1,0 +1,56 @@
+.assistant-dialog {
+  background: #ffffff;
+  color: #000000;
+  padding: 86px 16px;
+}
+
+.assistant-dialog__inner {
+  max-width: 1030px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.assistant-dialog__header {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding-left: 16px;
+}
+
+.assistant-dialog__label {
+  font-size: 25px;
+  letter-spacing: -0.5px;
+  color: #84909f;
+  margin: 0;
+}
+
+.assistant-dialog__body {
+  border-left: 2px solid #d8d8d8;
+  padding-left: 16px;
+  max-width: 590px;
+}
+
+.assistant-dialog__body p {
+  font-size: 25px;
+  letter-spacing: -0.5px;
+  line-height: normal;
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .assistant-dialog {
+    padding: 72px 16px;
+  }
+
+  .assistant-dialog__inner {
+    align-items: center;
+    text-align: left;
+  }
+
+  .assistant-dialog__body {
+    max-width: 100%;
+  }
+}

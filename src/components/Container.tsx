@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import styles from "./Container.module.scss";
 
 type TagOption = "div" | "section" | "main" | "header" | "footer";
 
@@ -14,7 +15,7 @@ export default function Container({
   as = "div",
 }: ContainerProps) {
   const Tag = as;
-  const classes = ["container", className].filter(Boolean).join(" ");
+  const classes = [styles.container, className].filter(Boolean).join(" ");
 
   return <Tag className={classes}>{children}</Tag>;
 }

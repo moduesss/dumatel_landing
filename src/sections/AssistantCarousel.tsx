@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import styles from "./AssistantCarousel.module.scss";
 
 const SLIDE_GAP = 100;
 
@@ -113,9 +114,12 @@ export default function AssistantCarousel() {
   const offset = cardWidth ? -(cardWidth + SLIDE_GAP) * activeIndex : 0;
 
   return (
-    <section className="assistant-carousel" aria-labelledby="assistant-heading">
-      <div className="assistant-carousel__inner">
-        <div className="assistant-carousel__title">
+    <section
+      className={styles["assistant-carousel"]}
+      aria-labelledby="assistant-heading"
+    >
+      <div className={styles["assistant-carousel__inner"]}>
+        <div className={styles["assistant-carousel__title"]}>
           <h2 id="assistant-heading">
             Ваш <em>ИИ-помощник</em> при работе с файлами
           </h2>
@@ -125,9 +129,9 @@ export default function AssistantCarousel() {
           </p>
         </div>
 
-        <div className="assistant-carousel__controls">
+        <div className={styles["assistant-carousel__controls"]}>
           <button
-            className="assistant-carousel__arrow"
+            className={styles["assistant-carousel__arrow"]}
             type="button"
             onClick={handlePrev}
             aria-label="Предыдущий слайд"
@@ -140,7 +144,7 @@ export default function AssistantCarousel() {
             />
           </button>
           <button
-            className="assistant-carousel__arrow"
+            className={styles["assistant-carousel__arrow"]}
             type="button"
             onClick={handleNext}
             aria-label="Следующий слайд"
@@ -154,18 +158,18 @@ export default function AssistantCarousel() {
           </button>
         </div>
 
-        <div className="assistant-carousel__viewport">
+        <div className={styles["assistant-carousel__viewport"]}>
           <div
-            className="assistant-carousel__track"
+            className={styles["assistant-carousel__track"]}
             style={{ transform: `translateX(${offset}px)` }}
           >
             {slides.map((slide, index) => (
               <article
                 key={slide.id}
-                className="assistant-carousel__card"
+                className={styles["assistant-carousel__card"]}
                 ref={index === 0 ? slideRef : null}
               >
-                <div className="assistant-carousel__content">
+                <div className={styles["assistant-carousel__content"]}>
                   <Image
                     src={slide.icon}
                     alt=""
@@ -173,24 +177,26 @@ export default function AssistantCarousel() {
                     height={38}
                   />
                   <h3>{slide.title}</h3>
-                  <p className="assistant-carousel__lead">{slide.lead}</p>
+                  <p className={styles["assistant-carousel__lead"]}>
+                    {slide.lead}
+                  </p>
                   {slide.description ? (
-                    <p className="assistant-carousel__description">
+                    <p className={styles["assistant-carousel__description"]}>
                       {slide.description}
                     </p>
                   ) : null}
                   {slide.list ? (
-                    <ul className="assistant-carousel__list">
+                    <ul className={styles["assistant-carousel__list"]}>
                       {slide.list.map((item) => (
                         <li key={item}>{item}</li>
                       ))}
                     </ul>
                   ) : null}
                   {slide.id === "archive" ? (
-                    <div className="assistant-carousel__files">
+                    <div className={styles["assistant-carousel__files"]}>
                       {fileIcons.map((icon) => (
                         <div
-                          className="assistant-carousel__file"
+                          className={styles["assistant-carousel__file"]}
                           key={icon.label}
                         >
                           <Image
@@ -204,13 +210,13 @@ export default function AssistantCarousel() {
                     </div>
                   ) : null}
                 </div>
-                <div className="assistant-carousel__media">
+                <div className={styles["assistant-carousel__media"]}>
                   <Image
                     src="/images/Image.png"
                     alt="Интерфейс работы с файлами"
                     width={921}
                     height={436}
-                    className="assistant-carousel__media-image"
+                    className={styles["assistant-carousel__media-image"]}
                   />
                 </div>
               </article>

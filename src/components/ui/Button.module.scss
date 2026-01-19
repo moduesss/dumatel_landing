@@ -1,0 +1,24 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 10px 18px;
+  border: 1px solid transparent;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.button--primary {
+  background: var(--color-accent);
+  color: #ffffff;
+}
+
+.button--ghost {
+  background: transparent;
+  border-color: rgba(0, 0, 0, 0.12);
+  color: var(--color-text);
+}
+
+.button:hover {
+  transform: translateY(-1px);
+}

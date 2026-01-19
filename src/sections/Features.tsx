@@ -1,6 +1,7 @@
 import Container from "@/components/Container";
 import Card from "@/components/ui/Card";
 import SectionTitle from "@/components/ui/SectionTitle";
+import styles from "./Features.module.scss";
 
 const features = [
   {
@@ -19,14 +20,14 @@ const features = [
 
 export default function Features() {
   return (
-    <section className="section features" id="features">
+    <section className={styles.features} id="features">
       <Container>
         <SectionTitle
           eyebrow="Platform"
           title="Everything you need to go from idea to scale."
           description="Modern tooling for teams that ship fast but still need tight control."
         />
-        <div className="features__grid">
+        <div className={styles["features__grid"]}>
           {features.map((feature) => (
             <Card key={feature.title}>
               <h3>{feature.title}</h3>

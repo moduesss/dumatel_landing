@@ -1,6 +1,7 @@
 import Container from "@/components/Container";
 import Accordion from "@/components/ui/Accordion";
 import SectionTitle from "@/components/ui/SectionTitle";
+import styles from "./FAQ.module.scss";
 
 const items = [
   {
@@ -22,7 +23,7 @@ const items = [
 
 export default function FAQ() {
   return (
-    <section className="section faq" id="faq">
+    <section className={styles.faq} id="faq">
       <Container>
         <SectionTitle
           eyebrow="FAQ"

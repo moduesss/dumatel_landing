@@ -1,13 +1,17 @@
 import Image from "next/image";
+import styles from "./AssistantDialog.module.scss";
 
 export default function AssistantDialog() {
   return (
-    <section className="assistant-dialog" aria-labelledby="assistant-dialog-title">
-      <div className="assistant-dialog__inner">
+    <section
+      className={styles["assistant-dialog"]}
+      aria-labelledby="assistant-dialog-title"
+    >
+      <div className={styles["assistant-dialog__inner"]}>
         <h2 id="assistant-dialog-title" className="visually-hidden">
           Думатель говорит
         </h2>
-        <div className="assistant-dialog__header">
+        <div className={styles["assistant-dialog__header"]}>
           <Image
             src="/icons/Dialog 7.svg"
             alt="Думатель"
@@ -20,9 +24,9 @@ export default function AssistantDialog() {
             width={18}
             height={18}
           />
-          <p className="assistant-dialog__label">Думатель говорит...</p>
+          <p className={styles["assistant-dialog__label"]}>Думатель говорит...</p>
         </div>
-        <div className="assistant-dialog__body">
+        <div className={styles["assistant-dialog__body"]}>
           <p>
             — Я превращаю хаос файлов и записей в порядок: связываю
             разрозненные данные, нахожу нужное и показываю главное. Я понимаю

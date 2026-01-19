@@ -1,15 +1,16 @@
 import Link from "next/link";
 import Container from "@/components/Container";
+import styles from "./Footer.module.scss";
 
 export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="site-footer">
+    <footer className={styles["site-footer"]}>
       <Container>
-        <div className="site-footer__inner">
+        <div className={styles["site-footer__inner"]}>
           <p>© {year} Dumatel. All rights reserved.</p>
-          <nav className="site-footer__nav" aria-label="Footer">
+          <nav className={styles["site-footer__nav"]} aria-label="Footer">
             <Link href="/">Privacy</Link>
             <Link href="/">Terms</Link>
             <Link href="/">Contact</Link>

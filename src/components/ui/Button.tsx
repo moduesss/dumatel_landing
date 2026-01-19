@@ -3,6 +3,7 @@ import type {
   ComponentPropsWithoutRef,
   ReactNode,
 } from "react";
+import styles from "./Button.module.scss";
 
 type ButtonProps = ComponentPropsWithoutRef<"button"> & {
   href?: string;
@@ -18,7 +19,7 @@ export default function Button({
   children,
   ...rest
 }: ButtonProps) {
-  const classes = ["button", `button--${variant}`, className]
+  const classes = [styles.button, styles[`button--${variant}`], className]
     .filter(Boolean)
     .join(" ");
 

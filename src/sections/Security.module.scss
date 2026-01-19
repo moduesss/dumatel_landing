@@ -1,0 +1,7 @@
+@use "../styles/mixins" as *;
+
+.security {
+  @include section-spacing;
+}
+
+.security__grid {}

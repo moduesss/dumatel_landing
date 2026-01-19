@@ -1,0 +1,9 @@
+@use "../styles/mixins" as *;
+
+.pricing {
+  @include section-spacing;
+}
+
+.pricing__grid {}
+
+.pricing__price {}

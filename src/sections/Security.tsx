@@ -1,6 +1,7 @@
 import Container from "@/components/Container";
 import Card from "@/components/ui/Card";
 import SectionTitle from "@/components/ui/SectionTitle";
+import styles from "./Security.module.scss";
 
 const points = [
   {
@@ -19,14 +20,14 @@ const points = [
 
 export default function Security() {
   return (
-    <section className="section security" id="security">
+    <section className={styles.security} id="security">
       <Container>
         <SectionTitle
           eyebrow="Security"
           title="Protection without slowing the team."
           description="Automated safeguards keep every release compliant and resilient."
         />
-        <div className="security__grid">
+        <div className={styles["security__grid"]}>
           {points.map((point) => (
             <Card key={point.title}>
               <h3>{point.title}</h3>

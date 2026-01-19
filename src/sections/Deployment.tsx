@@ -1,5 +1,6 @@
 import Container from "@/components/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
+import styles from "./Deployment.module.scss";
 
 const steps = [
   "Connect your repo and select a runtime.",
@@ -9,14 +10,14 @@ const steps = [
 
 export default function Deployment() {
   return (
-    <section className="section deployment" id="deployment">
+    <section className={styles.deployment} id="deployment">
       <Container>
         <SectionTitle
           eyebrow="Workflow"
           title="Deploy in minutes, not days."
           description="A guided release flow that keeps every environment predictable."
         />
-        <ol className="deployment__list">
+        <ol className={styles["deployment__list"]}>
           {steps.map((step) => (
             <li key={step}>{step}</li>
           ))}
