@@ -1,8 +1,6 @@
 import type { ReactNode } from "react";
 
-const tagOptions = ["div", "section", "main", "header", "footer"] as const;
-
-type TagOption = (typeof tagOptions)[number];
+type TagOption = "div" | "section" | "main" | "header" | "footer";
 
 type ContainerProps = {
   children: ReactNode;

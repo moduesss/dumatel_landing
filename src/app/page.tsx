@@ -1,12 +1,7 @@
-import Footer from "@/components/Footer";
 import Header from "@/components/Header";
-import Comparison from "@/sections/Comparison";
-import Deployment from "@/sections/Deployment";
-import FAQ from "@/sections/FAQ";
-import Features from "@/sections/Features";
+import AssistantCarousel from "@/sections/AssistantCarousel";
+import AssistantDialog from "@/sections/AssistantDialog";
 import Hero from "@/sections/Hero";
-import Pricing from "@/sections/Pricing";
-import Security from "@/sections/Security";
 
 export default function HomePage() {
   return (
@@ -14,14 +9,9 @@ export default function HomePage() {
       <Header />
       <main>
         <Hero />
-        <Features />
-        <Deployment />
-        <Comparison />
-        <Security />
-        <Pricing />
-        <FAQ />
+        <AssistantCarousel />
+        <AssistantDialog />
       </main>
-      <Footer />
     </>
   );
 }

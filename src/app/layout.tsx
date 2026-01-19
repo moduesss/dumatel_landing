@@ -13,8 +13,24 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Dumatel",
-  description: "Composable infrastructure for modern product teams.",
+  title: {
+    default: "Думатель",
+    template: "%s | Думатель",
+  },
+  description:
+    "ИИ-пространство для работы с документами и знаниями. Понимает, анализирует и генерирует.",
+  openGraph: {
+    title: "Думатель",
+    description:
+      "ИИ-пространство для работы с документами и знаниями. Понимает, анализирует и генерирует.",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Думатель",
+    description:
+      "ИИ-пространство для работы с документами и знаниями. Понимает, анализирует и генерирует.",
+  },
 };
 
 export default function RootLayout({
@@ -23,7 +39,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="ru">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         {children}
       </body>

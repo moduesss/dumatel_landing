@@ -1,0 +1,36 @@
+import Image from "next/image";
+
+export default function AssistantDialog() {
+  return (
+    <section className="assistant-dialog" aria-labelledby="assistant-dialog-title">
+      <div className="assistant-dialog__inner">
+        <h2 id="assistant-dialog-title" className="visually-hidden">
+          Думатель говорит
+        </h2>
+        <div className="assistant-dialog__header">
+          <Image
+            src="/icons/Dialog 7.svg"
+            alt="Думатель"
+            width={64}
+            height={64}
+          />
+          <Image
+            src="/icons/Vector-44.svg"
+            alt="Голосовое сообщение"
+            width={18}
+            height={18}
+          />
+          <p className="assistant-dialog__label">Думатель говорит...</p>
+        </div>
+        <div className="assistant-dialog__body">
+          <p>
+            — Я превращаю хаос файлов и записей в порядок: связываю
+            разрозненные данные, нахожу нужное и показываю главное. Я понимаю
+            любые форматы — тексты, таблицы, изображения и даже аудио. Вместо
+            длинных текстов вы сразу получаете ясный ответ.
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
