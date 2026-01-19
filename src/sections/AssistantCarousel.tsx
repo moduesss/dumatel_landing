@@ -14,6 +14,7 @@ const slides = [
     lead: "Думатель создает готовые документы автоматически.",
     description:
       "Коммерческие предложения, таблицы сравнений, планы и инструкции рождаются прямо из ваших данных!",
+    videoSrc: "/videos/Генерация артефактов.mp4",
   },
   {
     id: "web-agent",
@@ -22,6 +23,7 @@ const slides = [
     lead: "Думатель выходит в интернет через Web-Агента.",
     description:
       "Он находит актуальные данные, оценивает надежность источников и помогает выбрать лучшее решение на основе фактов.",
+    videoSrc: "/videos/Вебагент.mp4",
   },
   {
     id: "knowledge-map",
@@ -30,6 +32,7 @@ const slides = [
     lead: "Думатель строит интерактивные карты.",
     description:
       "Документ становится деревом данных, по которому можно ходить, проваливаться глубже по веткам и быстро находить нужную информацию.",
+    videoSrc: "/videos/Майндмап.mp4",
   },
   {
     id: "language",
@@ -38,6 +41,7 @@ const slides = [
     lead: "Вы можете задать думателю свой вопрос голосом или текстом.",
     description:
       "Можно спросить голосом или текстом в чате, получив точный ответ с рассуждениями и указанием всех источников.",
+    videoSrc: "/videos/Естественные языки.mp4",
   },
   {
     id: "archive",
@@ -52,6 +56,7 @@ const slides = [
       "отчеты, таблицы, схемы",
       "аудиозаписи (mp3, mp4)",
     ],
+    videoSrc: "/videos/Мультиформатность.mp4",
   },
   {
     id: "entities",
@@ -60,6 +65,7 @@ const slides = [
     lead: "Думатель может извлекать нужную информацию.",
     description:
       "Вы можете создать сводную таблицу с нужными данными из разных документов одним простым текстовым запросом.",
+    videoSrc: "/videos/Экстракция сущностей.mp4",
   },
 ];
 
@@ -77,6 +83,8 @@ export default function AssistantCarousel() {
   const slideRef = useRef<HTMLDivElement | null>(null);
   const [cardWidth, setCardWidth] = useState(0);
   const [activeIndex, setActiveIndex] = useState(0);
+
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
 
   useEffect(() => {
     const updateWidth = () => {
@@ -98,10 +106,22 @@ export default function AssistantCarousel() {
 
     const interval = window.setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % slides.length);
-    }, 5000);
+    }, 31000);
 
     return () => window.clearInterval(interval);
   }, [cardWidth]);
+
+    useEffect(() => {
+      videoRefs.current.forEach((v, i) => {
+        if (!v) return;
+        if (i === activeIndex) {
+          v.currentTime = 0;
+          v.play().catch(() => {});
+        } else {
+          v.pause();
+        }
+      });
+    }, [activeIndex]);
 
   const handlePrev = () => {
     setActiveIndex((prev) => (prev - 1 + slides.length) % slides.length);
@@ -211,12 +231,16 @@ export default function AssistantCarousel() {
                   ) : null}
                 </div>
                 <div className={styles["assistant-carousel__media"]}>
-                  <Image
-                    src="/images/Image.png"
-                    alt="Интерфейс работы с файлами"
-                    width={921}
-                    height={436}
-                    className={styles["assistant-carousel__media-image"]}
+                  <video
+                    ref={(el) => {
+                      videoRefs.current[index] = el;
+                    }}
+                    className={styles["assistant-carousel__media-video"]}
+                    src={slide.videoSrc}
+                    muted
+                    playsInline
+                    loop
+                    preload="metadata"
                   />
                 </div>
               </article>

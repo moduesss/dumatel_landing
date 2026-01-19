@@ -1,6 +1,7 @@
 import Header from "@/components/Header";
 import AssistantCarousel from "@/sections/AssistantCarousel";
 import AssistantDialog from "@/sections/AssistantDialog";
+import ComparisonMatrix from "@/sections/ComparisonMatrix";
 import Formats from "@/sections/Formats";
 import Hero from "@/sections/Hero";
 import PricingPlans from "@/sections/PricingPlans";
@@ -17,6 +18,7 @@ export default function HomePage() {
         <Reviews />
         <PricingPlans />
         <Formats />
+        <ComparisonMatrix />
       </main>
     </>
   );
