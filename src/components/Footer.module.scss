@@ -1,22 +1,22 @@
 .footer {
   background: linear-gradient(90deg, #0a2240 0%, #000000 100%);
-  padding: 42px 72.75px;
+  padding: var(--space-6) var(--space-7);
   color: #ffffff;
 }
 
 .footer__inner {
-  max-width: 1128.75px;
+  max-width: var(--container);
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 192px;
+  gap: calc(var(--space-8) * 2);
 }
 
 .footer__top {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 30px;
+  gap: var(--space-5);
 }
 
 .footer__brand {
@@ -28,21 +28,21 @@
 .footer__beta {
   background: #ff7f30;
   color: #ffffff;
-  font-size: 10.5px;
+  font-size: var(--fs-1);
   font-weight: 700;
   font-style: italic;
-  border-radius: 225px;
-  padding: 2.25px 8.25px;
+  border-radius: var(--radius-5);
+  padding: var(--space-1) var(--space-2);
   position: absolute;
   right: 0;
-  top: 8.25px;
-  transform: translateX(4.5px);
+  top: var(--space-2);
+  transform: translateX(var(--space-1));
 }
 
 .footer__actions {
   display: flex;
   align-items: center;
-  gap: 33px;
+  gap: var(--space-5);
 }
 
 .footer__social {
@@ -63,12 +63,12 @@
   justify-content: center;
   background: #ff7f30;
   color: #ffffff;
-  border-radius: 225px;
-  padding: 24px 63.75px;
-  width: 247.5px;
-  font-size: 18.75px;
+  border-radius: var(--radius-5);
+  padding: var(--space-4) var(--space-7);
+  width: clamp(200px, 24vw, 260px);
+  font-size: var(--fs-3);
   font-weight: 700;
-  letter-spacing: -0.188px;
+  letter-spacing: -0.02em;
   text-decoration: none;
 }
 
@@ -76,16 +76,16 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 36px;
+  gap: var(--space-6);
   color: rgba(151, 162, 175, 0.45);
-  font-size: 15px;
-  letter-spacing: -0.3px;
+  font-size: var(--fs-1);
+  letter-spacing: -0.02em;
 }
 
 .footer__meta {
   display: flex;
   align-items: center;
-  gap: 49.5px;
+  gap: var(--space-6);
   flex-wrap: wrap;
 }
 
@@ -97,7 +97,7 @@
 .footer__studio {
   display: inline-flex;
   align-items: center;
-  gap: 10.5px;
+  gap: var(--space-2);
   color: rgba(151, 162, 175, 0.45);
 }
 
@@ -108,11 +108,11 @@
 
 @media (max-width: 900px) {
   .footer {
-    padding: 30px 24px;
+    padding: var(--space-5) var(--space-4);
   }
 
   .footer__inner {
-    gap: 120px;
+    gap: var(--space-8);
   }
 
   .footer__top {
@@ -135,25 +135,25 @@
   }
 
   .footer__meta {
-    gap: 18px;
+    gap: var(--space-3);
   }
 }
 
 @media (max-width: 576px) {
   .footer {
-    padding: 24px 15px;
+    padding: var(--space-4) var(--space-3);
   }
 
   .footer__inner {
-    gap: 60px;
+    gap: var(--space-7);
   }
 
   .footer__cta {
-    font-size: 13.5px;
-    padding: 13.5px 18px;
+    font-size: var(--fs-1);
+    padding: var(--space-2) var(--space-3);
   }
 
   .footer__bottom {
-    font-size: 10.5px;
+    font-size: var(--fs-1);
   }
 }

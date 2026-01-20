@@ -1,4 +1,4 @@
-@use "../styles/tokens" as *;
+@use "../styles/tokens.scss";
 @use "../styles/reset";
 
 html,
@@ -12,7 +12,8 @@ body {
   background: #ffffff;
   font-family: "TT Interphases Pro", var(--font-geist-sans),
     "Helvetica Neue", Arial, sans-serif;
-  line-height: 1.6;
+  font-size: var(--fs-1);
+  line-height: var(--lh-normal);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

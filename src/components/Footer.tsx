@@ -14,7 +14,7 @@ export default function Footer() {
             <Image
               src={withBasePath("/icons/Group 298956478.svg")}
               alt="Думатель"
-              width={202}
+              width={180}
               height={33}
             />
             <span className={styles.footer__beta}>бета</span>
@@ -26,24 +26,24 @@ export default function Footer() {
                 <Image
                   src={withBasePath("/icons/social-tg.svg")}
                   alt="Телеграм"
-                  width={69}
-                  height={69}
+                  width={45}
+                  height={45}
                 />
               </Link>
               <Link href="https://vk.com" aria-label="ВКонтакте Думателя">
                 <Image
                   src={withBasePath("/icons/social-vk.svg")}
                   alt="ВКонтакте"
-                  width={69}
-                  height={69}
+                  width={45}
+                  height={45}
                 />
               </Link>
               <Link href="https://max.ru" aria-label="MAX Думателя">
                 <Image
                   src={withBasePath("/icons/social-max.svg")}
                   alt="MAX"
-                  width={69}
-                  height={69}
+                  width={45}
+                  height={45}
                 />
               </Link>
             </div>
@@ -70,8 +70,8 @@ export default function Footer() {
             <Image
               src={withBasePath("/icons/studio-rika.svg")}
               alt="Студия Рика"
-              width={35}
-              height={26}
+              width={30}
+              height={21}
             />
             <span>Design by Студия Рика</span>
           </div>

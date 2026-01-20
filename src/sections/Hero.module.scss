@@ -1,11 +1,11 @@
 .hero {
   position: relative;
-  min-height: 939px;
+  min-height: calc(var(--space-8) * 10);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding: 240px 16px 140px;
+  padding: calc(var(--space-8) * 2.5) var(--space-4) var(--space-8);
   overflow: hidden;
   text-align: center;
   font-feature-settings: "ss01";
@@ -34,21 +34,21 @@
 .hero__content {
   position: relative;
   z-index: 2;
-  max-width: 1387px;
+  max-width: var(--container);
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--space-2);
 }
 
 .hero__eyebrow {
-  font-size: 18px;
-  letter-spacing: -0.36px;
+  font-size: var(--fs-2);
+  letter-spacing: -0.02em;
 }
 
 .hero__title {
-  font-size: clamp(36px, 5vw, 64px);
-  line-height: 1;
-  letter-spacing: -0.64px;
+  font-size: clamp(32px, 4.5vw, 56px);
+  line-height: var(--lh-tight);
+  letter-spacing: -0.04em;
   font-weight: 700;
   margin: 0;
 }
@@ -59,88 +59,88 @@
 }
 
 .hero__subtitle {
-  font-size: 18px;
-  letter-spacing: -0.36px;
+  font-size: var(--fs-2);
+  letter-spacing: -0.02em;
   margin: 0;
 }
 
 .hero__dialog {
   position: relative;
   z-index: 2;
-  width: min(725px, 100%);
-  margin-top: 44px;
+  width: min(600px, 100%);
+  margin-top: var(--space-6);
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: var(--space-4);
 }
 
 .hero__dialog-row {
   display: flex;
   align-items: flex-end;
-  gap: 12px;
+  gap: var(--space-2);
   width: 100%;
 }
 
 .hero__dialog-row--user {
   justify-content: flex-start;
-  padding-left: 32px;
+  padding-left: var(--space-5);
 }
 
 .hero__dialog-row--assistant {
   justify-content: flex-end;
-  padding-right: 32px;
+  padding-right: var(--space-5);
 }
 
 .hero__bubble {
   background: #ffffff;
   color: #000000;
-  padding: 18px 24px;
+  padding: var(--space-3) var(--space-4);
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: var(--space-1);
 }
 
 .hero__bubble--user {
-  width: 346px;
-  min-height: 87px;
+  width: clamp(260px, 38vw, 340px);
+  min-height: 76px;
   text-align: left;
-  border-radius: 25px 25px 25px 0;
+  border-radius: var(--radius-4) var(--radius-4) var(--radius-4) 0;
 }
 
 .hero__bubble--assistant {
-  width: 444px;
-  min-height: 116px;
+  width: clamp(320px, 48vw, 420px);
+  min-height: 98px;
   text-align: left;
-  border-radius: 25px 25px 0 25px;
+  border-radius: var(--radius-4) var(--radius-4) 0 var(--radius-4);
 }
 
 .hero__bubble-label {
-  font-size: 10px;
-  letter-spacing: -0.2px;
+  font-size: clamp(10px, 0.8vw, 12px);
+  letter-spacing: -0.02em;
   color: #84909f;
 }
 
 .hero__bubble-text {
-  font-size: 18px;
-  letter-spacing: -0.36px;
+  font-size: var(--fs-2);
+  letter-spacing: -0.02em;
   margin: 0;
   line-height: normal;
 }
 
 .hero__dialog-icon {
-  width: 48px;
-  height: 48px;
+  width: calc(var(--space-6) + var(--space-2));
+  height: calc(var(--space-6) + var(--space-2));
   flex-shrink: 0;
 }
 
 .hero__dialog-icon--right {
-  margin-bottom: -12px;
-  margin-right: -12px;
+  margin-bottom: calc(var(--space-2) * -1);
+  margin-right: calc(var(--space-2) * -1);
 }
 
 .hero__dialog-icon--left {
-  margin-bottom: -8px;
-  margin-left: -12px;
+  margin-bottom: calc(var(--space-1) * -1);
+  margin-left: calc(var(--space-2) * -1);
 }
 
 .hero__cta {
@@ -148,20 +148,20 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 15px 55px;
-  border-radius: 60px;
+  padding: var(--space-2) var(--space-6);
+  border-radius: var(--radius-5);
   background: #ff7f30;
   color: #ffffff;
-  font-size: 14px;
+  font-size: var(--fs-1);
   font-weight: 700;
   white-space: nowrap;
-  margin-top: 40px;
+  margin-top: var(--space-6);
   align-self: center;
 }
 
 @media (max-width: 900px) {
   .hero {
-    padding: 200px 16px 120px;
+    padding: calc(var(--space-section) * 1.6) var(--space-4) var(--space-7);
   }
 
   .hero__dialog {
@@ -182,7 +182,7 @@
     width: 100%;
     height: auto;
     text-align: left;
-    padding: 20px;
+    padding: var(--space-4);
   }
 
   .hero__dialog-icon {
@@ -190,6 +190,6 @@
   }
 
   .hero__cta {
-    margin-top: 32px;
+    margin-top: var(--space-5);
   }
 }

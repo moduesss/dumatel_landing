@@ -1,22 +1,22 @@
 .formats {
   background: #ffffff;
   color: #0a2240;
-  padding: 100px 16px 120px;
+  padding: var(--space-section) var(--space-4);
 }
 
 .formats__inner {
-  max-width: 1505px;
+  max-width: var(--container);
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 65px;
+  gap: var(--space-7);
 }
 
 .formats__title {
-  font-size: 40px;
-  letter-spacing: -0.4px;
-  line-height: 1.1;
+  font-size: var(--fs-8);
+  letter-spacing: -0.02em;
+  line-height: var(--lh-tight);
   text-align: center;
   margin: 0;
   font-weight: 700;
@@ -29,30 +29,30 @@
   display: flex;
   align-items: stretch;
   justify-content: center;
-  gap: 41px;
+  gap: var(--space-6);
 }
 
 .formats__card {
-  width: 570px;
+  width: min(520px, 100%);
   height: max-content;
   background: #ffffff;
-  border-radius: 30px;
+  border-radius: var(--radius-4);
   box-shadow: 0 4px 25px rgba(0, 0, 0, 0.1);
-  padding: 42px 48px;
+  padding: var(--space-6) var(--space-6);
   position: relative;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--space-3);
 }
 
 .formats__card::after {
   content: "";
   position: absolute;
-  top: 22px;
-  right: 22px;
-  width: 162px;
-  height: 160px;
+  top: var(--space-4);
+  right: var(--space-4);
+  width: clamp(120px, 12vw, 160px);
+  height: clamp(120px, 12vw, 160px);
   background: var(--formats-dots-url) no-repeat center;
   background-size: contain;
   opacity: 0.9;
@@ -62,16 +62,16 @@
 .formats__card-header {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: var(--space-3);
   position: relative;
   z-index: 1;
 }
 
 .formats__card-title {
   margin: 0;
-  font-size: 20px;
+  font-size: var(--fs-3);
   font-weight: 500;
-  letter-spacing: -0.2px;
+  letter-spacing: -0.02em;
   color: #000000;
 }
 
@@ -81,9 +81,9 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  font-size: 18px;
-  letter-spacing: -0.36px;
+  gap: var(--space-1);
+  font-size: var(--fs-2);
+  letter-spacing: -0.02em;
   color: #84909f;
   position: relative;
   z-index: 1;
@@ -92,7 +92,7 @@
 .formats__list li::before {
   content: "→";
   color: #ff6100;
-  margin-right: 6px;
+  margin-right: var(--space-1);
 }
 
 .formats__cta {
@@ -101,11 +101,11 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 15px 55px;
-  border-radius: 60px;
+  padding: var(--space-2) var(--space-6);
+  border-radius: var(--radius-5);
   background: #ff7f30;
   color: #ffffff;
-  font-size: 14px;
+  font-size: var(--fs-1);
   font-weight: 700;
   text-align: center;
   white-space: nowrap;
@@ -127,18 +127,18 @@
 
 @media (max-width: 900px) {
   .formats {
-    padding: 80px 16px;
+    padding: var(--space-8) var(--space-4);
   }
 
   .formats__inner {
-    gap: 40px;
+    gap: var(--space-6);
   }
 
   .formats__title {
-    font-size: 32px;
+    font-size: var(--fs-7);
   }
 
   .formats__card {
-    padding: 32px 28px;
+    padding: var(--space-5) var(--space-4);
   }
 }

@@ -1,32 +1,32 @@
 .comparison {
   background: #ffffff;
   color: #0a2240;
-  padding: 110px 16px 120px;
+  padding: var(--space-section) var(--space-4);
 }
 
 .comparison__inner {
-  max-width: 1505px;
+  max-width: var(--container);
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 55px;
+  gap: var(--space-7);
 }
 
 .comparison__header {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  gap: var(--space-4);
   text-align: center;
   color: #0a2240;
 }
 
 .comparison__header h2 {
   margin: 0;
-  font-size: 40px;
-  letter-spacing: -0.4px;
-  line-height: 1.1;
+  font-size: var(--fs-8);
+  letter-spacing: -0.02em;
+  line-height: var(--lh-tight);
   font-weight: 700;
 }
 
@@ -36,16 +36,16 @@
 
 .comparison__header p {
   margin: 0;
-  font-size: 18px;
-  letter-spacing: -0.36px;
-  max-width: 820px;
+  font-size: var(--fs-2);
+  letter-spacing: -0.02em;
+  max-width: min(820px, var(--container));
 }
 
 .comparison__table {
   width: 100%;
-  border-radius: 74px;
+  border-radius: var(--radius-5);
   border: 2px solid rgba(0, 0, 0, 0.15);
-  padding: 90px 162px;
+  padding: var(--space-8) calc(var(--space-7) + var(--space-4));
   overflow: hidden;
   background: #ffffff;
 }
@@ -53,19 +53,19 @@
 .comparison__grid {
   width: 100%;
   display: grid;
-  grid-template-columns: 330px 1fr;
-  gap: 29px;
+  grid-template-columns: clamp(240px, 26vw, 300px) 1fr;
+  gap: var(--space-5);
   align-items: start;
 }
 
 .comparison__labels {
   position: relative;
   display: grid;
-  grid-template-rows: repeat(6, 120px);
-  gap: 9px;
-  padding-left: 70px;
-  padding-top: 83px;
-  font-size: 25px;
+  grid-template-rows: repeat(6, clamp(90px, 9vw, 110px));
+  gap: var(--space-2);
+  padding-left: var(--space-6);
+  padding-top: var(--space-7);
+  font-size: var(--fs-5);
   font-weight: 600;
   color: #000000;
 }
@@ -80,7 +80,7 @@
 .comparison__label::before {
   content: "";
   position: absolute;
-  left: -70px;
+  left: calc(var(--space-6) * -1);
   top: 50%;
   width: 43px;
   height: 43px;
@@ -116,19 +116,19 @@
 
 .comparison__data {
   display: grid;
-  grid-template-rows: 58px repeat(6, 120px);
-  gap: 9px;
+  grid-template-rows: 52px repeat(6, clamp(90px, 9vw, 110px));
+  gap: var(--space-2);
 }
 
 .comparison__columns {
   display: grid;
-  grid-template-columns: repeat(4, 195px);
-  gap: 12px;
+  grid-template-columns: repeat(4, clamp(150px, 14vw, 180px));
+  gap: var(--space-2);
   justify-content: space-between;
 }
 
 .comparison__column {
-  height: 58px;
+  height: 52px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -136,14 +136,14 @@
 
 .comparison__cells {
   display: grid;
-  grid-template-rows: repeat(6, 120px);
-  gap: 9px;
+  grid-template-rows: repeat(6, clamp(90px, 9vw, 110px));
+  gap: var(--space-2);
 }
 
 .comparison__row {
   display: grid;
-  grid-template-columns: repeat(4, 195px);
-  gap: 12px;
+  grid-template-columns: repeat(4, clamp(150px, 14vw, 180px));
+  gap: var(--space-2);
   justify-content: space-between;
 }
 
@@ -151,11 +151,11 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 15px 55px;
-  border-radius: 60px;
+  padding: var(--space-2) var(--space-6);
+  border-radius: var(--radius-5);
   background: #ff7f30;
   color: #ffffff;
-  font-size: 14px;
+  font-size: var(--fs-1);
   font-weight: 700;
   text-align: center;
   white-space: nowrap;
@@ -163,17 +163,17 @@
 
 .comparison__card {
   background: #ffffff;
-  border-radius: 25px;
+  border-radius: var(--radius-4);
   box-shadow: 0 4px 25px rgba(0, 0, 0, 0.1);
-  padding: 22px 16px 18px;
+  padding: var(--space-3) var(--space-3) var(--space-2);
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--space-2);
 }
 
 .comparison__card-text {
   margin: 0;
-  font-size: 15px;
+  font-size: var(--fs-1);
   font-weight: 600;
   color: #000000;
   text-align: center;
@@ -182,7 +182,7 @@
 
 .comparison__meter {
   position: relative;
-  height: 27px;
+  height: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -192,8 +192,8 @@
   position: absolute;
   left: 0;
   right: 0;
-  height: 10px;
-  border-radius: 300px;
+  height: 8px;
+  border-radius: var(--radius-5);
   background: #d4d4d4;
   top: 50%;
   transform: translateY(-50%);

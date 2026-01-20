@@ -1,48 +1,48 @@
 .assistant-dialog {
   background: #ffffff;
   color: #000000;
-  padding: 86px 16px;
+  padding: var(--space-section) var(--space-4);
 }
 
 .assistant-dialog__inner {
-  max-width: 1030px;
+  max-width: min(1030px, var(--container));
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 24px;
+  gap: var(--space-4);
 }
 
 .assistant-dialog__header {
   display: flex;
   align-items: center;
-  gap: 11px;
-  padding-left: 16px;
+  gap: var(--space-2);
+  padding-left: var(--space-3);
 }
 
 .assistant-dialog__label {
-  font-size: 25px;
-  letter-spacing: -0.5px;
+  font-size: var(--fs-5);
+  letter-spacing: -0.02em;
   color: #84909f;
   margin: 0;
 }
 
 .assistant-dialog__body {
   border-left: 2px solid #d8d8d8;
-  padding-left: 16px;
+  padding-left: var(--space-3);
   max-width: 590px;
 }
 
 .assistant-dialog__body p {
-  font-size: 25px;
-  letter-spacing: -0.5px;
+  font-size: var(--fs-5);
+  letter-spacing: -0.02em;
   line-height: normal;
   margin: 0;
 }
 
 @media (max-width: 900px) {
   .assistant-dialog {
-    padding: 72px 16px;
+    padding: var(--space-8) var(--space-4);
   }
 
   .assistant-dialog__inner {

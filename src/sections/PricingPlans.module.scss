@@ -1,46 +1,46 @@
 .pricing-plans {
   background: #ffffff;
   color: #0a2240;
-  padding: 110px 16px 120px;
+  padding: var(--space-section) var(--space-4);
 }
 
 .pricing-plans__inner {
-  max-width: 1505px;
+  max-width: var(--container);
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 55px;
+  gap: var(--space-7);
 }
 
 .pricing-plans__heading h2 {
-  font-size: 40px;
-  letter-spacing: -0.4px;
-  line-height: 1.1;
+  font-size: var(--fs-8);
+  letter-spacing: -0.02em;
+  line-height: var(--lh-tight);
   text-align: center;
   margin: 0;
   font-weight: 700;
-  max-width: 1073px;
+  max-width: min(1073px, var(--container));
 }
 
 .pricing-plans__toggle {
   display: flex;
   align-items: center;
-  gap: 23px;
-  padding: 8px 25px 8px 14px;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-5) var(--space-2) var(--space-3);
   background: #f3f4f5;
-  border-radius: 450px;
+  border-radius: var(--radius-5);
 }
 
 .pricing-plans__toggle-button {
   border: none;
   background: transparent;
   color: #717171;
-  font-size: 18px;
+  font-size: var(--fs-2);
   font-weight: 600;
-  letter-spacing: -0.18px;
-  padding: 12px 20px;
-  border-radius: 450px;
+  letter-spacing: -0.02em;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-5);
   cursor: pointer;
 }
 
@@ -57,26 +57,26 @@
 }
 
 .pricing-plans__screen {
-  width: min(1505px, 100%);
-  min-height: 882px;
+  width: min(var(--container), 100%);
+  min-height: clamp(640px, 60vw, 860px);
   position: relative;
   overflow: hidden;
   background: #000;
   border: 3.7px solid #4b4b4b;
-  border-radius: 74px;
+  border-radius: var(--radius-5);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
-  padding: 24px;
+  padding: var(--space-4);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 35px;
+  gap: var(--space-5);
 }
 
 .pricing-plans__screen::before {
   content: "";
   position: absolute;
-  inset: 24px;
-  border-radius: 43px;
+  inset: var(--space-4);
+  border-radius: var(--radius-4);
   z-index: 0;
   pointer-events: none;
   background:
@@ -106,8 +106,8 @@
 .pricing-plans__screen::after {
   content: "";
   position: absolute;
-  inset: 24px;
-  border-radius: 43px;
+  inset: var(--space-4);
+  border-radius: var(--radius-4);
   pointer-events: none;
   z-index: 1;
   background:
@@ -126,8 +126,8 @@
 
 .pricing-plans__bg {
   position: absolute;
-  inset: 24px;
-  border-radius: 43px;
+  inset: var(--space-4);
+  border-radius: var(--radius-4);
   z-index: 5;
   pointer-events: none;
   overflow: hidden;
@@ -136,21 +136,21 @@
 .pricing-plans__bg-left,
 .pricing-plans__bg-right {
   position: absolute;
-  height: 520px;
+  height: clamp(360px, 40vw, 520px);
   object-fit: contain;
   opacity: 0.9;
 }
 
 .pricing-plans__bg-left {
   left: 0;
-  bottom: 90px;
+  bottom: var(--space-7);
   transform: scale(1.18);
   filter: drop-shadow(0 0 26px rgba(255, 200, 120, 0.25));
 }
 
 .pricing-plans__bg-right {
   right: -1px;
-  top: 130px;
+  top: calc(var(--space-7) + var(--space-3));
   transform: scale(1.1) rotate(180deg);
   filter: drop-shadow(0 0 30px rgba(255, 160, 60, 0.22));
 }
@@ -162,55 +162,55 @@
 
 .pricing-plans__camera {
   z-index: 1;
-  margin-top: 8px;
+  margin-top: var(--space-2);
 }
 
 .pricing-plans__status {
   width: 100%;
-  max-width: 1423px;
+  max-width: var(--container);
   display: flex;
   align-items: center;
   justify-content: space-between;
   color: #ffffff;
-  font-size: 14px;
-  letter-spacing: -0.14px;
+  font-size: var(--fs-1);
+  letter-spacing: -0.01em;
   z-index: 1;
-  padding: 0 32px;
+  padding: 0 var(--space-5);
 }
 
 .pricing-plans__status-left,
 .pricing-plans__status-right {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--space-2);
 }
 
 .pricing-plans__battery {
-  width: 29px;
-  height: 12px;
+  width: 24px;
+  height: 10px;
   background: #ffffff;
-  border-radius: 4px;
+  border-radius: var(--radius-1);
   display: inline-block;
 }
 
 .pricing-plans__cards {
   display: flex;
   align-items: stretch;
-  gap: 95px;
+  gap: var(--space-8);
   z-index: 1;
-  margin-top: 20px;
+  margin-top: var(--space-4);
 }
 
 .plan-card {
-  width: 350px;
-  height: 671px;
+  width: clamp(260px, 24vw, 320px);
+  min-height: 520px;
   background: #ffffff;
-  border-radius: 30px;
+  border-radius: var(--radius-4);
   box-shadow: 0 4px 25px rgba(0, 0, 0, 0.1);
-  padding: 28px 26px;
+  padding: var(--space-4) var(--space-4);
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--space-2);
   color: #000000;
 }
 
@@ -218,12 +218,12 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: var(--space-2);
 }
 
 .plan-card__header h3 {
-  font-size: 23px;
-  letter-spacing: -0.25px;
+  font-size: var(--fs-4);
+  letter-spacing: -0.02em;
   margin: 0;
   font-weight: 600;
 }
@@ -231,30 +231,30 @@
 .plan-card__title {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--space-2);
 }
 
 .plan-card__badge {
   background: #ff7f30;
   color: #ffffff;
-  font-size: 15px;
+  font-size: var(--fs-1);
   font-weight: 700;
-  padding: 4px 7px;
-  border-radius: 300px;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-5);
 }
 
 .plan-card__pill {
   background: #f3f4f6;
   color: #000000;
-  border-radius: 300px;
-  padding: 4px 12px;
-  font-size: 14px;
+  border-radius: var(--radius-5);
+  padding: var(--space-1) var(--space-3);
+  font-size: var(--fs-1);
 }
 
 .plan-card__intro {
-  font-size: 12px;
+  font-size: clamp(12px, 0.9vw, 14px);
   color: #727272;
-  letter-spacing: -0.26px;
+  letter-spacing: -0.02em;
 }
 
 .plan-card__intro p {
@@ -264,7 +264,7 @@
 
 .plan-card__arrow {
   color: #ff7f30;
-  margin-right: 4px;
+  margin-right: var(--space-1);
 }
 
 .plan-card__features {
@@ -273,14 +273,14 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  font-size: 14px;
-  letter-spacing: -0.3px;
+  gap: var(--space-2);
+  font-size: var(--fs-1);
+  letter-spacing: -0.02em;
 }
 
 .plan-card__features li {
   display: flex;
-  gap: 6px;
+  gap: var(--space-1);
   align-items: flex-start;
   line-height: 1.35;
 }
@@ -288,11 +288,11 @@
 .plan-card__notice {
   background: #f3f4f6;
   color: #7e8b9b;
-  border-radius: 300px;
-  font-size: 10px;
+  border-radius: var(--radius-5);
+  font-size: clamp(10px, 0.8vw, 12px);
   font-weight: 600;
-  letter-spacing: -0.1px;
-  padding: 4px 12px;
+  letter-spacing: -0.01em;
+  padding: var(--space-1) var(--space-3);
   text-align: center;
   align-self: center;
 }
@@ -301,9 +301,9 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 15px;
-  padding: 16px 18px;
-  font-size: 16px;
+  border-radius: var(--radius-2);
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--fs-2);
   font-weight: 700;
   text-align: center;
   white-space: nowrap;
@@ -324,15 +324,15 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: var(--space-2);
 }
 
 .plan-card__sale {
   background: #f3f4f6;
   color: #000000;
-  border-radius: 300px;
-  padding: 4px 12px;
-  font-size: 15px;
+  border-radius: var(--radius-5);
+  padding: var(--space-1) var(--space-3);
+  font-size: var(--fs-1);
 }
 
 .plan-card__sale-accent {
@@ -346,14 +346,14 @@
 
 .plan-card__old {
   display: block;
-  font-size: 15px;
+  font-size: var(--fs-1);
   color: rgba(113, 113, 113, 0.35);
   text-decoration: line-through;
 }
 
 .plan-card__current {
   display: block;
-  font-size: 30px;
+  font-size: var(--fs-6);
   font-weight: 700;
   color: #000000;
 }
@@ -362,15 +362,15 @@
   margin-top: auto;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: var(--space-2);
   align-items: stretch;
 }
 
 .pricing-plans__home-indicator {
-  width: 178px;
+  width: clamp(120px, 14vw, 170px);
   height: 4px;
   background: #ffffff;
-  border-radius: 300px;
+  border-radius: var(--radius-5);
   margin-top: auto;
   z-index: 1;
 }
@@ -378,24 +378,24 @@
 .pricing-plans__note {
   text-align: center;
   color: #84909f;
-  font-size: 17px;
-  letter-spacing: -0.34px;
-  max-width: 900px;
+  font-size: var(--fs-2);
+  letter-spacing: -0.02em;
+  max-width: min(900px, var(--container));
   margin: 0;
 }
 
 @media (max-width: 900px) {
   .pricing-plans__heading h2 {
-    font-size: 32px;
+    font-size: var(--fs-7);
   }
 
   .pricing-plans__screen {
     min-height: auto;
-    padding: 20px;
+    padding: var(--space-4);
   }
 
   .pricing-plans__screen::before {
-    inset: 20px;
+    inset: var(--space-4);
     background-size: 360px 360px, 360px 360px, 220px, 220px, cover;
     background-position: center, center, left 10% bottom 12%, right 10% top 18%,
       center;
