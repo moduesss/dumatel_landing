@@ -77,16 +77,6 @@ const rows: Array<{
   },
 ];
 
-const levelToFill = (level: CellLevel) => {
-  if (level === "high") {
-    return 92;
-  }
-  if (level === "mid") {
-    return 68;
-  }
-  return 36;
-};
-
 export default function ComparisonMatrix() {
   return (
     <section className={styles.comparison} aria-labelledby="comparison-title">

@@ -1,6 +1,6 @@
 "use client"; // CHANGE: нужен state для меню
 
-import { useEffect, useId, useState } from "react"; // CHANGE
+import { useEffect, useState } from "react"; // CHANGE
 import Image from "next/image";
 import styles from "./Header.module.scss";
 
@@ -13,7 +13,7 @@ const NAV_LINKS = [
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false); // CHANGE
-  const dialogId = useId(); // CHANGE: aria-controls
+  const dialogId = "mobile-menu"; // CHANGE: стабильный id для SSR/CSR
 
   const close = () => setIsOpen(false); // CHANGE
   const toggle = () => setIsOpen((v) => !v); // CHANGE

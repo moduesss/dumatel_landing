@@ -6,6 +6,7 @@ import Formats from "@/sections/Formats";
 import Hero from "@/sections/Hero";
 import PricingPlans from "@/sections/PricingPlans";
 import Reviews from "@/sections/Reviews";
+import SecurityShowcase from "@/sections/SecurityShowcase";
 
 export default function HomePage() {
   return (
@@ -19,6 +20,7 @@ export default function HomePage() {
         <PricingPlans />
         <Formats />
         <ComparisonMatrix />
+        <SecurityShowcase />
       </main>
     </>
   );
