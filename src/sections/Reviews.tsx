@@ -197,9 +197,9 @@ export default function Reviews() {
               height={48}
             />
           </Button>
-          <a className={styles["reviews__cta"]} href="#cta">
+          <Button variant="primary" size="md" href="https://app.dumatel.ru/">
             Начать пользоваться Думателем
-          </a>
+          </Button>
           <Button
             className={styles["reviews__arrow"]}
             type="button"

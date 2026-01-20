@@ -1,4 +1,9 @@
+"use client";
+
 /* eslint-disable @next/next/no-img-element */
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
 import { withBasePath } from "@/lib/paths";
 import Button from "@/components/Button";
@@ -25,6 +30,14 @@ const proFeatures = [
 ];
 
 export default function PricingPlans() {
+  const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">(
+    "yearly",
+  );
+  const isYearly = billingCycle === "yearly";
+  const pricing = isYearly
+    ? { current: "15 960 ₽", old: "22 800 ₽" }
+    : { current: "1 900 ₽", old: "2 590 ₽" };
+
   return (
     <section
       className={styles["pricing-plans"]}
@@ -43,25 +56,35 @@ export default function PricingPlans() {
           className={styles["pricing-plans__toggle"]}
           role="tablist"
           aria-label="Период оплаты"
+          data-cycle={billingCycle}
         >
           <Button
             className={[
               styles["pricing-plans__toggle-button"],
-              styles["pricing-plans__toggle-button--active"],
-            ].join(" ")}
+              !isYearly ? styles["pricing-plans__toggle-button--active"] : "",
+            ]
+              .filter(Boolean)
+              .join(" ")}
             type="button"
             variant="ghost"
             role="tab"
-            aria-selected="true"
+            aria-selected={!isYearly}
+            onClick={() => setBillingCycle("monthly")}
           >
             Месячный план
           </Button>
           <Button
-            className={styles["pricing-plans__toggle-button"]}
+            className={[
+              styles["pricing-plans__toggle-button"],
+              isYearly ? styles["pricing-plans__toggle-button--active"] : "",
+            ]
+              .filter(Boolean)
+              .join(" ")}
             type="button"
             variant="ghost"
             role="tab"
-            aria-selected="false"
+            aria-selected={isYearly}
+            onClick={() => setBillingCycle("yearly")}
           >
             Годовой план -30%
           </Button>
@@ -192,17 +215,28 @@ export default function PricingPlans() {
                 </ul>
 
                 <div className={styles["plan-card__footer"]}>
-                  <div className={styles["plan-card__price"]}>
+                  <div
+                    className={styles["plan-card__price"]}
+                    key={billingCycle}
+                  >
                     <span className={styles["plan-card__sale"]}>
-                      <span className={styles["plan-card__sale-accent"]}>
-                        -30%
-                      </span>{" "}
-                      на год
+                      {isYearly ? (
+                        <>
+                          <span className={styles["plan-card__sale-accent"]}>
+                            -30%
+                          </span>{" "}
+                          на год
+                        </>
+                      ) : (
+                        "В месяц"
+                      )}
                     </span>
                     <div className={styles["plan-card__amount"]}>
-                      <span className={styles["plan-card__old"]}>2590 ₽</span>
+                      <span className={styles["plan-card__old"]}>
+                        {pricing.old}
+                      </span>
                       <span className={styles["plan-card__current"]}>
-                        1 900 ₽
+                        {pricing.current}
                       </span>
                     </div>
                   </div>

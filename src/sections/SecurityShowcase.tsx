@@ -41,7 +41,6 @@ export default function SecurityShowcase() {
       aria-labelledby="security-title"
       style={sectionStyle}
     >
-      {/* CHANGE: фон на всю ширину секции, а max-width держим внутри */}
       <div className={styles.security__inner}>
         <div className={styles.security__content}>
           <header className={styles.security__header}>
@@ -56,11 +55,10 @@ export default function SecurityShowcase() {
                   <Image
                     src={withBasePath(item.icon)}
                     alt=""
-                    width={80}
-                    height={80}
+                    width={72}
+                    height={72}
                   />
                 </div>
-
                 <h3>{item.title}</h3>
                 <p>{item.description}</p>
               </article>
@@ -68,24 +66,22 @@ export default function SecurityShowcase() {
           </div>
         </div>
 
-        {/* CHANGE: устройство = 2 слоя: живой экран + рамка SVG */}
         <div className={styles.security__device} aria-hidden="true">
-          {/* CHANGE: живой экран (под рамкой) */}
+          {/* CHANGE: экран под рамкой — теперь позиционируется по реальным координатам SVG */}
           <div className={styles.security__screen}>
             <span className={styles.security__camera} aria-hidden="true" />
-
             <div className={styles.security__badge}>
               <span className={styles.security__badgeIcon}>W</span>
               <span>Wildcard SSL.</span>
             </div>
           </div>
 
-          {/* CHANGE: рамка поверх экрана */}
+          {/* CHANGE: рамка всегда 100% ширины контейнера, без фиксированных px */}
           <Image
-            src={withBasePath("/icons/Mac frame.svg")}
+            src={withBasePath("/icons/macbook.svg")}
             alt=""
-            width={748}
-            height={750}
+            width={1008}     // CHANGE: реальные размеры SVG (viewBox 1008x623)
+            height={623}     // CHANGE
             priority
             className={styles.security__frame}
           />

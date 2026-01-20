@@ -1,18 +1,26 @@
 .security {
-  background: #ffffff; /* CHANGE: фон на всю ширину */
+  overflow: visible;
+  background: #ffffff;
   color: #0a2240;
-  padding: var(--space-section) var(--space-4);
+  padding: var(--space-section) 0;
 }
 
-/* CHANGE: max-width вынесен в inner */
-.security__inner {
-  max-width: var(--container);
-  margin: 0 auto;
 
+.security__inner {
+  overflow: visible;
+  width: 100%;
   display: grid;
-  grid-template-columns: minmax(560px, 1fr) minmax(520px, 748px);
   align-items: center;
+  grid-template-columns: minmax(0, 1fr) minmax(520px, 748px);
   gap: var(--space-6);
+
+  padding-left: var(--space-2);
+  padding-right: 0;
+
+  @media (min-width: 1440px) {
+    padding-left: calc((100vw - var(--container)) / 2 + var(--space-4));
+  }
+
 }
 
 .security__content {
@@ -41,13 +49,13 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   column-gap: var(--space-6);
-  row-gap: var(--space-8);
+  row-gap: calc(var(--space-8) + var(--space-2));
 }
 
 .security__card {
   display: grid;
-  grid-template-rows: 64px 56px auto;
-  row-gap: var(--space-2);
+  grid-template-rows: 72px auto auto;
+  row-gap: var(--space-3);
   max-width: 400px;
   align-content: start;
 }
@@ -58,71 +66,56 @@
   font-weight: 600;
   letter-spacing: -0.02em;
   color: #000000;
-
-  line-height: 1.28;
-  min-height: calc(1.28em * 2);
+  line-height: 1.35;
+  min-height: calc(1.35em * 2); /* чтобы заголовки ровно держали сетку */
 }
 
-/* CHANGE: типографика описания как в макете (не 25px) */
 .security__card p {
   margin: 0;
   font-size: var(--fs-2);
-  line-height: 1.45;
+  line-height: 1.6;
   letter-spacing: -0.02em;
   color: #84909f;
 
   display: -webkit-box;
   line-clamp: 4;
-  -webkit-line-clamp: 4;       /* 4 строки максимум */
+  -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
 .security__icon {
-  width: var(--space-8);
-  height: var(--space-8);
+  width: 72px;
+  height: 72px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* =========================
-   DEVICE LAYERS
-   ========================= */
 .security__device {
   position: relative;
-  width: min(700px, 100%);
-  max-width: 100%;
   justify-self: end;
-  margin-right: calc(50% - 30vw);
+  width: min(1200px, 100%);
+  max-width: 1200px;
+
+  transform: translateX(30%);
+  will-change: transform;
 }
 
-/* Рамка (SVG) — верхний слой */
 .security__frame {
   position: relative;
   z-index: 2;
-  width: 100%;
+  width: 100%; 
   height: auto;
   display: block;
-  pointer-events: none; /* CHANGE: рамка не блокирует клики по экрану */
+  pointer-events: none;
 }
-
-/* Экран — слой под рамкой */
 .security__screen {
   position: absolute;
   z-index: 1;
+  inset: 0.6% 9.7% 12.1% 10.1%;
 
-  /*
-    CHANGE: базовые проценты.
-    Их нужно 1 раз подогнать под окно именно твоего Mac-Frame.svg.
-    Стартовые значения обычно близки.
-  */
-  left: 17%;
-  top: 2%;
-  width: 95%;
-  height: 89%;
-
-  border-radius: var(--radius-3);
+  border-radius: 18px 18px 0 0;
   overflow: hidden;
 
   background:
@@ -144,7 +137,6 @@
     #000000;
 }
 
-/* “квадраты” справа как в макете */
 .security__screen::before {
   content: "";
   position: absolute;
@@ -194,23 +186,34 @@
   font-weight: 700;
 }
 
-/* =========================
-   RESPONSIVE
-   ========================= */
 @media (max-width: 1200px) {
   .security__inner {
     grid-template-columns: 1fr;
     justify-items: center;
+
+    padding-left: var(--space-4);
+    padding-right: var(--space-4);
   }
 
   .security__device {
     justify-self: center;
+    max-width: 680px;
+    transform: none;
+  }
+
+  .security__grid {
+    grid-template-columns: 1fr;
+    row-gap: var(--space-5);
+  }
+
+  .security__card {
+    max-width: 520px;
   }
 }
 
 @media (max-width: 900px) {
   .security {
-    padding: var(--space-8) var(--space-4);
+    padding: var(--space-8) 0;
   }
 
   .security__content {
@@ -219,10 +222,5 @@
 
   .security__header h2 {
     font-size: var(--fs-7);
-  }
-
-  .security__grid {
-    grid-template-columns: 1fr;
-    row-gap: var(--space-5);
   }
 }

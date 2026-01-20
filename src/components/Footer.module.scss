@@ -20,23 +20,23 @@
 }
 
 .footer__brand {
-  position: relative;
   display: inline-flex;
   align-items: center;
+  gap: var(--space-2);
 }
 
 .footer__beta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(var(--space-3) + var(--space-1));
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-5);
   background: #ff7f30;
-  color: #ffffff;
   font-size: var(--fs-1);
   font-weight: 700;
   font-style: italic;
-  border-radius: var(--radius-5);
-  padding: var(--space-1) var(--space-2);
-  position: absolute;
-  right: 0;
-  top: var(--space-2);
-  transform: translateX(var(--space-1));
+  color: #ffffff;
 }
 
 .footer__actions {
@@ -51,10 +51,26 @@
   gap: 0;
 }
 
-.footer__social a {
+.footer__socialLink {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+}
+
+.footer__badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #ff7f30;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1;
+  pointer-events: none;
 }
 
 .footer__cta {

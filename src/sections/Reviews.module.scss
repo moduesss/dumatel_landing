@@ -168,7 +168,7 @@
   transition: filter 0.2s ease;
 }
 
-@media (hover: hover) and (pointer: fine) {
+@media (any-hover: hover) and (any-pointer: fine) {
   .reviews__arrow:hover img {
     filter: brightness(0.85);
   }

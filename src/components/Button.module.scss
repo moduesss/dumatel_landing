@@ -10,12 +10,14 @@
   align-items: center;
   justify-content: center;
   text-align: inherit;
+  text-decoration: none;
 
   /* CHANGE */
   position: relative;
   isolation: isolate;
   overflow: hidden;
   border-radius: 999px;
+  box-sizing: border-box;
 
   transition:
     filter 180ms ease,
@@ -118,26 +120,37 @@
   z-index: 2;
 }
 
-/* Hover: затемнить + включить нейросеть */
-.button--primary:hover:not(:disabled) {
-  filter: brightness(0.92) saturate(1.04);
-  transform: translateY(-1px);
-  box-shadow: 0 14px 26px rgba(0, 0, 0, 0.22);
-}
+@media (any-hover: hover) and (any-pointer: fine) {
+  /* Hover: затемнить + включить нейросеть */
+  .button--primary:hover:not(:disabled) {
+    filter: brightness(0.92) saturate(1.04);
+    transform: translateY(-1px);
+    box-shadow: 0 14px 26px rgba(0, 0, 0, 0.22);
+  }
 
-.button--primary:hover:not(:disabled)::before {
-  background: rgba(0, 0, 0, 0.14);
-}
+  .button--primary:hover:not(:disabled)::before {
+    background: rgba(0, 0, 0, 0.14);
+  }
 
-.button--primary:hover:not(:disabled)::after {
-  opacity: 1;
-  animation: neuralMaskMove 1.25s linear infinite;
+  .button--primary:hover:not(:disabled)::after {
+    opacity: 1;
+    animation: neuralMaskMove 1.25s linear infinite;
+  }
 }
 
 /* Active */
 .button--primary:active:not(:disabled) {
   transform: translateY(0);
   filter: brightness(0.88) saturate(1.04);
+}
+
+.button--primary:active:not(:disabled)::before {
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.button--primary:active:not(:disabled)::after {
+  opacity: 1;
+  animation: neuralMaskMove 1.25s linear infinite;
 }
 
 /* Motion safety */

@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useRef } from "react";
 import { revealOnScroll } from "@/lib/gsap";
 import { withBasePath } from "@/lib/paths";
+import Button from "@/components/Button";
 import styles from "./Hero.module.scss";
 
 export default function Hero() {
@@ -118,9 +119,11 @@ export default function Hero() {
         </div>
       </div>
 
-      <a className={styles["hero__cta"]} href="https://app.dumatel.ru/" data-reveal>
-        Попробовать работать с Думателем
-      </a>
+      <div className={styles["hero__cta"]}>
+        <Button variant="primary" size="lg" href="https://app.dumatel.ru/">
+          Попробовать Думатель бесплатно
+        </Button>
+      </div>
     </section>
   );
 }

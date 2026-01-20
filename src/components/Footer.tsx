@@ -22,7 +22,11 @@ export default function Footer() {
 
           <div className={styles.footer__actions}>
             <div className={styles.footer__social} aria-label="Социальные сети">
-              <Link href="https://t.me" aria-label="Телеграм Думателя">
+              <Link
+                href="https://t.me"
+                aria-label="Телеграм Думателя"
+                className={styles.footer__socialLink}
+              >
                 <Image
                   src={withBasePath("/icons/social-tg.svg")}
                   alt="Телеграм"
@@ -30,7 +34,11 @@ export default function Footer() {
                   height={45}
                 />
               </Link>
-              <Link href="https://vk.com" aria-label="ВКонтакте Думателя">
+              <Link
+                href="https://vk.com"
+                aria-label="ВКонтакте Думателя"
+                className={styles.footer__socialLink}
+              >
                 <Image
                   src={withBasePath("/icons/social-vk.svg")}
                   alt="ВКонтакте"
@@ -38,7 +46,11 @@ export default function Footer() {
                   height={45}
                 />
               </Link>
-              <Link href="https://max.ru" aria-label="MAX Думателя">
+              <Link
+                href="https://max.ru"
+                aria-label="MAX Думателя"
+                className={styles.footer__socialLink}
+              >
                 <Image
                   src={withBasePath("/icons/social-max.svg")}
                   alt="MAX"

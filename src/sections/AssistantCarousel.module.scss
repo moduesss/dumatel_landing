@@ -52,7 +52,7 @@
   transition: filter 0.2s ease;
 }
 
-@media (hover: hover) and (pointer: fine) {
+@media (any-hover: hover) and (any-pointer: fine) {
   .assistant-carousel__controls button:hover img {
     filter: brightness(0.85);
   }

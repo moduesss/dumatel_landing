@@ -29,8 +29,31 @@
 
 .faq__art {
   margin-top: var(--space-3);
-  width: min(360px, 100%);
+  width: 100%;
   max-width: 100%;
+  aspect-ratio: 504 / 723;
+  border-radius: 45px;
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 120% at 15% 30%, rgba(255, 127, 48, 0.35), rgba(0, 0, 0, 0) 60%),
+    radial-gradient(130% 110% at 85% 85%, rgba(255, 127, 48, 0.4), rgba(0, 0, 0, 0) 65%),
+    linear-gradient(135deg, #190c08 0%, #050505 45%, #1d0b06 100%);
+}
+
+.faq__logo {
+  position: absolute;
+  left: 50%;
+  top: 52%;
+  transform: translate(-50%, -50%);
+  width: min(250px, 60%);
+  aspect-ratio: 177 / 175;
+  background-image: var(--faq-logo-url);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.35));
+  will-change: transform, opacity;
 }
 
 .faq__list {
@@ -92,13 +115,13 @@
 .faq__content p {
   margin: 0 0 var(--space-5);
   font-size: var(--fs-2);
-  line-height: var(--lh-tight);
+  line-height: var(--lh-normal);
   letter-spacing: -0.02em;
   color: #84909f;
 }
 
 .faq__item--open .faq__content {
-  max-height: 150px;
+  max-height: 310px;
   opacity: 1;
   padding: 0 var(--space-6) var(--space-5);
 }

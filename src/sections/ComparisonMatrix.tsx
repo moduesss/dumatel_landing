@@ -1,6 +1,7 @@
 import Image from "next/image";
 import type { CSSProperties } from "react";
 import { withBasePath } from "@/lib/paths";
+import Button from "@/components/Button";
 import styles from "./ComparisonMatrix.module.scss";
 
 const columns = [
@@ -175,9 +176,9 @@ export default function ComparisonMatrix() {
           </div>
         </div>
 
-        <a className={styles.comparison__cta} href="https://app.dumatel.ru">
-          Протестировать Думателя сейчас
-        </a>
+        <Button variant="primary" size="lg" href="https://app.dumatel.ru/">
+          Попробовать Думатель бесплатно
+        </Button>
       </div>
     </section>
   );

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"; // CHANGE
 import Image from "next/image";
 import { withBasePath } from "@/lib/paths";
 import Button from "@/components/Button";
+import buttonStyles from "@/components/Button.module.scss";
 import styles from "./Header.module.scss";
 
 const NAV_LINKS = [
@@ -84,7 +85,12 @@ export default function Header() {
           </div>
 
           <a
-            className={styles["site-header__cta"]}
+            className={[
+              buttonStyles.button,
+              buttonStyles["button--primary"],
+              buttonStyles["button--md"],
+              styles["site-header__cta"],
+            ].join(" ")}
             href="https://app.dumatel.ru/"
           >
             Попробовать сейчас
@@ -161,14 +167,11 @@ export default function Header() {
               <span>info@dumatel.ru</span>
             </a>
           </div>
-
-          <a
-            className={styles["mobile-menu__cta"]}
-            href="https://app.dumatel.ru/"
-            onClick={onNavClick}
-          >
-            Попробовать сейчас
-          </a>
+          <div className={styles["site-header__cta"]}>
+            <Button variant="primary" size="md" href="https://app.dumatel.ru/">
+              Попробовать сейчас
+            </Button>
+          </div>
         </div>
       </div>
     </>

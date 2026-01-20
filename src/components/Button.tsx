@@ -1,4 +1,4 @@
-import type { ButtonHTMLAttributes } from "react";
+import type { ButtonHTMLAttributes, AnchorHTMLAttributes } from "react";
 import styles from "./Button.module.scss";
 
 type ButtonVariant = "ghost" | "primary";
@@ -8,15 +8,27 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   className?: string;
   variant?: ButtonVariant;
   size?: ButtonSize;
+  href?: never;
 };
+
+type LinkProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
+  className?: string;
+  variant?: ButtonVariant;
+  size?: ButtonSize;
+  href: string;
+  type?: never;
+};
+
+type Props = ButtonProps | LinkProps;
 
 export default function Button({
   className,
   type = "button",
   variant = "ghost",
-  size = "md", 
+  size = "md",
+  href,
   ...props
-}: ButtonProps) {
+}: Props) {
   const classes = [
     styles.button,
     styles[`button--${variant}`],
@@ -26,5 +38,9 @@ export default function Button({
     .filter(Boolean)
     .join(" ");
 
-  return <button type={type} className={classes} {...props} />;
+  if (href) {
+    return <a href={href} className={classes} {...(props as AnchorHTMLAttributes<HTMLAnchorElement>)} />;
+  }
+
+  return <button type={type} className={classes} {...(props as ButtonHTMLAttributes<HTMLButtonElement>)} />;
 }
