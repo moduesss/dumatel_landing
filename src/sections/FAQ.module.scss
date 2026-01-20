@@ -1,5 +1,153 @@
-@use "../styles/mixins" as *;
-
 .faq {
-  @include section-spacing;
+  padding: 82.5px 12px 90px;
+  color: #0a2240;
+}
+
+.faq__inner {
+  max-width: 1128.75px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
+  gap: 42px;
+  align-items: start;
+}
+
+.faq__aside h2 {
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.3px;
+  margin: 0 0 13.5px;
+}
+
+.faq__aside p {
+  color: #7e8b9b;
+  font-size: 18.75px;
+  letter-spacing: -0.375px;
+  margin: 0 0 22.5px;
+}
+
+.faq__art {
+  margin-top: 16.5px;
+  width: 378px;
+  max-width: 100%;
+}
+
+.faq__list {
+  display: flex;
+  flex-direction: column;
+  gap: 18.75px;
+}
+
+.faq__item {
+  background: #ffffff;
+  border-radius: 18.75px;
+  box-shadow: 0 3px 18.75px rgba(0, 0, 0, 0.1);
+  padding: 0;
+  overflow: hidden;
+  transition: box-shadow 0.25s ease;
+}
+
+.faq__item--open {
+  box-shadow: 0 3px 18.75px rgba(0, 0, 0, 0.18);
+}
+
+.faq__trigger {
+  width: 100%;
+  background: transparent;
+  border: none;
+  padding: 26.25px 41.25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  cursor: pointer;
+  color: #0a2240;
+  font-size: 18.75px;
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.188px;
+  text-align: left;
+}
+
+.faq__trigger span {
+  flex: 1;
+}
+
+.faq__trigger img {
+  width: 52.5px;
+  height: 52.5px;
+}
+
+.faq__trigger:focus-visible {
+  outline: 2.25px solid rgba(10, 34, 64, 0.35);
+  outline-offset: 2.25px;
+  border-radius: 18.75px;
+}
+
+.faq__content {
+  max-height: 0;
+  opacity: 0;
+  padding: 0 41.25px;
+  transition: max-height 0.3s ease, opacity 0.3s ease, padding 0.3s ease;
+}
+
+.faq__content p {
+  margin: 0 0 26.25px;
+  font-size: 16.5px;
+  line-height: 1.1;
+  letter-spacing: -0.165px;
+  color: #84909f;
+}
+
+.faq__item--open .faq__content {
+  max-height: 150px;
+  opacity: 1;
+  padding: 0 41.25px 26.25px;
+}
+
+@media (max-width: 900px) {
+  .faq__inner {
+    grid-template-columns: 1fr;
+  }
+
+  .faq__art {
+    max-width: 315px;
+  }
+}
+
+@media (max-width: 576px) {
+  .faq {
+    padding: 60px 12px;
+  }
+
+  .faq__aside h2 {
+    font-size: 21px;
+  }
+
+  .faq__aside p {
+    font-size: 13.5px;
+  }
+
+  .faq__trigger {
+    padding: 18px 15px;
+    font-size: 13.5px;
+  }
+
+  .faq__trigger img {
+    width: 36px;
+    height: 36px;
+  }
+
+  .faq__content {
+    padding: 0 15px;
+  }
+
+  .faq__content p {
+    font-size: 12px;
+  }
+
+  .faq__item--open .faq__content {
+    padding: 0 15px 18px;
+  }
 }
