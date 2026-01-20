@@ -112,7 +112,9 @@ export default function AssistantCarousel() {
 
     updateWidth();
     const observer = new ResizeObserver(updateWidth);
-    observer.observe(slideRef.current);
+    if (slideRef.current) {
+      observer.observe(slideRef.current);
+    }
     if (trackRef.current) {
       observer.observe(trackRef.current);
     }
