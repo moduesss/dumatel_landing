@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import Image from "next/image";
+import { withBasePath } from "@/lib/paths";
 import styles from "./PricingPlans.module.scss";
 
 const freeFeatures = [
@@ -68,14 +69,14 @@ export default function PricingPlans() {
             <div className={styles["pricing-plans__bg"]} aria-hidden="true">
               <img
                 className={styles["pricing-plans__bg-left"]}
-                src="/icons/ipad_background_logo.svg"
+                src={withBasePath("/icons/ipad_background_logo.svg")}
                 alt=""
                 loading="lazy"
                 decoding="async"
               />
               <img
                 className={styles["pricing-plans__bg-right"]}
-                src="/icons/ipad_background_logo.svg"
+                src={withBasePath("/icons/ipad_background_logo.svg")}
                 alt=""
                 loading="lazy"
                 decoding="async"
@@ -84,7 +85,7 @@ export default function PricingPlans() {
 
             <div className={styles["pricing-plans__camera"]}>
               <Image
-                src="/icons/Ellipse 1743.svg"
+                src={withBasePath("/icons/Ellipse 1743.svg")}
                 alt=""
                 width={12}
                 height={12}
@@ -94,7 +95,7 @@ export default function PricingPlans() {
             <div className={styles["pricing-plans__status"]}>
               <div className={styles["pricing-plans__status-left"]}>
                 <Image
-                  src="/icons/Group 298956452.svg"
+                  src={withBasePath("/icons/Group 298956452.svg")}
                   alt="Думатель"
                   width={28}
                   height={28}
@@ -130,7 +131,7 @@ export default function PricingPlans() {
                   {freeFeatures.map((feature) => (
                     <li key={feature}>
                       <Image
-                        src="/icons/Vector-18.svg"
+                        src={withBasePath("/icons/Vector-18.svg")}
                         alt=""
                         width={16}
                         height={16}
@@ -177,7 +178,7 @@ export default function PricingPlans() {
                   {proFeatures.map((feature) => (
                     <li key={feature}>
                       <Image
-                        src="/icons/Vector-18.svg"
+                        src={withBasePath("/icons/Vector-18.svg")}
                         alt=""
                         width={16}
                         height={16}

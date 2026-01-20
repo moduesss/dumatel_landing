@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 import { revealOnScroll } from "@/lib/gsap";
+import { withBasePath } from "@/lib/paths";
 import styles from "./Hero.module.scss";
 
 export default function Hero() {
@@ -31,7 +32,7 @@ export default function Hero() {
     <section className={styles.hero} ref={rootRef}>
       <div className={styles["hero__background"]}>
         <Image
-          src="/images/Image.png"
+          src={withBasePath("/images/Image.png")}
           alt="Команда работает с документами"
           fill
           priority
@@ -67,7 +68,7 @@ export default function Hero() {
               styles["hero__dialog-icon"],
               styles["hero__dialog-icon--left"],
             ].join(" ")}
-            src="/icons/Dialog 8.svg"
+            src={withBasePath("/icons/Dialog 8.svg")}
             alt="Иконка диалога"
             width={48}
             height={48}
@@ -109,7 +110,7 @@ export default function Hero() {
               styles["hero__dialog-icon"],
               styles["hero__dialog-icon--right"],
             ].join(" ")}
-            src="/icons/Dialog 7.svg"
+            src={withBasePath("/icons/Dialog 7.svg")}
             alt="Иконка диалога"
             width={48}
             height={48}

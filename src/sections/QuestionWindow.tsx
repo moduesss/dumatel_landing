@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { withBasePath } from "@/lib/paths";
 import styles from "./QuestionWindow.module.scss";
 
 export default function QuestionWindow() {
@@ -13,7 +14,7 @@ export default function QuestionWindow() {
             </h2>
             <div className={styles.question__status} aria-hidden="true">
               <Image
-                src="/icons/question-wave.svg"
+                src={withBasePath("/icons/question-wave.svg")}
                 alt=""
                 width={18}
                 height={18}
@@ -25,7 +26,7 @@ export default function QuestionWindow() {
           <div className={styles.question__actions}>
             <div className={styles.question__input} aria-hidden="true">
               <Image
-                src="/icons/question-doc.svg"
+                src={withBasePath("/icons/question-doc.svg")}
                 alt=""
                 width={43}
                 height={58}

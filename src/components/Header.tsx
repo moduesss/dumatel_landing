@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"; // CHANGE
 import Image from "next/image";
+import { withBasePath } from "@/lib/paths";
 import styles from "./Header.module.scss";
 
 const NAV_LINKS = [
@@ -45,7 +46,7 @@ export default function Header() {
         <div className={styles["site-header__pill"]}>
           <div className={styles["site-header__brand"]}>
             <Image
-              src="/icons/Group 298956478.svg"
+              src={withBasePath("/icons/Group 298956478.svg")}
               alt="Думатель"
               width={204}
               height={44}
@@ -71,7 +72,12 @@ export default function Header() {
               +7 (499) 286-00-04
             </a>
             <a className={styles["site-header__email"]} href="mailto:info@dumatel.ru">
-              <Image src="/icons/Email.svg" alt="Email" width={16} height={16} />
+              <Image
+                src={withBasePath("/icons/Email.svg")}
+                alt="Email"
+                width={16}
+                height={16}
+              />
               <span>info@dumatel.ru</span>
             </a>
           </div>
@@ -141,7 +147,12 @@ export default function Header() {
               +7 (499) 286-00-04
             </a>
             <a className={styles["mobile-menu__email"]} href="mailto:info@dumatel.ru">
-              <Image src="/icons/Email.svg" alt="Email" width={16} height={16} />
+              <Image
+                src={withBasePath("/icons/Email.svg")}
+                alt="Email"
+                width={16}
+                height={16}
+              />
               <span>info@dumatel.ru</span>
             </a>
           </div>

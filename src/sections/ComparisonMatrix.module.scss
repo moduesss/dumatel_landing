@@ -85,7 +85,7 @@
   width: 43px;
   height: 43px;
   transform: translateY(-50%);
-  background-image: url("/icons/comparison-icons.svg");
+  background-image: var(--comparison-icons);
   background-repeat: no-repeat;
   background-size: 43px 667px;
 }

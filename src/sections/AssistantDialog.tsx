@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { withBasePath } from "@/lib/paths";
 import styles from "./AssistantDialog.module.scss";
 
 export default function AssistantDialog() {
@@ -14,13 +15,13 @@ export default function AssistantDialog() {
         </h2>
         <div className={styles["assistant-dialog__header"]}>
           <Image
-            src="/icons/Dialog 7.svg"
+            src={withBasePath("/icons/Dialog 7.svg")}
             alt="Думатель"
             width={64}
             height={64}
           />
           <Image
-            src="/icons/Vector-44.svg"
+            src={withBasePath("/icons/Vector-44.svg")}
             alt="Голосовое сообщение"
             width={18}
             height={18}

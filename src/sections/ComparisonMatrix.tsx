@@ -1,8 +1,14 @@
 import Image from "next/image";
+import type { CSSProperties } from "react";
+import { withBasePath } from "@/lib/paths";
 import styles from "./ComparisonMatrix.module.scss";
 
 const columns = [
-  { id: "dumatel", icon: "/icons/comparison-dumatel.svg", alt: "Думатель" },
+  {
+    id: "dumatel",
+    icon: "/icons/comparison-dumatel.svg",
+    alt: "Думатель",
+  },
   { id: "chatgpt", icon: "/icons/comparison-chatgpt.svg", alt: "ChatGPT" },
   { id: "grok", icon: "/icons/comparison-grok.svg", alt: "Grok" },
   { id: "deepseek", icon: "/icons/comparison-deepseek.svg", alt: "DeepSeek" },
@@ -78,8 +84,16 @@ const rows: Array<{
 ];
 
 export default function ComparisonMatrix() {
+  const sectionStyle: CSSProperties = {
+    "--comparison-icons": `url(${withBasePath("/icons/comparison-icons.svg")})`,
+  };
+
   return (
-    <section className={styles.comparison} aria-labelledby="comparison-title">
+    <section
+      className={styles.comparison}
+      aria-labelledby="comparison-title"
+      style={sectionStyle}
+    >
       <div className={styles.comparison__inner}>
         <header className={styles.comparison__header}>
           <h2 id="comparison-title">
@@ -112,7 +126,7 @@ export default function ComparisonMatrix() {
                 {columns.map((column) => (
                   <div key={column.id} className={styles.comparison__column}>
                     <Image
-                      src={column.icon}
+                      src={withBasePath(column.icon)}
                       alt={column.alt}
                       width={47}
                       height={47}

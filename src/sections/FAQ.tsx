@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { withBasePath } from "@/lib/paths";
 import styles from "./FAQ.module.scss";
 
 const items = [
@@ -46,7 +47,7 @@ export default function FAQ() {
           <p>Отвечаем честно на главные сомнения.</p>
           <div className={styles.faq__art} aria-hidden="true">
             <Image
-              src="/images/faq-orb.svg"
+              src={withBasePath("/images/faq-orb.svg")}
               alt=""
               width={504}
               height={723}
@@ -78,11 +79,11 @@ export default function FAQ() {
                 >
                   <span>{item.title}</span>
                   <Image
-                    src={
+                    src={withBasePath(
                       isOpen
                         ? "/icons/faq-toggle-open.svg"
                         : "/icons/faq-toggle-closed.svg"
-                    }
+                    )}
                     alt=""
                     width={70}
                     height={70}

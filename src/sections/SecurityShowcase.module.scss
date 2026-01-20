@@ -152,7 +152,7 @@
   right: 28%;
   width: 260px;
   height: 260px;
-  background: url("/icons/formats-dots.svg") no-repeat center;
+  background: var(--security-dots-url) no-repeat center;
   background-size: contain;
   opacity: 0.9;
   filter: blur(0.2px);

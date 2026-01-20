@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { withBasePath } from "@/lib/paths";
 import { useEffect, useRef, useState } from "react";
 import styles from "./AssistantCarousel.module.scss";
 
@@ -158,7 +159,7 @@ export default function AssistantCarousel() {
             aria-label="Предыдущий слайд"
           >
             <Image
-              src="/icons/Arrow Left.svg"
+              src={withBasePath("/icons/Arrow Left.svg")}
               alt=""
               width={48}
               height={48}
@@ -171,7 +172,7 @@ export default function AssistantCarousel() {
             aria-label="Следующий слайд"
           >
             <Image
-              src="/icons/Arrow Right.svg"
+              src={withBasePath("/icons/Arrow Right.svg")}
               alt=""
               width={48}
               height={48}
@@ -192,7 +193,7 @@ export default function AssistantCarousel() {
               >
                 <div className={styles["assistant-carousel__content"]}>
                   <Image
-                    src={slide.icon}
+                    src={withBasePath(slide.icon)}
                     alt=""
                     width={38}
                     height={38}
@@ -221,7 +222,7 @@ export default function AssistantCarousel() {
                           key={icon.label}
                         >
                           <Image
-                            src={icon.src}
+                            src={withBasePath(icon.src)}
                             alt={icon.label}
                             width={25}
                             height={33}
@@ -237,7 +238,7 @@ export default function AssistantCarousel() {
                       videoRefs.current[index] = el;
                     }}
                     className={styles["assistant-carousel__media-video"]}
-                    src={slide.videoSrc}
+                    src={withBasePath(slide.videoSrc)}
                     muted
                     playsInline
                     loop

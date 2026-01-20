@@ -53,7 +53,7 @@
   right: 22px;
   width: 162px;
   height: 160px;
-  background: url("/icons/formats-dots.svg") no-repeat center;
+  background: var(--formats-dots-url) no-repeat center;
   background-size: contain;
   opacity: 0.9;
   pointer-events: none;

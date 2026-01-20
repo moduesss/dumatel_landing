@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { withBasePath } from "@/lib/paths";
 import { useEffect, useRef, useState } from "react";
 import styles from "./Reviews.module.scss";
 
@@ -147,7 +148,7 @@ export default function Reviews() {
               >
                 <div className={styles["review-card__quote"]}>
                   <Image
-                    src="/icons/Vector-24.svg"
+                    src={withBasePath("/icons/Vector-24.svg")}
                     alt=""
                     width={47}
                     height={38}
@@ -162,7 +163,7 @@ export default function Reviews() {
                 <div className={styles["review-card__author"]}>
                   <div className={styles["review-card__avatar"]}>
                     <Image
-                      src={review.avatar}
+                      src={withBasePath(review.avatar)}
                       alt={`Фото ${review.name}`}
                       width={56}
                       height={56}
@@ -186,7 +187,12 @@ export default function Reviews() {
             aria-label="Предыдущие отзывы"
             disabled={index === 0}
           >
-            <Image src="/icons/Arrow Left.svg" alt="" width={48} height={48} />
+            <Image
+              src={withBasePath("/icons/Arrow Left.svg")}
+              alt=""
+              width={48}
+              height={48}
+            />
           </button>
           <a className={styles["reviews__cta"]} href="#cta">
             Начать пользоваться Думателем
@@ -199,7 +205,7 @@ export default function Reviews() {
             disabled={index === maxIndex}
           >
             <Image
-              src="/icons/Arrow Right.svg"
+              src={withBasePath("/icons/Arrow Right.svg")}
               alt=""
               width={48}
               height={48}

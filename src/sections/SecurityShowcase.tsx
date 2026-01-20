@@ -1,4 +1,6 @@
 import Image from "next/image";
+import type { CSSProperties } from "react";
+import { withBasePath } from "@/lib/paths";
 import styles from "./SecurityShowcase.module.scss";
 
 const items = [
@@ -29,8 +31,16 @@ const items = [
 ];
 
 export default function SecurityShowcase() {
+  const sectionStyle: CSSProperties = {
+    "--security-dots-url": `url(${withBasePath("/icons/formats-dots.svg")})`,
+  };
+
   return (
-    <section className={styles.security} aria-labelledby="security-title">
+    <section
+      className={styles.security}
+      aria-labelledby="security-title"
+      style={sectionStyle}
+    >
       {/* CHANGE: фон на всю ширину секции, а max-width держим внутри */}
       <div className={styles.security__inner}>
         <div className={styles.security__content}>
@@ -43,7 +53,12 @@ export default function SecurityShowcase() {
             {items.map((item) => (
               <article key={item.title} className={styles.security__card}>
                 <div className={styles.security__icon}>
-                  <Image src={item.icon} alt="" width={80} height={80} />
+                  <Image
+                    src={withBasePath(item.icon)}
+                    alt=""
+                    width={80}
+                    height={80}
+                  />
                 </div>
 
                 <h3>{item.title}</h3>
@@ -67,7 +82,7 @@ export default function SecurityShowcase() {
 
           {/* CHANGE: рамка поверх экрана */}
           <Image
-            src="/icons/Mac frame.svg"
+            src={withBasePath("/icons/Mac frame.svg")}
             alt=""
             width={748}
             height={750}

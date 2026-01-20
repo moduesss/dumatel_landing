@@ -1,4 +1,6 @@
 import Image from "next/image";
+import type { CSSProperties } from "react";
+import { withBasePath } from "@/lib/paths";
 import styles from "./Formats.module.scss";
 
 const cloudPoints = [
@@ -15,8 +17,17 @@ const onPremPoints = [
 ];
 
 export default function Formats() {
+  const sectionStyle: CSSProperties = {
+    "--formats-dots-url": `url(${withBasePath("/icons/formats-dots.svg")})`,
+  };
+
   return (
-    <section className={styles.formats} aria-labelledby="formats-title" id="usage">
+    <section
+      className={styles.formats}
+      aria-labelledby="formats-title"
+      id="usage"
+      style={sectionStyle}
+    >
       <div className={styles.formats__inner}>
         <h2 id="formats-title" className={styles.formats__title}>
           Форматы использования Думателя
@@ -26,7 +37,7 @@ export default function Formats() {
           <article className={styles.formats__card}>
             <div className={styles["formats__card-header"]}>
               <Image
-                src="/icons/formats-cloud.svg"
+                src={withBasePath("/icons/formats-cloud.svg")}
                 alt="Облако"
                 width={36}
                 height={32}
@@ -45,7 +56,7 @@ export default function Formats() {
           <article className={styles.formats__card}>
             <div className={styles["formats__card-header"]}>
               <Image
-                src="/icons/formats-onprem.svg"
+                src={withBasePath("/icons/formats-onprem.svg")}
                 alt="On-Premise"
                 width={32}
                 height={32}
