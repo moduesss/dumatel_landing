@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { withBasePath } from "@/lib/paths";
 import styles from "./Footer.module.scss";
+import Button from "./Button";
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -60,12 +61,9 @@ export default function Footer() {
               </Link>
             </div>
 
-            <Link
-              className={styles.footer__cta}
-              href="https://app.dumatel.ru/"
-            >
+            <Button variant="primary" href="https://app.dumatel.ru">
               Начать бесплатно
-            </Link>
+            </Button>
           </div>
         </div>
 
