@@ -56,6 +56,15 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  transition: filter 0.2s ease;
+}
+
+.footer__socialLink img {
+  transition: filter 0.2s ease;
+}
+
+.footer__socialLink:hover img {
+  filter: brightness(0.85);
 }
 
 .footer__badge {

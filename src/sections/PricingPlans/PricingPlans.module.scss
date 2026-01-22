@@ -461,6 +461,11 @@
       center;
   }
 
+  .pricing-plans__screen::before,
+  .pricing-plans__screen::after {
+    background-repeat: no-repeat;
+  }
+
   .pricing-plans__cards {
     flex-direction: column;
     gap: 24px;
@@ -469,5 +474,36 @@
   .plan-card {
     width: 100%;
     height: auto;
+    min-height: auto;
+    padding: var(--space-3);
+    gap: var(--space-1);
+  }
+}
+
+@media (max-width: 640px) {
+  .pricing-plans__screen {
+    padding: var(--space-3);
+  }
+
+  .pricing-plans__screen::before {
+    background-size: 260px 260px, 260px 260px, 180px, 180px, cover;
+  }
+
+  .pricing-plans__bg-left,
+  .pricing-plans__bg-right {
+    height: clamp(220px, 30vw, 320px);
+  }
+
+  .pricing-plans__bg-left {
+    bottom: var(--space-6);
+  }
+
+  .pricing-plans__bg-right {
+    top: var(--space-4);
+    transform: scale(0.95) rotate(180deg);
+  }
+
+  .plan-card__features {
+    font-size: var(--fs-1);
   }
 }

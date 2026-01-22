@@ -1,13 +1,16 @@
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-let isInitialized = false;
-
 export const initGsap = () => {
-  if (typeof window === "undefined" || isInitialized) {
+  if (typeof window === "undefined") {
     return;
   }
 
-  gsap.registerPlugin(ScrollTrigger);
-  isInitialized = true;
+  const hasScrollTrigger = Boolean(
+    (gsap.plugins as Record<string, unknown>).ScrollTrigger
+  );
+
+  if (!hasScrollTrigger) {
+    gsap.registerPlugin(ScrollTrigger);
+  }
 };

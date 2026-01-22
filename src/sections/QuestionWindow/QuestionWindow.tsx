@@ -23,15 +23,20 @@ export default function QuestionWindow() {
       className={styles.question}
       aria-labelledby="question-title"
       ref={rootRef}
+      data-section="question-window"
     >
       <div className={styles.question__inner}>
-        <div className={styles.question__panel}>
+        <div className={styles.question__panel} data-anim="question-panel">
           <div className={styles.question__top}>
             <h2 id="question-title">
               Спросите Думателя и получите развёрнутый, точный ответ с
               источниками.
             </h2>
-            <div className={styles.question__status} aria-hidden="true">
+            <div
+              className={styles.question__status}
+              aria-hidden="true"
+              data-anim="question-status"
+            >
               <Image
                 src={withBasePath("/icons/question-wave.svg")}
                 alt=""
@@ -43,7 +48,11 @@ export default function QuestionWindow() {
           </div>
 
           <div className={styles.question__actions}>
-            <div className={styles.question__input} aria-hidden="true">
+            <div
+              className={styles.question__input}
+              aria-hidden="true"
+              data-anim="question-input"
+            >
               <Image
                 src={withBasePath("/icons/question-doc.svg")}
                 alt=""
@@ -58,6 +67,7 @@ export default function QuestionWindow() {
               className={styles.question__button}
               type="button"
               variant="primary"
+              data-anim="question-button"
             >
               Узнать ответ
             </Button>

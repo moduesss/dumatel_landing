@@ -2,9 +2,10 @@
 
 import Image from "next/image";
 import { withBasePath } from "@/lib/paths";
-import { useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
+import type { Ref } from "react";
 import Button from "@/components/Button";
-import { setupReviewsAnimations } from "./Reviews.anim";
+import { animateReviewsEntering, setupReviewsAnimations } from "./Reviews.anim";
 import styles from "./Reviews.module.scss";
 
 const SLIDE_GAP = 85;
@@ -107,9 +108,61 @@ const reviews = [
   },
 ];
 
+type Review = (typeof reviews)[number];
+
+type ReviewCardProps = {
+  review: Review;
+  index: number;
+  cardRef?: Ref<HTMLElement>;
+};
+
+const ReviewCard = memo(function ReviewCard({
+  review,
+  index,
+  cardRef,
+}: ReviewCardProps) {
+  return (
+    <article
+      className={styles["review-card"]}
+      ref={cardRef}
+      data-anim="rv-card"
+      data-index={index}
+    >
+      <div className={styles["review-card__quote"]}>
+        <Image
+          src={withBasePath("/icons/Vector-24.svg")}
+          alt=""
+          width={47}
+          height={38}
+        />
+      </div>
+      <h3 data-anim="rv-title">{review.title}</h3>
+      <blockquote data-anim="rv-quote">
+        {review.quote.map((line, lineIndex) => (
+          <p key={`${review.id}-line-${lineIndex}`}>{line}</p>
+        ))}
+      </blockquote>
+      <div className={styles["review-card__author"]} data-anim="rv-author">
+        <div className={styles["review-card__avatar"]}>
+          <Image
+            src={withBasePath(review.avatar)}
+            alt={`Фото ${review.name}`}
+            width={56}
+            height={56}
+          />
+        </div>
+        <div className={styles["review-card__meta"]}>
+          <p className={styles["review-card__name"]}>{review.name}</p>
+          <p className={styles["review-card__role"]}>{review.role}</p>
+        </div>
+      </div>
+    </article>
+  );
+});
+
 export default function Reviews() {
   const rootRef = useRef<HTMLElement | null>(null);
-  const cardRef = useRef<HTMLDivElement | null>(null);
+  const cardRef = useRef<HTMLElement | null>(null);
   const [cardWidth, setCardWidth] = useState(0);
   const [index, setIndex] = useState(0);
 
@@ -120,6 +173,14 @@ export default function Reviews() {
 
     return setupReviewsAnimations(rootRef.current);
   }, []);
+
+  useEffect(() => {
+    if (!rootRef.current) {
+      return;
+    }
+
+    animateReviewsEntering(rootRef.current, index, VISIBLE_CARDS);
+  }, [index, cardWidth]);
 
   useEffect(() => {
     const updateWidth = () => {
@@ -151,11 +212,14 @@ export default function Reviews() {
       className={styles.reviews}
       aria-labelledby="reviews-title"
       ref={rootRef}
+      data-section="reviews"
     >
       <div className={styles["reviews__inner"]}>
         <header className={styles["reviews__heading"]}>
-          <h2 id="reviews-title">Что о нас говорят пользователи</h2>
-          <p>
+          <h2 id="reviews-title" data-anim="reviews-heading">
+            Что о нас говорят пользователи
+          </h2>
+          <p data-anim="reviews-heading">
             Сценарии, где Думатель экономит часы и снижает ошибки. В каждом
             примере: работа с документами и Web-агент!
           </p>
@@ -171,40 +235,12 @@ export default function Reviews() {
             style={{ transform: `translateX(${offset}px)` }}
           >
             {reviews.map((review, reviewIndex) => (
-              <article
+              <ReviewCard
                 key={review.id}
-                className={styles["review-card"]}
-                ref={reviewIndex === 0 ? cardRef : null}
-              >
-                <div className={styles["review-card__quote"]}>
-                  <Image
-                    src={withBasePath("/icons/Vector-24.svg")}
-                    alt=""
-                    width={47}
-                    height={38}
-                  />
-                </div>
-                <h3>{review.title}</h3>
-                <blockquote>
-                  {review.quote.map((line, lineIndex) => (
-                    <p key={`${review.id}-line-${lineIndex}`}>{line}</p>
-                  ))}
-                </blockquote>
-                <div className={styles["review-card__author"]}>
-                  <div className={styles["review-card__avatar"]}>
-                    <Image
-                      src={withBasePath(review.avatar)}
-                      alt={`Фото ${review.name}`}
-                      width={56}
-                      height={56}
-                    />
-                  </div>
-                  <div className={styles["review-card__meta"]}>
-                    <p className={styles["review-card__name"]}>{review.name}</p>
-                    <p className={styles["review-card__role"]}>{review.role}</p>
-                  </div>
-                </div>
-              </article>
+                review={review}
+                index={reviewIndex}
+                cardRef={reviewIndex === 0 ? cardRef : undefined}
+              />
             ))}
           </div>
         </div>

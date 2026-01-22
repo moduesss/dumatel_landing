@@ -7,7 +7,10 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { withBasePath } from "@/lib/paths";
 import Button from "@/components/Button";
-import { setupPricingPlansAnimations } from "./PricingPlans.anim";
+import {
+  animatePricingPriceSwap,
+  setupPricingPlansAnimations,
+} from "./PricingPlans.anim";
 import styles from "./PricingPlans.module.scss";
 
 const freeFeatures = [
@@ -48,15 +51,27 @@ export default function PricingPlans() {
     return setupPricingPlansAnimations(rootRef.current);
   }, []);
 
+  useEffect(() => {
+    if (!rootRef.current) {
+      return;
+    }
+
+    animatePricingPriceSwap(rootRef.current);
+  }, [billingCycle]);
+
   return (
     <section
       className={styles["pricing-plans"]}
       aria-labelledby="pricing-title"
       id="pricing"
       ref={rootRef}
+      data-section="pricing-plans"
     >
       <div className={styles["pricing-plans__inner"]}>
-        <header className={styles["pricing-plans__heading"]}>
+        <header
+          className={styles["pricing-plans__heading"]}
+          data-anim="pricing-heading"
+        >
           <h2 id="pricing-title">
             Организуйте свои ресурсы, общение и сотрудничество по конкретной
             теме, создав специальное пространство.
@@ -68,6 +83,7 @@ export default function PricingPlans() {
           role="tablist"
           aria-label="Период оплаты"
           data-cycle={billingCycle}
+          data-anim="pricing-toggle"
         >
           <Button
             className={[
@@ -101,7 +117,10 @@ export default function PricingPlans() {
           </Button>
         </div>
 
-        <div className={styles["pricing-plans__device"]}>
+        <div
+          className={styles["pricing-plans__device"]}
+          data-anim="pricing-device"
+        >
           <div className={styles["pricing-plans__screen"]}>
             <div className={styles["pricing-plans__bg"]} aria-hidden="true">
               <img
@@ -188,6 +207,7 @@ export default function PricingPlans() {
                       styles["plan-card__cta--dark"],
                     ].join(" ")}
                     href="https://app.dumatel.ru/"
+                    data-anim="pricing-cta"
                   >
                     Попробовать бесплатно
                   </a>
@@ -229,6 +249,7 @@ export default function PricingPlans() {
                   <div
                     className={styles["plan-card__price"]}
                     key={billingCycle}
+                    data-anim="pricing-price"
                   >
                     <span className={styles["plan-card__sale"]}>
                       {isYearly ? (
@@ -258,6 +279,7 @@ export default function PricingPlans() {
                       styles["plan-card__cta--accent"],
                     ].join(" ")}
                     href="https://app.dumatel.ru/"
+                    data-anim="pricing-cta"
                   >
                     Подключиться сейчас
                   </a>

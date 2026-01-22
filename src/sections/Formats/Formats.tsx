@@ -42,14 +42,19 @@ export default function Formats() {
       id="usage"
       style={sectionStyle}
       ref={rootRef}
+      data-section="formats"
     >
       <div className={styles.formats__inner}>
-        <h2 id="formats-title" className={styles.formats__title}>
+        <h2
+          id="formats-title"
+          className={styles.formats__title}
+          data-anim="formats-title"
+        >
           Форматы использования Думателя
         </h2>
 
         <div className={styles.formats__cards}>
-          <article className={styles.formats__card}>
+          <article className={styles.formats__card} data-anim="formats-card">
             <div className={styles["formats__card-header"]}>
               <Image
                 src={withBasePath("/icons/formats-cloud.svg")}
@@ -63,12 +68,14 @@ export default function Formats() {
             </div>
             <ul className={styles.formats__list}>
               {cloudPoints.map((point) => (
-                <li key={point}>{point}</li>
+                <li key={point} data-anim="formats-item">
+                  {point}
+                </li>
               ))}
             </ul>
           </article>
 
-          <article className={styles.formats__card}>
+          <article className={styles.formats__card} data-anim="formats-card">
             <div className={styles["formats__card-header"]}>
               <Image
                 src={withBasePath("/icons/formats-onprem.svg")}
@@ -82,7 +89,9 @@ export default function Formats() {
             </div>
             <ul className={styles.formats__list}>
               {onPremPoints.map((point) => (
-                <li key={point}>{point}</li>
+                <li key={point} data-anim="formats-item">
+                  {point}
+                </li>
               ))}
             </ul>
             <Button 

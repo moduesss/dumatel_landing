@@ -54,17 +54,26 @@ export default function SecurityShowcase() {
       aria-labelledby="security-title"
       style={sectionStyle}
       ref={rootRef}
+      data-section="security-showcase"
     >
       <div className={styles.security__inner}>
         <div className={styles.security__content}>
           <header className={styles.security__header}>
-            <h2 id="security-title">Безопасность данных. Полный контроль.</h2>
-            <p>Думатель работает по корпоративным стандартам защиты.</p>
+            <h2 id="security-title" data-anim="security-header">
+              Безопасность данных. Полный контроль.
+            </h2>
+            <p data-anim="security-header">
+              Думатель работает по корпоративным стандартам защиты.
+            </p>
           </header>
 
           <div className={styles.security__grid}>
             {items.map((item) => (
-              <article key={item.title} className={styles.security__card}>
+              <article
+                key={item.title}
+                className={styles.security__card}
+                data-anim="security-card"
+              >
                 <div className={styles.security__icon}>
                   <Image
                     src={withBasePath(item.icon)}
@@ -84,7 +93,7 @@ export default function SecurityShowcase() {
           {/* CHANGE: экран под рамкой — теперь позиционируется по реальным координатам SVG */}
           <div className={styles.security__screen}>
             <span className={styles.security__camera} aria-hidden="true" />
-            <div className={styles.security__badge}>
+            <div className={styles.security__badge} data-anim="security-badge">
               <span className={styles.security__badgeIcon}>W</span>
               <span>Wildcard SSL.</span>
             </div>

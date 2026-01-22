@@ -4,7 +4,10 @@ import Image from "next/image";
 import { withBasePath } from "@/lib/paths";
 import { useEffect, useRef, useState } from "react";
 import Button from "@/components/Button";
-import { setupAssistantCarouselAnimations } from "./AssistantCarousel.anim";
+import {
+  animateAssistantCarouselActive,
+  setupAssistantCarouselAnimations,
+} from "./AssistantCarousel.anim";
 import styles from "./AssistantCarousel.module.scss";
 
 const slides = [
@@ -100,6 +103,14 @@ export default function AssistantCarousel() {
   }, []);
 
   useEffect(() => {
+    if (!rootRef.current) {
+      return;
+    }
+
+    animateAssistantCarouselActive(rootRef.current, activeIndex);
+  }, [activeIndex]);
+
+  useEffect(() => {
     const updateWidth = () => {
       if (!slideRef.current || !trackRef.current) {
         return;
@@ -174,19 +185,20 @@ export default function AssistantCarousel() {
       aria-labelledby="assistant-heading"
       id="product" 
       ref={rootRef}
+      data-section="assistant-carousel"
     >
       <div className={styles["assistant-carousel__inner"]}>
         <div className={styles["assistant-carousel__title"]}>
-          <h2 id="assistant-heading">
+          <h2 id="assistant-heading" data-anim="ac-title">
             Ваш <em>ИИ-помощник</em> при работе с файлами
           </h2>
-          <p>
+          <p data-anim="ac-title">
             Задайте вопрос текстом, либо голосом — я дам точный и
             структурированный ответ
           </p>
         </div>
 
-        <div className={styles["assistant-carousel__controls"]}>
+        <div className={styles["assistant-carousel__controls"]} data-anim="ac-controls">
           <Button
             type="button"
             variant="ghost"
@@ -220,6 +232,7 @@ export default function AssistantCarousel() {
         <div
           className={styles["assistant-carousel__viewport"]}
           ref={viewportRef}
+          data-anim="ac-viewport"
         >
           <div
             className={styles["assistant-carousel__track"]}
@@ -231,8 +244,12 @@ export default function AssistantCarousel() {
                 key={slide.id}
                 className={styles["assistant-carousel__card"]}
                 ref={index === 0 ? slideRef : null}
+                data-anim="ac-card"
               >
-                <div className={styles["assistant-carousel__content"]}>
+                <div
+                  className={styles["assistant-carousel__content"]}
+                  data-anim="ac-content"
+                >
                   <Image
                     src={withBasePath(slide.icon)}
                     alt=""
@@ -284,6 +301,7 @@ export default function AssistantCarousel() {
                     playsInline
                     loop
                     preload="metadata"
+                    data-anim="ac-video"
                   />
                 </div>
               </article>

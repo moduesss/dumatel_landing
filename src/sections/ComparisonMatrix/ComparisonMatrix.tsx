@@ -108,60 +108,74 @@ export default function ComparisonMatrix() {
       aria-labelledby="comparison-title"
       style={sectionStyle}
       ref={rootRef}
+      data-section="comparison-matrix"
     >
       <div className={styles.comparison__inner}>
         <header className={styles.comparison__header}>
-          <h2 id="comparison-title">
+          <h2 id="comparison-title" data-anim="comparison-header">
             Наглядное сравнение <em>Думателя</em> с другими нейросетями
           </h2>
-          <p>
+          <p data-anim="comparison-header">
             Мы провели множество тестов, опросов пользователей и готовы
             предоставить вам прозрачную статистику и результат.
           </p>
         </header>
 
         <div className={styles.comparison__table} role="table">
-          <div className={styles.comparison__grid}>
-            <div className={styles.comparison__labels}>
-              {rows.map((row, index) => (
+          <div className={styles.comparison__head}>
+            <div aria-hidden className={styles.comparison__headSpacer} />
+            <div className={styles.comparison__columns}>
+              {columns.map((column) => (
                 <div
-                  key={row.id}
-                  className={[
-                    styles.comparison__label,
-                    styles[`comparison__label--${index}`],
-                  ].join(" ")}
+                  key={column.id}
+                  className={styles.comparison__column}
+                  data-anim="comparison-icon"
                 >
-                  {row.label}
+                  <Image
+                    src={withBasePath(column.icon)}
+                    alt={column.alt}
+                    width={42}
+                    height={42}
+                  />
                 </div>
               ))}
             </div>
+          </div>
 
-            <div className={styles.comparison__data}>
-              <div className={styles.comparison__columns}>
-                {columns.map((column) => (
-                  <div key={column.id} className={styles.comparison__column}>
-                    <Image
-                      src={withBasePath(column.icon)}
-                      alt={column.alt}
-                      width={42}
-                      height={42}
-                    />
-                  </div>
-                ))}
-              </div>
+          <div className={styles.comparison__rows}>
+            {rows.map((row, rowIndex) => (
+              <div key={row.id} className={styles.comparison__row}>
+                <div
+                  className={[
+                    styles.comparison__label,
+                    styles[`comparison__label--${rowIndex}`],
+                  ].join(" ")}
+                  data-anim="comparison-label"
+                >
+                  {row.label}
+                </div>
 
-              <div className={styles.comparison__cells}>
-                {rows.map((row) => (
-                  <div key={row.id} className={styles.comparison__row}>
-                    {row.cells.map((cell, index) => (
-                      <div key={`${row.id}-${index}`} className={styles.comparison__card}>
+                <div className={styles.comparison__cells}>
+                  {row.cells.map((cell, cellIndex) => {
+                    const column = columns[cellIndex];
+                    return (
+                      <div
+                        key={`${row.id}-${column.id}`}
+                        className={styles.comparison__card}
+                      >
+                        <span className={styles.comparison__cardBadge}>
+                          {column.alt}
+                        </span>
                         <p className={styles["comparison__card-text"]}>{cell.text}</p>
                         <div
                           className={styles.comparison__meter}
                           data-level={cell.level}
                         >
                           <span className={styles["comparison__meter-track"]} />
-                          <span className={styles["comparison__meter-fill"]} />
+                          <span
+                            className={styles["comparison__meter-fill"]}
+                            data-anim="comparison-meter"
+                          />
                           <span
                             className={[
                               styles["comparison__meter-dot"],
@@ -182,11 +196,11 @@ export default function ComparisonMatrix() {
                           />
                         </div>
                       </div>
-                    ))}
-                  </div>
-                ))}
+                    );
+                  })}
+                </div>
               </div>
-            </div>
+            ))}
           </div>
         </div>
 

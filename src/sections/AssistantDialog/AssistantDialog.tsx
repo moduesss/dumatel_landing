@@ -23,12 +23,13 @@ export default function AssistantDialog() {
       aria-labelledby="assistant-dialog-title"
       id="audience"
       ref={rootRef}
+      data-section="assistant-dialog"
     >
       <div className={styles["assistant-dialog__inner"]}>
         <h2 id="assistant-dialog-title" className="visually-hidden">
           Думатель говорит
         </h2>
-        <div className={styles["assistant-dialog__header"]}>
+        <div className={styles["assistant-dialog__header"]} data-anim="ad-header">
           <Image
             src={withBasePath("/icons/Dialog 7.svg")}
             alt="Думатель"
@@ -40,10 +41,11 @@ export default function AssistantDialog() {
             alt="Голосовое сообщение"
             width={18}
             height={18}
+            data-anim="ad-voice"
           />
           <p className={styles["assistant-dialog__label"]}>Думатель говорит...</p>
         </div>
-        <div className={styles["assistant-dialog__body"]}>
+        <div className={styles["assistant-dialog__body"]} data-anim="ad-body">
           <p>
             — Я превращаю хаос файлов и записей в порядок: связываю
             разрозненные данные, нахожу нужное и показываю главное. Я понимаю

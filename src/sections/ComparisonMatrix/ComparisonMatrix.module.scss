@@ -1,6 +1,13 @@
 @use "sass:math";
 
 .comparison {
+  --cmp-pad-x: calc(var(--space-7) + var(--space-4));
+  --cmp-pad-y: var(--space-8);
+  --cmp-gap: var(--space-2);
+  --cmp-label-col: clamp(240px, 26vw, 300px);
+  --cmp-col: clamp(150px, 14vw, 180px);
+  --cmp-row-h: clamp(90px, 9vw, 110px);
+
   background: #ffffff;
   color: #0a2240;
   padding: var(--space-section) var(--space-4);
@@ -47,40 +54,90 @@
   width: 100%;
   border-radius: var(--radius-5);
   border: 2px solid rgba(0, 0, 0, 0.15);
-  padding: var(--space-8) calc(var(--space-7) + var(--space-4));
+  padding: var(--cmp-pad-y) var(--cmp-pad-x);
   overflow: hidden;
   background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: var(--cmp-gap);
 }
 
-.comparison__grid {
-  width: 100%;
+@media (max-width: 1500px) {
+  .comparison__table {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .comparison__head,
+  .comparison__columns,
+  .comparison__cells {
+    min-width: calc(
+      var(--cmp-label-col) + (4 * var(--cmp-col)) + (5 * var(--cmp-gap))
+    );
+  }
+}
+
+@media (max-width: 900px) {
+  .comparison {
+    display: none;
+  }
+}
+
+.comparison__head {
   display: grid;
-  grid-template-columns: clamp(240px, 26vw, 300px) 1fr;
-  gap: var(--space-5);
-  align-items: start;
+  grid-template-columns: var(--cmp-label-col) 1fr;
+  gap: var(--cmp-gap);
+  align-items: center;
+}
+
+.comparison__headSpacer {
+  height: 52px;
+}
+
+.comparison__columns {
+  display: grid;
+  grid-template-columns: repeat(4, var(--cmp-col));
+  gap: var(--cmp-gap);
+  justify-content: start;
+}
+
+.comparison__column {
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.comparison__rows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cmp-gap);
+}
+
+.comparison__row {
+  display: grid;
+  grid-template-columns: var(--cmp-label-col) 1fr;
+  gap: var(--cmp-gap);
+  align-items: stretch;
 }
 
 $comparison-label-icon-base-size: 43px;
 $comparison-label-icon-size: 38px;
-$comparison-label-icon-scale: math.div($comparison-label-icon-size, $comparison-label-icon-base-size);
-
-.comparison__labels {
-  position: relative;
-  display: grid;
-  grid-template-rows: repeat(6, clamp(90px, 9vw, 110px));
-  gap: var(--space-2);
-  padding-left: calc(var(--space-6) + var(--space-2));
-  padding-top: var(--space-7);
-  font-size: var(--fs-5);
-  font-weight: 600;
-  color: #000000;
-}
+$comparison-label-icon-scale: math.div(
+  $comparison-label-icon-size,
+  $comparison-label-icon-base-size
+);
 
 .comparison__label {
   display: flex;
   align-items: center;
   line-height: 1.1;
   position: relative;
+  min-height: var(--cmp-row-h);
+  font-size: var(--fs-5);
+  font-weight: 600;
+  color: #000000;
+  padding-left: calc(var(--space-6) + var(--space-2));
 }
 
 .comparison__label::before {
@@ -120,37 +177,12 @@ $comparison-label-icon-scale: math.div($comparison-label-icon-size, $comparison-
   background-position: 0 (-635px * $comparison-label-icon-scale);
 }
 
-.comparison__data {
-  display: grid;
-  grid-template-rows: 52px repeat(6, clamp(90px, 9vw, 110px));
-  gap: var(--space-2);
-}
-
-.comparison__columns {
-  display: grid;
-  grid-template-columns: repeat(4, clamp(150px, 14vw, 180px));
-  gap: var(--space-2);
-  justify-content: space-between;
-}
-
-.comparison__column {
-  height: 52px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .comparison__cells {
   display: grid;
-  grid-template-rows: repeat(6, clamp(90px, 9vw, 110px));
-  gap: var(--space-2);
-}
-
-.comparison__row {
-  display: grid;
-  grid-template-columns: repeat(4, clamp(150px, 14vw, 180px));
-  gap: var(--space-2);
-  justify-content: space-between;
+  grid-template-columns: repeat(4, var(--cmp-col));
+  grid-auto-rows: var(--cmp-row-h);
+  gap: var(--cmp-gap);
+  justify-content: start;
 }
 
 .comparison__cta {
@@ -177,6 +209,21 @@ $comparison-label-icon-scale: math.div($comparison-label-icon-size, $comparison-
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
+  height: 100%;
+}
+
+.comparison__cardBadge {
+  display: none;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: var(--radius-3);
+  border: 1px solid rgba(10, 34, 64, 0.08);
+  background: #f7f9fc;
+  color: #0a2240;
+  font-weight: 600;
+  font-size: var(--fs-0, 12px);
+  line-height: 1.1;
 }
 
 .comparison__card-text {
@@ -271,54 +318,85 @@ $comparison-label-icon-scale: math.div($comparison-label-icon-size, $comparison-
 }
 
 @media (max-width: 1300px) {
-  .comparison__table {
-    padding: 64px 40px;
-  }
-
-  .comparison__grid {
-    grid-template-columns: 260px 1fr;
+  .comparison {
+    --cmp-pad-x: 40px;
+    --cmp-pad-y: 64px;
   }
 }
 
 @media (max-width: 1100px) {
+  .comparison {
+    --cmp-pad-x: 24px;
+    --cmp-pad-y: 48px;
+    --cmp-gap: 12px;
+    --cmp-row-h: clamp(120px, 16vw, 160px);
+  }
+
   .comparison__table {
-    padding: 48px 24px;
+    padding: var(--cmp-pad-y) var(--cmp-pad-x);
   }
 
-  .comparison__grid {
+  .comparison__head {
     grid-template-columns: 1fr;
+    row-gap: var(--cmp-gap);
   }
 
-  .comparison__labels {
-    grid-template-rows: auto;
-    padding-left: 0;
+  .comparison__headSpacer {
+    display: none;
+  }
+
+  .comparison__columns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .comparison__rows {
+    gap: calc(var(--cmp-gap) + 4px);
+  }
+
+  .comparison__row {
+    grid-template-columns: 1fr;
+    padding: var(--cmp-gap) 0 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+  }
+
+  .comparison__row:first-child {
+    border-top: 0;
     padding-top: 0;
+  }
+
+  .comparison__label {
+    min-height: auto;
+    padding-left: calc(var(--space-6) + var(--space-2));
     font-size: 20px;
   }
 
-  .comparison__label::before {
-    left: calc(var(--space-6) * -1);
-  }
-
-  .comparison__icons {
-    position: static;
-    margin-bottom: 24px;
-  }
-
-  .comparison__data {
-    gap: 16px;
-  }
-
-  .comparison__columns,
-  .comparison__row {
+  .comparison__cells {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
+    grid-auto-rows: minmax(var(--cmp-row-h), auto);
+  }
+
+  .comparison__card {
+    align-items: stretch;
+    text-align: left;
+    gap: var(--space-2);
+  }
+
+  .comparison__cardBadge {
+    display: inline-flex;
+  }
+
+  .comparison__card-text {
+    text-align: left;
   }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 520px) {
   .comparison {
     padding: 80px 16px;
+    --cmp-pad-x: 16px;
+    --cmp-pad-y: 40px;
+    --cmp-gap: 12px;
+    --cmp-row-h: auto;
   }
 
   .comparison__inner {
@@ -330,10 +408,10 @@ $comparison-label-icon-scale: math.div($comparison-label-icon-size, $comparison-
   }
 
   .comparison__cells {
-    grid-template-rows: auto;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
   }
 
-  .comparison__row {
-    grid-template-columns: 1fr;
+  .comparison__card {
+    align-items: flex-start;
   }
 }

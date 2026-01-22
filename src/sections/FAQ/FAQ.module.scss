@@ -54,6 +54,30 @@
   background-size: contain;
   filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.35));
   will-change: transform, opacity;
+  overflow: hidden;
+}
+
+.faq__logo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.35) 35%,
+    rgba(255, 255, 255, 0) 70%
+  );
+  transform: translateX(var(--shimmer-x, -120%));
+  -webkit-mask-image: var(--faq-logo-url);
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  -webkit-mask-size: contain;
+  mask-image: var(--faq-logo-url);
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+  opacity: 1;
 }
 
 .faq__list {

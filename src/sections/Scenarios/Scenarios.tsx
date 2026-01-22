@@ -1,157 +1,219 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Button from "@/components/Button";
 import { withBasePath } from "@/lib/paths";
 import { setupScenariosAnimations } from "./Scenarios.anim";
 import styles from "./Scenarios.module.scss";
 
-const workWebAgentItems = [
-  "Электронный документооборот: Обязательно укажите, что приемка осуществляется исключительно через электронное актирование в ЕИС.",
-  "Нацрежим: В 2025 году действуют обновленные правила импортозамещения (нацрежим). Проверьте, попадает ли ваш товар под запрет или ограничения на закупку иностранных товаров.",
-  "Сроки: Помните, что для субъектов малого предпринимательства (СМП) сроки оплаты в 2025 году остаются сокращенными (обычно до 7 рабочих дней).",
-  "Электронный документооборот: Обязательно укажите, что приемка осуществляется исключительно через электронное актирование в ЕИС.",
-  "Нацрежим: В 2025 году действуют обновленные правила импортозамещения (нацрежим). Проверьте, попадает ли ваш товар под запрет или ограничения на закупку иностранных товаров.",
-  "Сроки: Помните, что для субъектов малого предпринимательства (СМП)",
-];
+type ScenarioSetId =
+  | "work"
+  | "research"
+  | "hr"
+  | "sales"
+  | "legal"
+  | "procurement"
+  | "management";
 
-const postPreviewLines = [
-  "fhgjf chajhf chfj cjfj chfjkjc",
-  "fjfjf cjfhhhf chfhhjf cjfhhjc fhc",
-];
+type Badge = { id: ScenarioSetId; label: string };
+
+type MediaClass =
+  | "scenario-docs"
+  | "scenario-files"
+  | "scenario-dialog"
+  | "scenario-methods"
+  | "scenario-posts"
+  | "scenario-cta-circle"
+  | "scenario-resume"
+  | "scenario-bag"
+  | "scenario-tkp"
+  | "scenario-offer"
+  | "scenario-compare"
+  | "scenario-versions"
+  | "scenario-check"
+  | "scenario-calendar"
+  | "scenario-search"
+  | "scenario-document"
+  | "scenario-window"
+  | "scenario-contract";
+
+type IllSize = "ill-xs" | "ill-sm" | "ill-md" | "ill-lg";
+
+function cx(...parts: Array<string | false | null | undefined>) {
+  return parts.filter(Boolean).join(" ");
+}
+
+function ScenarioCard({
+  title,
+  iconSrc,
+  iconAlt = "",
+  iconW,
+  iconH,
+  hint,
+  note,
+  text,
+  tag,
+  media,
+}: {
+  title: React.ReactNode;
+  iconSrc?: string;
+  iconAlt?: string;
+  iconW?: number;
+  iconH?: number;
+  hint?: string;
+  note?: React.ReactNode;
+  text?: React.ReactNode;
+  tag?: { label: string; iconSrc: string; iconW: number; iconH: number };
+  media: React.ReactNode;
+}) {
+  return (
+    <article className={styles["scenario-card"]} data-anim="sc-card">
+      <div className={styles["scenario-card__media"]}>{media}</div>
+
+      <div className={styles["scenario-card__body"]}>
+        {(iconSrc || title) && (
+          <div className={styles["scenario-card__title-row"]}>
+            {iconSrc ? (
+              <span className={styles["scenario-card__title-icon"]}>
+                <Image
+                  src={withBasePath(iconSrc)}
+                  alt={iconAlt}
+                  width={iconW ?? 28}
+                  height={iconH ?? 28}
+                  className={styles["scenario-card__title-icon-image"]}
+                />
+              </span>
+            ) : null}
+
+            <h3>{title}</h3>
+          </div>
+        )}
+
+        {hint ? <p className={styles["scenario-card__hint"]}>{hint}</p> : null}
+
+        {note ? <div className={styles["scenario-card__note"]}>{note}</div> : null}
+
+        {text ? (
+          <p className={styles["scenario-card__text"]}>
+            {tag ? (
+              <>
+                <span className={styles["scenario-card__tag"]}>
+                  <span className={styles["scenario-card__tag-icon"]}>
+                    <Image
+                      src={withBasePath(tag.iconSrc)}
+                      alt=""
+                      width={tag.iconW}
+                      height={tag.iconH}
+                    />
+                  </span>
+                  {tag.label}
+                </span>{" "}
+              </>
+            ) : null}
+            {text}
+          </p>
+        ) : null}
+      </div>
+    </article>
+  );
+}
+
+function MediaWrap({
+  wrap,
+  size,
+  children,
+}: {
+  wrap?: MediaClass;
+  size?: IllSize;
+  children: React.ReactNode;
+}) {
+  if (!wrap && !size) return <>{children}</>;
+  return <div className={cx(wrap ? styles[wrap] : "", size ? styles[size] : "")}>{children}</div>;
+}
+
+function IllImage({
+  src,
+  alt,
+  w,
+  h,
+  className,
+  priority,
+}: {
+  src: string;
+  alt: string;
+  w: number;
+  h: number;
+  className?: string;
+  priority?: boolean;
+}) {
+  return (
+    <Image
+      src={withBasePath(src)}
+      alt={alt}
+      width={w}
+      height={h}
+      className={className ? className : styles["scenario-ill"]}
+      priority={priority}
+    />
+  );
+}
 
 function WorkCards() {
   return (
     <>
-      <article className={styles["scenario-card"]}>
-        <div className={styles["scenario-card__media"]}>
-          <div className={styles["scenario-docs"]}>
-            <div
-              className={[
-                styles["scenario-doc"],
-                styles["scenario-doc--tilt-left"],
-              ].join(" ")}
-            >
-              <p className={styles["scenario-doc__title"]}>
-                Ключевые показатели для 2025 года:
-              </p>
-              <ol className={styles["scenario-doc__list"]}>
-                <li>
-                  Электронный документооборот: Обязательно укажите, что приемка
-                  осуществляется исключительно через электронное актирование в
-                  ЕИС.
-                </li>
-                <li>
-                  Нацрежим: В 2025 году действуют обновленные правила
-                  импортозамещения (нацрежим). Проверьте, попадает ли ваш товар
-                  под запрет или ограничения на закупку иностранных товаров.
-                </li>
-                <li>
-                  Сроки: Помните, что для субъектов малого предпринимательства
-                  (СМП) сроки оплаты в 2025 году остаются сокращенными (обычно до
-                  7 рабочих дней).
-                </li>
-              </ol>
-            </div>
-            <div
-              className={[
-                styles["scenario-doc"],
-                styles["scenario-doc--tilt-right"],
-              ].join(" ")}
-            >
-              <p className={styles["scenario-doc__title"]}>
-                «Обоснование объекта закупки на 2025 финансовый год»
-              </p>
-              <div className={styles["scenario-doc__text"]}>
-                <p>
-                  1. Общие положения
-                  <br />
-                  Настоящая закупка осуществляется в соответствии с
-                  планом-графиком на 2025 год для обеспечения государственных
-                  (муниципальных) нужд / нужд предприятия. Целью закупки
-                  является бесперебойное функционирование [название
-                  подразделения/организации] и реализация утвержденных
-                  программ на 2025 год.
-                </p>
-                <p>2. Объект закупки и код позиции</p>
-                <ul>
-                  <li>
-                    Наименование объекта: [Например: Поставка офисной бумаги и
-                    канцелярских принадлежностей]
-                  </li>
-                  <li>Код по ОКПД2: [Например: 17.12.14.110]</li>
-                  <li>
-                    Период поставки/оказания услуг: с 01.01.2025 по
-                    31.12.2025.
-                  </li>
-                </ul>
-                <p>
-                  3. Обоснование начальной (максимальной) цены контракта (НМЦК)
-                  <br />
-                  Расчет НМЦК на 2025 год произведен методом сопоставимых
-                  рыночных цен (анализа рынка) на основании коммерческих
-                  предложений, полученных в IV квартале 2024 года, с учетом
-                  прогнозного уровня инфляции и индексов-дефляторов,
-                  установленных Минэкономразвития на 2025 год.
-                </p>
-                <p>4. Требования к участникам в 2025 году</p>
-                <ul>
-                  <li>
-                    Соответствие единым требованиям согласно ч. 1 ст. 31 44-ФЗ.
-                  </li>
-                  <li>
-                    Отсутствие сведений об участнике в реестре
-                    недобросовестных поставщиков (РНП).
-                  </li>
-                  <li>
-                    Приоритет товарам российского происхождения в
-                    соответствии с актуальными квотами на 2025 год (ПП РФ
-                    №2013 / ПП РФ №2014).
-                  </li>
-                </ul>
-                <p>
-                  5. Особенности исполнения контракта
-                  <br />
-                  Оплата производится по факту поставки товара (выполнения
-                  работ) в течение [7/10] рабочих дней с даты подписания
-                  документа о приемке в электронной форме через ЕИС (Единую
-                  информационную систему), что является обязательным
-                  требованием для всех закупок в 2025 году.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
+      <ScenarioCard
+        title="Аналитический отчёт за считанные секунды!"
+        hint="Думатель умеет:"
+        note={
+          <p>
+            <strong>Объединять таблицы </strong>
+            <span className={styles["scenario-card__note-medium"]}>
+              и отчёты, находит ключевые показатели,{" "}
+            </span>
+            <strong>строит графики и формирует краткий аналитический документ </strong>
+            <span>с причинами изменений и ссылками на источники.</span>
+          </p>
+        }
+        media={
+          <MediaWrap wrap="scenario-docs" size="ill-md">
+            <Image
+              src={withBasePath("/usecases/doc_left.svg")}
+              alt="Документ с ключевыми показателями"
+              width={320}
+              height={360}
+              className={styles["scenario-docs__image"]}
+            />
+            <Image
+              src={withBasePath("/usecases/doc_right.svg")}
+              alt="Документ с обоснованием закупки"
+              width={320}
+              height={360}
+              className={styles["scenario-docs__image"]}
+            />
+          </MediaWrap>
+        }
+      />
 
-        <div className={styles["scenario-card__body"]}>
-          <h3>Аналитический отчёт за считанные секунды!</h3>
-          <p className={styles["scenario-card__hint"]}>Думатель умеет:</p>
-          <div className={styles["scenario-card__note"]}>
-            <p>
-              <strong>Объединять таблицы </strong>
-              <span className={styles["scenario-card__note-medium"]}>
-                и отчёты, находит ключевые показатели, {""}
-              </span>
-              <strong>
-                строит графики и формирует краткий аналитический документ {""}
-              </strong>
-              <span>с причинами изменений и ссылками на источники.</span>
-            </p>
-          </div>
-        </div>
-      </article>
-
-      <article className={styles["scenario-card"]}>
-        <div className={styles["scenario-card__media"]}>
-          <div className={styles["scenario-files"]}>
-            <div
-              className={[
-                styles["scenario-file"],
-                styles["scenario-file--pdf"],
-              ].join(" ")}
-              aria-hidden="true"
-            >
+      <ScenarioCard
+        title={
+          <>
+            Думатель проводит расчёт прямо <br />
+            по документам
+          </>
+        }
+        iconSrc="/icons/scenario-calc.svg"
+        iconW={21}
+        iconH={28}
+        text={
+          <>
+            Система находит формулы и числовые значения, подставляет данные и показывает
+            точный результат с указанием источника.
+          </>
+        }
+        media={
+          <MediaWrap wrap="scenario-files" size="ill-md">
+            <div className={cx(styles["scenario-file"], styles["scenario-file--pdf"])} aria-hidden="true">
               <Image
                 src={withBasePath("/icons/scenario-pdf.svg")}
                 alt=""
@@ -161,13 +223,8 @@ function WorkCards() {
               />
               <span className={styles["scenario-file__label"]}>PDF</span>
             </div>
-            <div
-              className={[
-                styles["scenario-file"],
-                styles["scenario-file--xls"],
-              ].join(" ")}
-              aria-hidden="true"
-            >
+
+            <div className={cx(styles["scenario-file"], styles["scenario-file--xls"])} aria-hidden="true">
               <Image
                 src={withBasePath("/icons/scenario-xls.svg")}
                 alt=""
@@ -177,13 +234,8 @@ function WorkCards() {
               />
               <span className={styles["scenario-file__label"]}>XLS</span>
             </div>
-            <div
-              className={[
-                styles["scenario-file"],
-                styles["scenario-file--doc"],
-              ].join(" ")}
-              aria-hidden="true"
-            >
+
+            <div className={cx(styles["scenario-file"], styles["scenario-file--doc"])} aria-hidden="true">
               <Image
                 src={withBasePath("/icons/scenario-doc.svg")}
                 alt=""
@@ -193,118 +245,65 @@ function WorkCards() {
               />
               <span className={styles["scenario-file__label"]}>DOC</span>
             </div>
-          </div>
-        </div>
-        <div className={styles["scenario-card__body"]}>
-          <div className={styles["scenario-card__title-row"]}>
-            <span className={styles["scenario-card__title-icon"]}>
-              <Image
-                src={withBasePath("/icons/scenario-calc.svg")}
-                alt=""
-                width={21}
-                height={28}
-                className={styles["scenario-card__title-icon-image"]}
-              />
-            </span>
-            <h3>
-              Думатель проводит расчёт прямо <br />
-              по документам
-            </h3>
-          </div>
-          <p className={styles["scenario-card__text"]}>
-            Система находит формулы и числовые значения, подставляет данные и
-            показывает точный результат с указанием источника.
-          </p>
-        </div>
-      </article>
+          </MediaWrap>
+        }
+      />
 
-      <article className={styles["scenario-card"]}>
-        <div className={styles["scenario-card__media"]}>
-          <div className={styles["scenario-browser"]}>
-            <div className={styles["scenario-browser__header"]}>
-              <span className={styles["scenario-browser__icon"]}>
-                <Image
-                  src={withBasePath("/icons/scenario-web-icon.svg")}
-                  alt=""
-                  width={16}
-                  height={22}
-                />
-              </span>
-              <p>Выхожу в интернет и ищу необходимую информацию...</p>
-            </div>
-            <ol className={styles["scenario-browser__list"]}>
-              {workWebAgentItems.map((item, index) => (
-                <li key={`web-agent-${index}`}>{item}</li>
-              ))}
-            </ol>
-          </div>
-        </div>
-        <div className={styles["scenario-card__body"]}>
-          <div className={styles["scenario-card__title-row"]}>
-            <span className={styles["scenario-card__title-icon"]}>
-              <Image
-                src={withBasePath("/icons/scenario-web-title.svg")}
-                alt=""
-                width={27}
-                height={28}
-                className={styles["scenario-card__title-icon-image"]}
-              />
-            </span>
-            <h3>
-              Найдите уникальное решение под задачу <br />
-              вместе с Веб-Агентом!
-            </h3>
-          </div>
-          <p className={styles["scenario-card__text"]}>
-            <span className={styles["scenario-card__tag"]}>
-              <span className={styles["scenario-card__tag-icon"]}>
-                <Image
-                  src={withBasePath("/icons/scenario-web-badge.svg")}
-                  alt=""
-                  width={16}
-                  height={22}
-                />
-              </span>
-              Веб-Агент
-            </span>{" "}
-            анализирует открытые источники, проверяет отзывы и формирует список
-            решений с плюсами и минусами.
-          </p>
-        </div>
-      </article>
-
-      <article className={styles["scenario-card"]}>
-        <div className={styles["scenario-card__media"]}>
-          <Image
-            src={withBasePath("/images/думатель скрин 1.png")}
-            alt="Экран Думателя"
-            width={687}
-            height={372}
-            className={styles["scenario-card__media-image"]}
+      <ScenarioCard
+        title={
+          <>
+            Найдите уникальное решение под задачу <br />
+            вместе с Веб-Агентом!
+          </>
+        }
+        iconSrc="/icons/scenario-web-title.svg"
+        iconW={27}
+        iconH={28}
+        tag={{ label: "Веб-Агент", iconSrc: "/icons/scenario-web-badge.svg", iconW: 16, iconH: 22 }}
+        text={
+          <>
+            анализирует открытые источники, проверяет отзывы и формирует список решений с плюсами и минусами.
+          </>
+        }
+        media={
+          <IllImage
+            src="/usecases/web_agent_work.svg"
+            alt="Веб-Агент ищет и анализирует данные"
+            w={620}
+            h={360}
+            className={cx(styles["scenario-ill"], styles["scenario-ill-web-agent"], styles["ill-md"])}
+            priority
           />
-        </div>
-        <div className={styles["scenario-card__body"]}>
-          <div className={styles["scenario-card__title-row"]}>
-            <span className={styles["scenario-card__title-icon"]}>
-              <Image
-                src={withBasePath("/icons/scenario-cta.svg")}
-                alt=""
-                width={27}
-                height={30}
-                className={styles["scenario-card__title-icon-image"]}
-              />
-            </span>
-            <h3>
-              Работайте в удовольствие вместе с нашим <br />
-              Думателем
-            </h3>
-          </div>
-          <p className={styles["scenario-card__text"]}>
-            Сократите время затраченное на задачи до минимума и закрывайте их
-            как можно быстрее без потери качества работы.
-          </p>
-        </div>
-      </article>
+        }
+      />
+
+      <ScenarioCard
+        title={
+          <>
+            Работайте в удовольствие вместе с нашим <br />
+            Думателем
+          </>
+        }
+        iconSrc="/icons/scenario-cta.svg"
+        iconW={27}
+        iconH={30}
+        text={
+          <>
+            Сократите время затраченное на задачи до минимума и закрывайте их как можно быстрее без потери качества работы.
+          </>
+        }
+        media={
+          <MediaWrap wrap="scenario-cta-circle" size="ill-xs">
+            <Image
+              src={withBasePath("/icons/scenario-dialog-circle.svg")}
+              alt="Экран Думателя"
+              width={200}
+              height={200}
+              className={styles["scenario-ill"]}
+            />
+          </MediaWrap>
+        }
+      />
     </>
   );
 }
@@ -312,15 +311,21 @@ function WorkCards() {
 function ResearchCards() {
   return (
     <>
-      <article className={styles["scenario-card"]}>
-        <div className={styles["scenario-card__media"]}>
-          <div className={styles["scenario-dialog"]}>
+      <ScenarioCard
+        title={
+          <>
+            Конспектирование длинных текстов <br />и статей
+          </>
+        }
+        iconSrc="/icons/scenario-research-icon.svg"
+        iconW={27}
+        iconH={30}
+        text={<>Думатель сокращает десятки страниц до структурированного краткого содержания с цитатами.</>}
+        media={
+          <MediaWrap wrap="scenario-dialog" size="ill-md">
             <div className={styles["scenario-dialog__bubble"]}>
               <span className={styles["scenario-dialog__label"]}>Думатель</span>
-              <p>
-                Генерирую краткое содержание вашей статьи, которую вы указали
-                как внешнюю гипер-ссылку.
-              </p>
+              <p>Генерирую краткое содержание вашей статьи, которую вы указали как внешнюю гипер-ссылку.</p>
             </div>
             <Image
               src={withBasePath("/icons/scenario-research-dialog.svg")}
@@ -329,201 +334,77 @@ function ResearchCards() {
               height={48}
               className={styles["scenario-dialog__dot"]}
             />
-          </div>
-        </div>
-        <div className={styles["scenario-card__body"]}>
-          <div className={styles["scenario-card__title-row"]}>
-            <span className={styles["scenario-card__title-icon"]}>
-              <Image
-                src={withBasePath("/icons/scenario-research-icon.svg")}
-                alt=""
-                width={27}
-                height={30}
-                className={styles["scenario-card__title-icon-image"]}
-              />
-            </span>
-            <h3>
-              Конспектирование длинных текстов <br />и статей
-            </h3>
-          </div>
-          <p className={styles["scenario-card__text"]}>
-            Думатель сокращает десятки страниц до структурированного краткого
-            содержания с цитатами.
-          </p>
-        </div>
-      </article>
+          </MediaWrap>
+        }
+      />
 
-      <article className={styles["scenario-card"]}>
-        <div className={styles["scenario-card__media"]}>
-          <div className={styles["scenario-methods"]}>
+      <ScenarioCard
+        title="Думатель анализирует и сравнивает методики."
+        iconSrc="/icons/scenario-research-icon-2.svg"
+        iconW={22}
+        iconH={28}
+        text={<>Система извлекает все необходимые параметры и строит таблицы, а так же выделяет отличия.</>}
+        media={
+          <MediaWrap wrap="scenario-methods" size="ill-lg">
             <Image
-              src={withBasePath("/icons/scenario-research-doc-green.svg")}
-              alt=""
-              width={150}
+              src={withBasePath("/usecases/sheet.svg")}
+              alt="Таблица с методиками"
+              width={260}
               height={200}
               className={styles["scenario-methods__doc"]}
             />
             <Image
               src={withBasePath("/icons/scenario-research-loading.svg")}
-              alt=""
+              alt="Загрузка анализа"
               width={64}
               height={64}
               className={styles["scenario-methods__loader"]}
             />
             <Image
-              src={withBasePath("/icons/scenario-research-doc-orange.svg")}
-              alt=""
-              width={150}
-              height={200}
+              src={withBasePath("/usecases/dumatel_file.svg")}
+              alt="Документ с анализом"
+              width={220}
+              height={220}
               className={styles["scenario-methods__doc"]}
             />
-          </div>
-        </div>
-        <div className={styles["scenario-card__body"]}>
-          <div className={styles["scenario-card__title-row"]}>
-            <span className={styles["scenario-card__title-icon"]}>
-              <Image
-                src={withBasePath("/icons/scenario-research-icon-2.svg")}
-                alt=""
-                width={22}
-                height={28}
-                className={styles["scenario-card__title-icon-image"]}
-              />
-            </span>
-            <h3>Думатель анализирует и сравнивает методики.</h3>
-          </div>
-          <p className={styles["scenario-card__text"]}>
-            Система извлекает все необходимые параметры и строит таблицы, а так
-            же выделяет отличия.
-          </p>
-        </div>
-      </article>
+          </MediaWrap>
+        }
+      />
 
-      <article className={styles["scenario-card"]}>
-        <div className={styles["scenario-card__media"]}>
-          <div className={styles["scenario-posts"]}>
-            <div
-              className={styles["scenario-post"]}
-              data-variant="left"
-              aria-hidden="true"
-            >
-              <div className={styles["scenario-post__header"]} />
-              <span className={styles["scenario-post__avatar"]}>
-                <Image
-                  src={withBasePath("/icons/scenario-research-avatar.svg")}
-                  alt=""
-                  width={22}
-                  height={22}
-                />
-              </span>
-              <div className={styles["scenario-post__text"]}>
-                {postPreviewLines.map((line) => (
-                  <p key={`post-left-${line}`}>{line}</p>
-                ))}
-              </div>
-            </div>
-            <div className={styles["scenario-post"]} data-variant="center">
-              <div
-                className={styles["scenario-post__header"]}
-                data-tone="accent"
-              />
-              <span className={styles["scenario-post__avatar"]}>
-                <Image
-                  src={withBasePath("/icons/scenario-research-avatar.svg")}
-                  alt=""
-                  width={22}
-                  height={22}
-                />
-              </span>
-              <div className={styles["scenario-post__text"]}>
-                {postPreviewLines.map((line) => (
-                  <p key={`post-center-${line}`}>{line}</p>
-                ))}
-              </div>
-            </div>
-            <div
-              className={styles["scenario-post"]}
-              data-variant="right"
-              aria-hidden="true"
-            >
-              <div className={styles["scenario-post__header"]} />
-              <span className={styles["scenario-post__avatar"]}>
-                <Image
-                  src={withBasePath("/icons/scenario-research-avatar.svg")}
-                  alt=""
-                  width={22}
-                  height={22}
-                />
-              </span>
-              <div className={styles["scenario-post__text"]}>
-                {postPreviewLines.map((line) => (
-                  <p key={`post-right-${line}`}>{line}</p>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className={styles["scenario-card__body"]}>
-          <div className={styles["scenario-card__title-row"]}>
-            <span className={styles["scenario-card__title-icon"]}>
+      <ScenarioCard
+        title="Находите свежие публикации и источники"
+        iconSrc="/icons/scenario-research-title.svg"
+        iconW={28}
+        iconH={28}
+        tag={{ label: "Веб-Агент", iconSrc: "/icons/scenario-web-badge.svg", iconW: 16, iconH: 22 }}
+        text={<>собирает материалы из открытых баз, проверяет достоверность и показывает список ссылок с аннотациями.</>}
+        media={
+          <MediaWrap wrap="scenario-posts" size="ill-lg">
+            <div /* className={styles["scenario-post"]} */ data-variant="center">
               <Image
-                src={withBasePath("/icons/scenario-research-title.svg")}
-                alt=""
-                width={28}
-                height={28}
-                className={styles["scenario-card__title-icon-image"]}
+                src={withBasePath("/usecases/post_main.svg")}
+                alt="Подбор публикаций и источников"
+                width={200}
+                height={200}
+                className={styles["scenario-post__image"]}
               />
-            </span>
-            <h3>Находите свежие публикации и источники</h3>
-          </div>
-          <p className={styles["scenario-card__text"]}>
-            <span className={styles["scenario-card__tag"]}>
-              <span className={styles["scenario-card__tag-icon"]}>
-                <Image
-                  src={withBasePath("/icons/scenario-web-badge.svg")}
-                  alt=""
-                  width={16}
-                  height={22}
-                />
-              </span>
-              Веб-Агент
-            </span>{" "}
-            собирает материалы из открытых баз, проверяет достоверность и
-            показывает список ссылок с аннотациями.
-          </p>
-        </div>
-      </article>
+            </div>
+          </MediaWrap>
+        }
+      />
 
-      <article className={styles["scenario-card"]}>
-        <div className={styles["scenario-card__media"]}>
-          <div className={styles["scenario-cta-circle"]}>
-            <Image
-              src={withBasePath("/icons/scenario-dialog-circle.svg")}
-              alt=""
-              width={256}
-              height={256}
-            />
-          </div>
-        </div>
-        <div className={styles["scenario-card__body"]}>
-          <div className={styles["scenario-card__title-row"]}>
-            <span className={styles["scenario-card__title-icon"]}>
-              <Image
-                src={withBasePath("/icons/scenario-cta.svg")}
-                alt=""
-                width={27}
-                height={30}
-                className={styles["scenario-card__title-icon-image"]}
-              />
-            </span>
-            <h3>Занимайтесь исследованиями вместе с Думателем!</h3>
-          </div>
-          <p className={styles["scenario-card__text"]}>
-            Сократите время затраченное на задачи до минимума и закрывайте их
-            как можно быстрее без потери качества работы.
-          </p>
-        </div>
-      </article>
+      <ScenarioCard
+        title="Занимайтесь исследованиями вместе с Думателем!"
+        iconSrc="/icons/scenario-cta.svg"
+        iconW={27}
+        iconH={30}
+        text={<>Сократите время затраченное на задачи до минимума и закрывайте их как можно быстрее без потери качества работы.</>}
+        media={
+          <MediaWrap wrap="scenario-cta-circle" size="ill-xs">
+            <Image src={withBasePath("/icons/scenario-dialog-circle.svg")} alt="" width={200} height={200} />
+          </MediaWrap>
+        }
+      />
     </>
   );
 }
@@ -531,81 +412,41 @@ function ResearchCards() {
 function HrCards() {
   return (
     <>
-      <article className={styles["scenario-card"]}>
-        <div className={styles["scenario-card__media"]}>
-          <div className={styles["scenario-resume"]}>
-            <div className={styles["scenario-resume__item"]} data-variant="ghost">
-              Владимир, 24 года. WordPress Developer.
-            </div>
-            <div className={styles["scenario-resume__item"]} data-variant="soft">
-              Николай, 32 года. Frontend-разработка.
-            </div>
-            <div className={styles["scenario-resume__item"]} data-variant="active">
-              <span className={styles["scenario-resume__content"]}>
-                <span className={styles["scenario-resume__label"]}>
-                  Кандидат Думателя:
-                </span>
-                <span className={styles["scenario-resume__text"]}>
-                  Алексей, 22 года. Веб-Разработчик.
-                </span>
-              </span>
-              <span className={styles["scenario-resume__cursor"]}>
-                <Image
-                  src={withBasePath("/icons/scenario-cursor.svg")}
-                  alt=""
-                  width={23}
-                  height={28}
-                />
-              </span>
-            </div>
-            <div className={styles["scenario-resume__item"]} data-variant="soft">
-              Владислав, 21 год. Вёрстка сайтов.
-            </div>
-            <div className={styles["scenario-resume__item"]} data-variant="ghost">
-              Антон, 38 лет. Tilda/React-разработка.
-            </div>
-          </div>
-        </div>
-        <div className={styles["scenario-card__body"]}>
-          <div className={styles["scenario-card__title-row"]}>
-            <span className={styles["scenario-card__title-icon"]}>
-              <Image
-                src={withBasePath("/icons/scenario-hr-icon-2.svg")}
-                alt=""
-                width={27}
-                height={30}
-                className={styles["scenario-card__title-icon-image"]}
-              />
-            </span>
-            <h3>Сравнивайте резюме всего за минуту</h3>
-          </div>
-          <p className={styles["scenario-card__text"]}>
-            Система извлекает все необходимые данные и составляет таблицу
-            компетенции в отдельном файле.
-          </p>
-        </div>
-      </article>
+      <ScenarioCard
+        title="Сравнивайте резюме всего за минуту"
+        iconSrc="/icons/scenario-hr-icon-2.svg"
+        iconW={27}
+        iconH={30}
+        text={<>Система извлекает все необходимые данные и составляет таблицу компетенции в отдельном файле.</>}
+        media={
+          <MediaWrap wrap="scenario-resume" size="ill-md">
+            <Image
+              src={withBasePath("/usecases/resume.svg")}
+              alt="Список резюме с выбранным кандидатом"
+              width={520}
+              height={260}
+              className={styles["scenario-resume__image"]}
+            />
+          </MediaWrap>
+        }
+      />
 
-      <article className={styles["scenario-card"]}>
-        <div className={styles["scenario-card__media"]}>
-          <div className={styles["scenario-dialog"]}>
+      <ScenarioCard
+        title="Генерация тестовых заданий и чек-листов"
+        iconSrc="/icons/scenario-hr-icon-1.svg"
+        iconW={28}
+        iconH={28}
+        text={<>Думатель использует шаблоны компании и формирует готовое задание с критериями оценивания.</>}
+        media={
+          <MediaWrap wrap="scenario-dialog" size="ill-md">
             <div className={styles["scenario-dialog__bubble"]}>
-              <span className={styles["scenario-dialog__label"]}>
-                Думатель говорит:
-              </span>
-              <p>
-                Тестовое задание основано на шаблонах вашей компании и ее
-                специфики, даю готовый шаблон с критериями оценивания.
-              </p>
+              <span className={styles["scenario-dialog__label"]}>Думатель говорит:</span>
+              <p>Тестовое задание основано на шаблонах вашей компании и ее специфики, даю готовый шаблон с критериями оценивания.</p>
             </div>
+
             <div className={styles["scenario-file-card"]}>
               <div className={styles["scenario-file-card__icon"]}>
-                <Image
-                  src={withBasePath("/icons/scenario-hr-pdf.svg")}
-                  alt=""
-                  width={38}
-                  height={51}
-                />
+                <Image src={withBasePath("/icons/scenario-hr-pdf.svg")} alt="" width={38} height={51} />
                 <span>PDF</span>
               </div>
               <div className={styles["scenario-file-card__meta"]}>
@@ -614,116 +455,42 @@ function HrCards() {
                 <span>24.3 МБ.</span>
               </div>
             </div>
-          </div>
-        </div>
-        <div className={styles["scenario-card__body"]}>
-          <div className={styles["scenario-card__title-row"]}>
-            <span className={styles["scenario-card__title-icon"]}>
-              <Image
-                src={withBasePath("/icons/scenario-hr-icon-1.svg")}
-                alt=""
-                width={28}
-                height={28}
-                className={styles["scenario-card__title-icon-image"]}
-              />
-            </span>
-            <h3>Генерация тестовых заданий и чек-листов</h3>
-          </div>
-          <p className={styles["scenario-card__text"]}>
-            Думатель использует шаблоны компании и формирует готовое задание с
-            критериями оценивания.
-          </p>
-        </div>
-      </article>
+          </MediaWrap>
+        }
+      />
 
-      <article className={styles["scenario-card"]}>
-        <div className={styles["scenario-card__media"]}>
-          <div className={styles["scenario-bag"]}>
-            <div className={styles["scenario-bag__tags"]}>
-              <span className={styles["scenario-bag__tag"]} data-tone="dark">
-                администратор
-              </span>
-              <span className={styles["scenario-bag__tag"]} data-tone="blue">
-                менеджер
-              </span>
-              <span className={styles["scenario-bag__tag"]} data-tone="gray">
-                разработчик
-              </span>
-              <span className={styles["scenario-bag__tag"]} data-tone="orange">
-                дизайнер
-              </span>
-            </div>
+      <ScenarioCard
+        title="Думатель анализирует рынок вакансий"
+        iconSrc="/icons/scenario-hr-title.svg"
+        iconW={28}
+        iconH={28}
+        tag={{ label: "Веб-Агент", iconSrc: "/icons/scenario-web-badge.svg", iconW: 16, iconH: 22 }}
+        text={<>собирает предложения с площадок, фильтрует дубли и формирует сводную таблицу по условиям.</>}
+        media={
+          <MediaWrap wrap="scenario-bag" size="ill-lg">
             <Image
-              src={withBasePath("/icons/scenario-hr-bag.svg")}
-              alt=""
-              width={223}
-              height={130}
+              src={withBasePath("/usecases/shop_bag.svg")}
+              alt="Корзина с тегами вакансий"
+              width={260}
+              height={180}
+              className={styles["scenario-bag__image"]}
             />
-          </div>
-        </div>
-        <div className={styles["scenario-card__body"]}>
-          <div className={styles["scenario-card__title-row"]}>
-            <span className={styles["scenario-card__title-icon"]}>
-              <Image
-                src={withBasePath("/icons/scenario-hr-title.svg")}
-                alt=""
-                width={28}
-                height={28}
-                className={styles["scenario-card__title-icon-image"]}
-              />
-            </span>
-            <h3>Думатель анализирует рынок вакансий</h3>
-          </div>
-          <p className={styles["scenario-card__text"]}>
-            <span className={styles["scenario-card__tag"]}>
-              <span className={styles["scenario-card__tag-icon"]}>
-                <Image
-                  src={withBasePath("/icons/scenario-web-badge.svg")}
-                  alt=""
-                  width={16}
-                  height={22}
-                />
-              </span>
-              Веб-Агент
-            </span>{" "}
-            собирает предложения с площадок, фильтрует дубли и формирует сводную
-            таблицу по условиям.
-          </p>
-        </div>
-      </article>
+          </MediaWrap>
+        }
+      />
 
-      <article className={styles["scenario-card"]}>
-        <div className={styles["scenario-card__media"]}>
-          <div className={styles["scenario-cta-circle"]}>
-            <Image
-              src={withBasePath("/icons/scenario-dialog-circle.svg")}
-              alt=""
-              width={256}
-              height={256}
-            />
-          </div>
-        </div>
-        <div className={styles["scenario-card__body"]}>
-          <div className={styles["scenario-card__title-row"]}>
-            <span className={styles["scenario-card__title-icon"]}>
-              <Image
-                src={withBasePath("/icons/scenario-cta.svg")}
-                alt=""
-                width={27}
-                height={30}
-                className={styles["scenario-card__title-icon-image"]}
-              />
-            </span>
-            <h3>
-              Вы занимаетесь HR? Думатель - то, что вам действительно нужно!
-            </h3>
-          </div>
-          <p className={styles["scenario-card__text"]}>
-            Сократите время затраченное на задачи до минимума и закрывайте их
-            как можно быстрее без потери качества работы.
-          </p>
-        </div>
-      </article>
+      <ScenarioCard
+        title="Вы занимаетесь HR? Думатель - то, что вам действительно нужно!"
+        iconSrc="/icons/scenario-cta.svg"
+        iconW={27}
+        iconH={30}
+        text={<>Сократите время затраченное на задачи до минимума и закрывайте их как можно быстрее без потери качества работы.</>}
+        media={
+          <MediaWrap wrap="scenario-cta-circle" size="ill-xs">
+            <Image src={withBasePath("/icons/scenario-dialog-circle.svg")} alt="" width={200} height={200} />
+          </MediaWrap>
+        }
+      />
     </>
   );
 }
@@ -731,67 +498,50 @@ function HrCards() {
 function SalesCards() {
   return (
     <>
-      <article className={styles["scenario-card"]}>
-        <div className={styles["scenario-card__media"]}>
-          <div className={styles["scenario-tkp"]}>
+      <ScenarioCard
+        title="Думатель быстро подготовит ТКП"
+        iconSrc="/icons/scenario-sales-icon-tkp.svg"
+        iconW={28}
+        iconH={28}
+        text={<>Думатель выравнивает форматы и формирует таблицу сравнения цен и сроков.</>}
+        media={
+          <MediaWrap wrap="scenario-tkp" size="ill-sm">
             <Image
-              src={withBasePath("/icons/scenario-sales-doc-orange.svg")}
-              alt=""
-              width={150}
-              height={200}
+              src={withBasePath("/usecases/dumatel_tkp.svg")}
+              alt="Подготовленный ТКП"
+              width={200}
+              height={160}
               className={styles["scenario-tkp__doc"]}
             />
             <span className={styles["scenario-tkp__label"]}>ТКП от 03.12</span>
             <span className={styles["scenario-tkp__cursor"]}>
-              <Image
-                src={withBasePath("/icons/scenario-sales-cursor.svg")}
-                alt=""
-                width={23}
-                height={28}
-              />
+              <Image src={withBasePath("/icons/scenario-sales-cursor.svg")} alt="" width={23} height={28} />
             </span>
-          </div>
-        </div>
-        <div className={styles["scenario-card__body"]}>
-          <div className={styles["scenario-card__title-row"]}>
-            <span className={styles["scenario-card__title-icon"]}>
-              <Image
-                src={withBasePath("/icons/scenario-sales-icon-tkp.svg")}
-                alt=""
-                width={28}
-                height={28}
-                className={styles["scenario-card__title-icon-image"]}
-              />
-            </span>
-            <h3>Думатель быстро подготовит ТКП</h3>
-          </div>
-          <p className={styles["scenario-card__text"]}>
-            Думатель выравнивает форматы и формирует таблицу сравнения цен и
-            сроков.
-          </p>
-        </div>
-      </article>
+          </MediaWrap>
+        }
+      />
 
-      <article className={styles["scenario-card"]}>
-        <div className={styles["scenario-card__media"]}>
-          <div className={styles["scenario-offer"]}>
+      <ScenarioCard
+        title={
+          <>
+            Формирование коммерческого <br />
+            предложения
+          </>
+        }
+        iconSrc="/icons/scenario-sales-icon-offer.svg"
+        iconW={28}
+        iconH={28}
+        text={<>Думатель объединяет описание товара, условия и делает расчёт итоговой суммы за вас.</>}
+        media={
+          <MediaWrap wrap="scenario-offer" size="ill-md">
             <div className={styles["scenario-offer__bubble"]}>
-              <span className={styles["scenario-offer__label"]}>
-                Думатель говорит:
-              </span>
-              <p>
-                Составил Коммерческое Предложение на основе вашего офера, который
-                вы предоставили мне файлом, упаковываю в PDF.
-              </p>
+              <span className={styles["scenario-offer__label"]}>Думатель говорит:</span>
+              <p>Составил Коммерческое Предложение на основе вашего офера, который вы предоставили мне файлом, упаковываю в PDF.</p>
             </div>
+
             <div className={styles["scenario-offer__file"]}>
               <div className={styles["scenario-offer__file-icon"]}>
-                <Image
-                  src={withBasePath("/icons/scenario-sales-pdf.svg")}
-                  alt=""
-                  width={38}
-                  height={51}
-                />
+                <Image src={withBasePath("/icons/scenario-sales-pdf.svg")} alt="" width={38} height={51} />
                 <span>PDF</span>
               </div>
               <div className={styles["scenario-offer__file-meta"]}>
@@ -800,123 +550,60 @@ function SalesCards() {
                 <span>24.3 МБ.</span>
               </div>
             </div>
-          </div>
-        </div>
-        <div className={styles["scenario-card__body"]}>
-          <div className={styles["scenario-card__title-row"]}>
-            <span className={styles["scenario-card__title-icon"]}>
-              <Image
-                src={withBasePath("/icons/scenario-sales-icon-offer.svg")}
-                alt=""
-                width={28}
-                height={28}
-                className={styles["scenario-card__title-icon-image"]}
-              />
-            </span>
-            <h3>
-              Формирование коммерческого <br />
-              предложения
-            </h3>
-          </div>
-          <p className={styles["scenario-card__text"]}>
-            Думатель объединяет описание товара, условия и делает расчёт итоговой
-            суммы за вас.
-          </p>
-        </div>
-      </article>
+          </MediaWrap>
+        }
+      />
 
-      <article className={styles["scenario-card"]}>
-        <div className={styles["scenario-card__media"]}>
-          <div className={styles["scenario-compare"]}>
+      <ScenarioCard
+        title="Сравнение конкурентов на рынке"
+        iconSrc="/icons/scenario-magnifier.svg"
+        iconW={28}
+        iconH={28}
+        tag={{ label: "Веб-Агент", iconSrc: "/icons/scenario-web-badge.svg", iconW: 16, iconH: 22 }}
+        text={<>анализирует все предложения, отзывы и показывает честное сравнение без прекрас.</>}
+        media={
+          <MediaWrap wrap="scenario-compare" size="ill-lg">
             <div className={styles["scenario-compare__docs"]}>
-              <Image
-                src={withBasePath("/icons/scenario-doc-gray-alt.svg")}
-                alt=""
-                width={150}
-                height={200}
-                className={styles["scenario-compare__doc"]}
-              />
-              <Image
-                src={withBasePath("/icons/scenario-doc-gray.svg")}
-                alt=""
-                width={150}
-                height={200}
-                className={styles["scenario-compare__doc"]}
-              />
-            </div>
-            <Image
-              src={withBasePath("/icons/scenario-sales-compare-badges.svg")}
-              alt=""
-              width={64}
-              height={64}
-              className={styles["scenario-compare__badges"]}
-            />
-          </div>
-        </div>
-        <div className={styles["scenario-card__body"]}>
-          <div className={styles["scenario-card__title-row"]}>
-            <span className={styles["scenario-card__title-icon"]}>
-              <Image
-                src={withBasePath("/icons/scenario-magnifier.svg")}
-                alt=""
-                width={28}
-                height={28}
-                className={styles["scenario-card__title-icon-image"]}
-              />
-            </span>
-            <h3>Сравнение конкурентов на рынке</h3>
-          </div>
-          <p className={styles["scenario-card__text"]}>
-            <span className={styles["scenario-card__tag"]}>
-              <span className={styles["scenario-card__tag-icon"]}>
+              <div className={styles["scenario-compare__item"]} data-tone="success">
                 <Image
-                  src={withBasePath("/icons/scenario-web-badge.svg")}
-                  alt=""
-                  width={16}
-                  height={22}
+                  src={withBasePath("/usecases/sales_accept.svg")}
+                  alt="Документ успешного предложения"
+                  width={170}
+                  height={210}
+                  className={styles["scenario-compare__doc"]}
                 />
-              </span>
-              Веб-Агент
-            </span>{" "}
-            анализирует все предложения, отзывы и показывает честное сравнение
-            без прекрас.
-          </p>
-        </div>
-      </article>
+              </div>
+              <div className={styles["scenario-compare__item"]} data-tone="error">
+                <Image
+                  src={withBasePath("/usecases/sales_deny.svg")}
+                  alt="Документ конкурента с замечаниями"
+                  width={170}
+                  height={210}
+                  className={styles["scenario-compare__doc"]}
+                />
+              </div>
+            </div>
+          </MediaWrap>
+        }
+      />
 
-      <article className={styles["scenario-card"]}>
-        <div className={styles["scenario-card__media"]}>
-          <div className={styles["scenario-cta-circle"]}>
-            <Image
-              src={withBasePath("/icons/scenario-dialog-circle.svg")}
-              alt=""
-              width={256}
-              height={256}
-            />
-          </div>
-        </div>
-        <div className={styles["scenario-card__body"]}>
-          <div className={styles["scenario-card__title-row"]}>
-            <span className={styles["scenario-card__title-icon"]}>
-              <Image
-                src={withBasePath("/icons/scenario-cta-sales.svg")}
-                alt=""
-                width={27}
-                height={30}
-                className={styles["scenario-card__title-icon-image"]}
-              />
-            </span>
-            <h3>
-              Ваша деятельность - продажи? Думатель <br />
-              отличное решение под ваши задачи!
-            </h3>
-          </div>
-          <p className={styles["scenario-card__text"]}>
-            Сократите время затраченное на задачи до минимума и закрывайте их
-            как можно быстрее без потери качества работы.
-          </p>
-        </div>
-      </article>
+      <ScenarioCard
+        title={
+          <>
+            Ваша деятельность - продажи? Думатель <br />
+            отличное решение под ваши задачи!
+          </>
+        }
+        iconSrc="/icons/scenario-cta-sales.svg"
+        iconW={27}
+        iconH={30}
+        text={<>Сократите время затраченное на задачи до минимума и закрывайте их как можно быстрее без потери качества работы.</>}
+        media={
+          <MediaWrap wrap="scenario-cta-circle" size="ill-xs">
+            <Image src={withBasePath("/icons/scenario-dialog-circle.svg")} alt="" width={200} height={200} />
+          </MediaWrap>
+        }
+      />
     </>
   );
 }
@@ -924,80 +611,44 @@ function SalesCards() {
 function LegalCards() {
   return (
     <>
-      <article className={styles["scenario-card"]}>
-        <div className={styles["scenario-card__media"]}>
-          <div className={styles["scenario-contract"]}>
-            <div className={styles["scenario-contract__card"]}>
-              <div className={styles["scenario-contract__title"]}>
-                <p>«Договор об оказании услуг</p>
-                <p>для “РТП-ГАЗ»</p>
-              </div>
-              <div className={styles["scenario-contract__lines"]}>
-                <span />
-                <span />
-                <span />
-                <span />
-                <span />
-                <span />
-                <span />
-              </div>
-              <Image
-                src={withBasePath("/icons/scenario-legal-doc-icon.svg")}
-                alt=""
-                width={44}
-                height={44}
-                className={styles["scenario-contract__icon"]}
-              />
-            </div>
-          </div>
-        </div>
-        <div className={styles["scenario-card__body"]}>
-          <div className={styles["scenario-card__title-row"]}>
-            <span className={styles["scenario-card__title-icon"]}>
-              <Image
-                src={withBasePath("/icons/scenario-legal-icon-contract.svg")}
-                alt=""
-                width={28}
-                height={28}
-                className={styles["scenario-card__title-icon-image"]}
-              />
-            </span>
-            <h3>
-              Думатель сравнивает условия <br />в договорах
-            </h3>
-          </div>
-          <p className={styles["scenario-card__text"]}>
-            Думатель находит нужные пункты, сопоставляет формулировки и
-            показывает таблицу различий с источниками.
-          </p>
-        </div>
-      </article>
+      <ScenarioCard
+        title={
+          <>
+            Думатель сравнивает условия <br />в договорах
+          </>
+        }
+        iconSrc="/icons/scenario-legal-icon-contract.svg"
+        iconW={28}
+        iconH={28}
+        text={<>Думатель находит нужные пункты, сопоставляет формулировки и показывает таблицу различий с источниками.</>}
+        media={
+          <IllImage
+            src="/usecases/dogovor.svg"
+            alt="Документ договора с выделенными пунктами"
+            w={520}
+            h={260}
+            className={cx(styles["scenario-ill"], styles["scenario-contract__image"], styles["ill-md"])}
+            priority
+          />
+        }
+      />
 
-      <article className={styles["scenario-card"]}>
-        <div className={styles["scenario-card__media"]}>
-          <div className={styles["scenario-versions"]}>
+      <ScenarioCard
+        title={
+          <>
+            Система контролирует изменения <br />и версии
+          </>
+        }
+        iconSrc="/icons/scenario-legal-icon-versions.svg"
+        iconW={28}
+        iconH={28}
+        text={<>Думатель выделяет отличия по пунктам и создаёт отчёт с подробными пояснениями.</>}
+        media={
+          <MediaWrap wrap="scenario-versions" size="ill-md">
             <div className={styles["scenario-versions__docs"]}>
-              <Image
-                src={withBasePath("/icons/scenario-doc-gray.svg")}
-                alt=""
-                width={150}
-                height={200}
-                className={styles["scenario-versions__doc"]}
-              />
-              <Image
-                src={withBasePath("/icons/scenario-doc-gray.svg")}
-                alt=""
-                width={150}
-                height={200}
-                className={styles["scenario-versions__doc"]}
-              />
-              <Image
-                src={withBasePath("/icons/scenario-doc-gray.svg")}
-                alt=""
-                width={150}
-                height={200}
-                className={styles["scenario-versions__doc"]}
-              />
+              <Image src={withBasePath("/icons/scenario-doc-gray.svg")} alt="" width={150} height={200} className={styles["scenario-versions__doc"]} />
+              <Image src={withBasePath("/icons/scenario-doc-gray.svg")} alt="" width={150} height={200} className={styles["scenario-versions__doc"]} />
+              <Image src={withBasePath("/icons/scenario-doc-gray.svg")} alt="" width={150} height={200} className={styles["scenario-versions__doc"]} />
             </div>
             <Image
               src={withBasePath("/icons/scenario-legal-versions-line.svg")}
@@ -1006,123 +657,50 @@ function LegalCards() {
               height={36}
               className={styles["scenario-versions__line"]}
             />
-          </div>
-        </div>
-        <div className={styles["scenario-card__body"]}>
-          <div className={styles["scenario-card__title-row"]}>
-            <span className={styles["scenario-card__title-icon"]}>
-              <Image
-                src={withBasePath("/icons/scenario-legal-icon-versions.svg")}
-                alt=""
-                width={28}
-                height={28}
-                className={styles["scenario-card__title-icon-image"]}
-              />
-            </span>
-            <h3>
-              Система контролирует изменения <br />и версии
-            </h3>
-          </div>
-          <p className={styles["scenario-card__text"]}>
-            Думатель выделяет отличия по пунктам и создаёт отчёт с подробными
-            пояснениями.
-          </p>
-        </div>
-      </article>
+          </MediaWrap>
+        }
+      />
 
-      <article className={styles["scenario-card"]}>
-        <div className={styles["scenario-card__media"]}>
-          <div className={styles["scenario-check"]}>
-            <div className={styles["scenario-check__bubble"]} data-variant="left">
-              <div className={styles["scenario-check__lines"]}>
-                <span />
-                <span />
-                <span />
-              </div>
-            </div>
-            <Image
-              src={withBasePath("/icons/scenario-legal-globe.svg")}
-              alt=""
-              width={166}
-              height={166}
-              className={styles["scenario-check__globe"]}
-            />
-            <div className={styles["scenario-check__bubble"]} data-variant="right">
-              <div className={styles["scenario-check__lines"]}>
-                <span />
-                <span />
-                <span />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className={styles["scenario-card__body"]}>
-          <div className={styles["scenario-card__title-row"]}>
-            <span className={styles["scenario-card__title-icon"]}>
-              <Image
-                src={withBasePath("/icons/scenario-magnifier.svg")}
-                alt=""
-                width={28}
-                height={28}
-                className={styles["scenario-card__title-icon-image"]}
-              />
-            </span>
-            <h3>
-              Проверка подрядчиков по открытым <br />
-              данным в сети
-            </h3>
-          </div>
-          <p className={styles["scenario-card__text"]}>
-            <span className={styles["scenario-card__tag"]}>
-              <span className={styles["scenario-card__tag-icon"]}>
-                <Image
-                  src={withBasePath("/icons/scenario-web-badge.svg")}
-                  alt=""
-                  width={16}
-                  height={22}
-                />
-              </span>
-              Веб-Агент
-            </span>{" "}
-            собирает данные из реестров и формирует карточку с рисками и
-            подробностями.
-          </p>
-        </div>
-      </article>
+      <ScenarioCard
+        title={
+          <>
+            Проверка подрядчиков по открытым <br />
+            данным в сети
+          </>
+        }
+        iconSrc="/icons/scenario-magnifier.svg"
+        iconW={28}
+        iconH={28}
+        tag={{ label: "Веб-Агент", iconSrc: "/icons/scenario-web-badge.svg", iconW: 16, iconH: 22 }}
+        text={<>собирает данные из реестров и формирует карточку с рисками и подробностями.</>}
+        media={
+          <IllImage
+            src="/usecases/providers.svg"
+            alt="Проверка подрядчиков по открытым данным"
+            w={520}
+            h={240}
+            className={cx(styles["scenario-ill"], styles["scenario-ill-providers"], styles["ill-md"])}
+          />
+        }
+      />
 
-      <article className={styles["scenario-card"]}>
-        <div className={styles["scenario-card__media"]}>
-          <div className={styles["scenario-cta-circle"]}>
-            <Image
-              src={withBasePath("/icons/scenario-dialog-circle.svg")}
-              alt=""
-              width={256}
-              height={256}
-            />
-          </div>
-        </div>
-        <div className={styles["scenario-card__body"]}>
-          <div className={styles["scenario-card__title-row"]}>
-            <span className={styles["scenario-card__title-icon"]}>
-              <Image
-                src={withBasePath("/icons/scenario-cta-sales.svg")}
-                alt=""
-                width={27}
-                height={30}
-                className={styles["scenario-card__title-icon-image"]}
-              />
-            </span>
-            <h3>
-              Вы юрист? Думатель с уверенностью <br />
-              поможет вам в работе!
-            </h3>
-          </div>
-          <p className={styles["scenario-card__text"]}>
-            Сократите время затраченное на задачи до минимума и закрывайте их
-            как можно быстрее без потери качества работы.
-          </p>
-        </div>
-      </article>
+      <ScenarioCard
+        title={
+          <>
+            Вы юрист? Думатель с уверенностью <br />
+            поможет вам в работе!
+          </>
+        }
+        iconSrc="/icons/scenario-cta-sales.svg"
+        iconW={27}
+        iconH={30}
+        text={<>Сократите время затраченное на задачи до минимума и закрывайте их как можно быстрее без потери качества работы.</>}
+        media={
+          <MediaWrap wrap="scenario-cta-circle" size="ill-xs">
+            <Image src={withBasePath("/icons/scenario-dialog-circle.svg")} alt="" width={200} height={200} />
+          </MediaWrap>
+        }
+      />
     </>
   );
 }
@@ -1130,200 +708,74 @@ function LegalCards() {
 function ProcurementCards() {
   return (
     <>
-      <article className={styles["scenario-card"]}>
-        <div className={styles["scenario-card__media"]}>
-          <div className={styles["scenario-window"]}>
-            <div className={styles["scenario-window__stack"]}>
-              <div className={styles["scenario-window__header"]}>
-                <span />
-                <span />
-                <span />
-              </div>
-              <div className={styles["scenario-window__body"]}>
-                <div className={styles["scenario-window__col"]}>
-                  <span />
-                  <span />
-                  <span />
-                  <span />
-                </div>
-                <div className={styles["scenario-window__center"]}>
-                  <Image
-                    src={withBasePath("/icons/scenario-proc-window-icon.svg")}
-                    alt=""
-                    width={44}
-                    height={44}
-                  />
-                </div>
-                <div className={styles["scenario-window__col"]}>
-                  <span />
-                  <span />
-                  <span />
-                  <span />
-                </div>
-              </div>
-            </div>
-            <Image
-              src={withBasePath("/icons/scenario-cursor.svg")}
-              alt=""
-              width={23}
-              height={28}
-              className={styles["scenario-window__cursor"]}
-            />
-          </div>
-        </div>
-        <div className={styles["scenario-card__body"]}>
-          <div className={styles["scenario-card__title-row"]}>
-            <span className={styles["scenario-card__title-icon"]}>
-              <Image
-                src={withBasePath("/icons/scenario-proc-icon-2.svg")}
-                alt=""
-                width={27}
-                height={30}
-                className={styles["scenario-card__title-icon-image"]}
-              />
-            </span>
-            <h3>
-              Сравнение предложений буквально <br />за считанные минуты
-            </h3>
-          </div>
-          <p className={styles["scenario-card__text"]}>
-            Система выравнивает форматы и строит таблицу по цене, срокам и
-            условиям.
-          </p>
-        </div>
-      </article>
+      <ScenarioCard
+        title={
+          <>
+            Сравнение предложений буквально <br />за считанные минуты
+          </>
+        }
+        iconSrc="/icons/scenario-proc-icon-2.svg"
+        iconW={27}
+        iconH={30}
+        text={<>Система выравнивает форматы и строит таблицу по цене, срокам и условиям.</>}
+        media={
+          <IllImage
+            src="/usecases/compraison.svg"
+            alt="Окно сравнения предложений"
+            w={540}
+            h={260}
+            className={cx(styles["scenario-ill"], styles["scenario-ill-comparison"], styles["ill-md"])}
+          />
+        }
+      />
 
-      <article className={styles["scenario-card"]}>
-        <div className={styles["scenario-card__media"]}>
-          <div className={styles["scenario-calendar"]}>
-            <Image
-              src={withBasePath("/icons/scenario-proc-calendar.svg")}
-              alt=""
-              width={255}
-              height={255}
-              className={styles["scenario-calendar__image"]}
-            />
-            <div className={styles["scenario-calendar__text"]}>
-              <span className={styles["scenario-calendar__day"]}>21 день</span>
-              <span className={styles["scenario-calendar__weekday"]}>
-                суббота
-              </span>
-            </div>
-          </div>
-        </div>
-        <div className={styles["scenario-card__body"]}>
-          <div className={styles["scenario-card__title-row"]}>
-            <span className={styles["scenario-card__title-icon"]}>
-              <Image
-                src={withBasePath("/icons/scenario-proc-icon-1.svg")}
-                alt=""
-                width={28}
-                height={28}
-                className={styles["scenario-card__title-icon-image"]}
-              />
-            </span>
-            <h3>Система контролирует сроки и условия поставок</h3>
-          </div>
-          <p className={styles["scenario-card__text"]}>
-            Думатель извлекает даты из документов и формирует календарь
-            поставок.
-          </p>
-        </div>
-      </article>
+      <ScenarioCard
+        title="Система контролирует сроки и условия поставок"
+        iconSrc="/icons/scenario-proc-icon-1.svg"
+        iconW={28}
+        iconH={28}
+        text={<>Думатель извлекает даты из документов и формирует календарь поставок.</>}
+        media={
+          <IllImage
+            src="/usecases/calendar.svg"
+            alt="Календарь поставок"
+            w={420}
+            h={260}
+            className={cx(styles["scenario-ill"], styles["scenario-ill-calendar"], styles["ill-md"])}
+          />
+        }
+      />
 
-      <article className={styles["scenario-card"]}>
-        <div className={styles["scenario-card__media"]}>
-          <div className={styles["scenario-search"]}>
-            <span className={styles["scenario-search__globe"]}>
-              <Image
-                src={withBasePath("/icons/scenario-proc-globe.svg")}
-                alt=""
-                width={124}
-                height={124}
-              />
-            </span>
-            <div className={styles["scenario-search__pill"]}>
-              <span>поставщики</span>
-              <span className={styles["scenario-search__avatar"]}>
-              <Image
-                src={withBasePath("/icons/scenario-proc-avatar.svg")}
-                alt=""
-                width={51}
-                height={51}
-                className={styles["scenario-search__image"]}
-              />
-                <Image
-                  src={withBasePath("/icons/scenario-proc-avatar-icon.svg")}
-                  alt=""
-                  width={28}
-                  height={28}
-                  className={styles["scenario-search__icon"]}
-                />
-              </span>
-            </div>
-          </div>
-        </div>
-        <div className={styles["scenario-card__body"]}>
-          <div className={styles["scenario-card__title-row"]}>
-            <span className={styles["scenario-card__title-icon"]}>
-              <Image
-                src={withBasePath("/icons/scenario-proc-title.svg")}
-                alt=""
-                width={27}
-                height={28}
-                className={styles["scenario-card__title-icon-image"]}
-              />
-            </span>
-            <h3>Думатель помогает найти и проверить поставщиков</h3>
-          </div>
-          <p className={styles["scenario-card__text"]}>
-            <span className={styles["scenario-card__tag"]}>
-              <span className={styles["scenario-card__tag-icon"]}>
-                <Image
-                  src={withBasePath("/icons/scenario-web-badge.svg")}
-                  alt=""
-                  width={16}
-                  height={22}
-                />
-              </span>
-              Веб-Агент
-            </span>{" "}
-            проверяет открытые источники, собирает репутацию компаний и
-            показывает лучших партнёров.
-          </p>
-        </div>
-      </article>
+      <ScenarioCard
+        title="Думатель помогает найти и проверить поставщиков"
+        iconSrc="/icons/scenario-proc-title.svg"
+        iconW={27}
+        iconH={28}
+        tag={{ label: "Веб-Агент", iconSrc: "/icons/scenario-web-badge.svg", iconW: 16, iconH: 22 }}
+        text={<>проверяет открытые источники, собирает репутацию компаний и показывает лучших партнёров.</>}
+        media={
+          <IllImage
+            src="/usecases/providers.svg"
+            alt="Поиск и проверка поставщиков"
+            w={520}
+            h={260}
+            className={cx(styles["scenario-ill"], styles["scenario-ill-providers"], styles["ill-md"])}
+          />
+        }
+      />
 
-      <article className={styles["scenario-card"]}>
-        <div className={styles["scenario-card__media"]}>
-          <div className={styles["scenario-cta-circle"]}>
-            <Image
-              src={withBasePath("/icons/scenario-dialog-circle.svg")}
-              alt=""
-              width={256}
-              height={256}
-            />
-          </div>
-        </div>
-        <div className={styles["scenario-card__body"]}>
-          <div className={styles["scenario-card__title-row"]}>
-            <span className={styles["scenario-card__title-icon"]}>
-              <Image
-                src={withBasePath("/icons/scenario-cta.svg")}
-                alt=""
-                width={27}
-                height={30}
-                className={styles["scenario-card__title-icon-image"]}
-              />
-            </span>
-            <h3>Занимаетесь закупками? Думатель - то, что вам действительно нужно.</h3>
-          </div>
-          <p className={styles["scenario-card__text"]}>
-            Сократите время затраченное на задачи до минимума и закрывайте их
-            как можно быстрее без потери качества работы.
-          </p>
-        </div>
-      </article>
+      <ScenarioCard
+        title="Занимаетесь закупками? Думатель - то, что вам действительно нужно."
+        iconSrc="/icons/scenario-cta.svg"
+        iconW={27}
+        iconH={30}
+        text={<>Сократите время затраченное на задачи до минимума и закрывайте их как можно быстрее без потери качества работы.</>}
+        media={
+          <MediaWrap wrap="scenario-cta-circle" size="ill-xs">
+            <Image src={withBasePath("/icons/scenario-dialog-circle.svg")} alt="" width={200} height={200} />
+          </MediaWrap>
+        }
+      />
     </>
   );
 }
@@ -1331,179 +783,114 @@ function ProcurementCards() {
 function ManagementCards() {
   return (
     <>
-      <article className={styles["scenario-card"]}>
-        <div className={styles["scenario-card__media"]}>
-          <div className={styles["scenario-document"]}>
-            <Image
-              src={withBasePath("/icons/scenario-mgmt-doc.svg")}
-              alt=""
-              width={192}
-              height={257}
-              className={styles["scenario-document__image"]}
-            />
-            <div className={styles["scenario-document__label"]}>
-              <p>Протокол_совещания_</p>
-              <p>от_12_03_2026</p>
-            </div>
-            <Image
-              src={withBasePath("/icons/scenario-cursor.svg")}
-              alt=""
-              width={23}
-              height={28}
-              className={styles["scenario-document__cursor"]}
-            />
-          </div>
-        </div>
-        <div className={styles["scenario-card__body"]}>
-          <div className={styles["scenario-card__title-row"]}>
-            <span className={styles["scenario-card__title-icon"]}>
-              <Image
-                src={withBasePath("/icons/scenario-mgmt-icon-2.svg")}
-                alt=""
-                width={27}
-                height={30}
-                className={styles["scenario-card__title-icon-image"]}
-              />
-            </span>
-            <h3>
-              Думатель составит протокол совещания <br />за минуту
-            </h3>
-          </div>
-          <p className={styles["scenario-card__text"]}>
-            Думатель анализирует расшифровку встречи, письма и документы
-            проекта, извлекает ключевые решения, задачи и поручения.
-          </p>
-        </div>
-      </article>
-
-      <article className={styles["scenario-card"]}>
-        <div className={styles["scenario-card__media"]}>
-          <div className={styles["scenario-window"]} data-variant="kpi">
-            <div className={styles["scenario-window__stack"]}>
-              <div className={styles["scenario-window__header"]}>
-                <span />
-                <span />
-                <span />
-              </div>
-              <div className={styles["scenario-window__body"]}>
-                <div className={styles["scenario-window__lines"]}>
-                  <span />
-                  <span />
-                  <span />
-                  <span />
-                  <span />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className={styles["scenario-card__body"]}>
-          <div className={styles["scenario-card__title-row"]}>
-            <span className={styles["scenario-card__title-icon"]}>
-              <Image
-                src={withBasePath("/icons/scenario-mgmt-icon-1.svg")}
-                alt=""
-                width={28}
-                height={28}
-                className={styles["scenario-card__title-icon-image"]}
-              />
-            </span>
-            <h3>План задач и KPI-отчёт без ручных сводок</h3>
-          </div>
-          <p className={styles["scenario-card__text"]}>
-            Система объединяет данные из таблиц, CRM и отчётов, сравнивает
-            выполнение целей, визуализирует динамику и автоматически формирует
-            управленческое резюме.
-          </p>
-        </div>
-      </article>
-
-      <article className={styles["scenario-card"]}>
-        <div className={styles["scenario-card__media"]}>
-          <Image
-            src={withBasePath("/icons/scenario-mgmt-risk.svg")}
-            alt=""
-            width={208}
-            height={208}
-            className={styles["scenario-risk"]}
+      <ScenarioCard
+        title={
+          <>
+            Думатель составит протокол совещания <br />за минуту
+          </>
+        }
+        iconSrc="/icons/scenario-mgmt-icon-2.svg"
+        iconW={27}
+        iconH={30}
+        text={<>Думатель анализирует расшифровку встречи, письма и документы проекта, извлекает ключевые решения, задачи и поручения.</>}
+        media={
+          <IllImage
+            src="/usecases/protocol.svg"
+            alt="Протокол совещания с выделенными решениями"
+            w={420}
+            h={260}
+            className={cx(styles["scenario-ill"], styles["scenario-ill-protocol"], styles["ill-xs"])}
           />
-        </div>
-        <div className={styles["scenario-card__body"]}>
-          <div className={styles["scenario-card__title-row"]}>
-            <span className={styles["scenario-card__title-icon"]}>
-              <Image
-                src={withBasePath("/icons/scenario-mgmt-title.svg")}
-                alt=""
-                width={28}
-                height={28}
-                className={styles["scenario-card__title-icon-image"]}
-              />
-            </span>
-            <h3>Думатель составляет отчёт о рисках и несоответствиях</h3>
-          </div>
-          <p className={styles["scenario-card__text"]}>
-            Думатель просматривает аудиторские отчёты, акты проверок и письма,
-            выявляет отклонения и классифицирует их по степени критичности.
-          </p>
-        </div>
-      </article>
+        }
+      />
 
-      <article className={styles["scenario-card"]}>
-        <div className={styles["scenario-card__media"]}>
-          <div className={styles["scenario-cta-circle"]}>
-            <Image
-              src={withBasePath("/icons/scenario-dialog-circle.svg")}
-              alt=""
-              width={256}
-              height={256}
-            />
-          </div>
-        </div>
-        <div className={styles["scenario-card__body"]}>
-          <div className={styles["scenario-card__title-row"]}>
-            <span className={styles["scenario-card__title-icon"]}>
-              <Image
-                src={withBasePath("/icons/scenario-cta.svg")}
-                alt=""
-                width={27}
-                height={30}
-                className={styles["scenario-card__title-icon-image"]}
-              />
-            </span>
-            <h3>
-              Вы управленец? Думатель станет вашей <br />правой рукой!
-            </h3>
-          </div>
-          <p className={styles["scenario-card__text"]}>
-            Сократите время затраченное на задачи до минимума и закрывайте их
-            как можно быстрее без потери качества работы.
-          </p>
-        </div>
-      </article>
+      <ScenarioCard
+        title="План задач и KPI-отчёт без ручных сводок"
+        iconSrc="/icons/scenario-mgmt-icon-1.svg"
+        iconW={28}
+        iconH={28}
+        text={
+          <>
+            Система объединяет данные из таблиц, CRM и отчётов, сравнивает выполнение целей, визуализирует динамику и автоматически
+            формирует управленческое резюме.
+          </>
+        }
+        media={
+          <IllImage
+            src="/usecases/kpi_table.svg"
+            alt="Виджет с KPI и планом задач"
+            w={520}
+            h={260}
+            className={cx(styles["scenario-ill"], styles["scenario-ill-kpi"], styles["ill-md"])}
+          />
+        }
+      />
+
+      <ScenarioCard
+        title="Думатель составляет отчёт о рисках и несоответствиях"
+        iconSrc="/icons/scenario-mgmt-title.svg"
+        iconW={28}
+        iconH={28}
+        text={<>Думатель просматривает аудиторские отчёты, акты проверок и письма, выявляет отклонения и классифицирует их по степени критичности.</>}
+        media={
+          <IllImage
+            src="/icons/scenario-mgmt-risk.svg"
+            alt=""
+            w={208}
+            h={208}
+            className={cx(styles["scenario-ill"], styles["scenario-risk"], styles["ill-sm"])}
+          />
+        }
+      />
+
+      <ScenarioCard
+        title={
+          <>
+            Вы управленец? Думатель станет вашей <br />правой рукой!
+          </>
+        }
+        iconSrc="/icons/scenario-cta.svg"
+        iconW={27}
+        iconH={30}
+        text={<>Сократите время затраченное на задачи до минимума и закрывайте их как можно быстрее без потери качества работы.</>}
+        media={
+          <MediaWrap wrap="scenario-cta-circle" size="ill-xs">
+            <Image src={withBasePath("/icons/scenario-dialog-circle.svg")} alt="" width={200} height={200} />
+          </MediaWrap>
+        }
+      />
     </>
   );
 }
 
-const scenarioSets = [
-  { id: "work", label: "Работа", Content: WorkCards },
-  { id: "research", label: "Исследования", Content: ResearchCards },
-  { id: "hr", label: "HR", Content: HrCards },
-  { id: "sales", label: "Продажи", Content: SalesCards },
-  { id: "legal", label: "Юристам", Content: LegalCards },
-  { id: "procurement", label: "Закупки", Content: ProcurementCards },
-  { id: "management", label: "Управление", Content: ManagementCards },
+const badges: Badge[] = [
+  { id: "work", label: "Работа" },
+  { id: "research", label: "Исследования" },
+  { id: "hr", label: "HR" },
+  { id: "sales", label: "Продажи" },
+  { id: "legal", label: "Юристам" },
+  { id: "procurement", label: "Закупки" },
+  { id: "management", label: "Управление" },
 ];
+
+const contentById: Record<ScenarioSetId, React.ComponentType> = {
+  work: WorkCards,
+  research: ResearchCards,
+  hr: HrCards,
+  sales: SalesCards,
+  legal: LegalCards,
+  procurement: ProcurementCards,
+  management: ManagementCards,
+};
 
 export default function Scenarios() {
   const rootRef = useRef<HTMLElement | null>(null);
-  const [activeBadge, setActiveBadge] = useState(0);
-  const ActiveContent = scenarioSets[activeBadge]?.Content ?? scenarioSets[0].Content;
+  const [activeId, setActiveId] = useState<ScenarioSetId>("work");
+
+  const ActiveContent = useMemo(() => contentById[activeId] ?? WorkCards, [activeId]);
 
   useEffect(() => {
-    if (!rootRef.current) {
-      return;
-    }
-
+    if (!rootRef.current) return;
     return setupScenariosAnimations(rootRef.current);
   }, []);
 
@@ -1512,34 +899,32 @@ export default function Scenarios() {
       className={styles.scenarios}
       aria-labelledby="scenarios-title"
       ref={rootRef}
+      data-section="scenarios"
     >
       <div className={styles.scenarios__inner}>
         <header className={styles.scenarios__header}>
-          <h2 id="scenarios-title">
+          <h2 id="scenarios-title" data-anim="sc-header">
             От личных документов <br />
             до бизнес-задач
           </h2>
-          <p>
-            Сценарии, где Думатель экономит часы и снижает ошибки. В каждом
-            примере: работа с документами и Web-агент
+          <p data-anim="sc-header">
+            Сценарии, где Думатель экономит часы и снижает ошибки. В каждом примере:
+            работа с документами и Web-агент
           </p>
         </header>
 
-        <div
-          className={styles.scenarios__badges}
-          role="group"
-          aria-label="Категории сценариев"
-        >
-          {scenarioSets.map((badge, index) => (
+        <div className={styles.scenarios__badges} role="group" aria-label="Категории сценариев">
+          {badges.map((b) => (
             <button
-              key={badge.id}
+              key={b.id}
               type="button"
               className={styles.scenarios__badge}
-              data-active={index === activeBadge}
-              aria-pressed={index === activeBadge}
-              onClick={() => setActiveBadge(index)}
+              data-active={b.id === activeId}
+              aria-pressed={b.id === activeId}
+              onClick={() => setActiveId(b.id)}
+              data-anim="sc-badge"
             >
-              {badge.label}
+              {b.label}
             </button>
           ))}
         </div>

@@ -5,7 +5,7 @@ import type { CSSProperties } from "react";
 import { useEffect, useRef, useState } from "react";
 import { withBasePath } from "@/lib/paths";
 import Button from "@/components/Button";
-import { setupFAQAnimations } from "./FAQ.anim";
+import { animateFaqAccordion, setupFAQAnimations } from "./FAQ.anim";
 import styles from "./FAQ.module.scss";
 
 const items = [
@@ -59,15 +59,24 @@ export default function FAQ() {
     return setupFAQAnimations(rootRef.current);
   }, []);
 
+  useEffect(() => {
+    if (!rootRef.current) {
+      return;
+    }
+
+    animateFaqAccordion(rootRef.current, activeIndex);
+  }, [activeIndex]);
+
   return (
     <section
       className={styles.faq}
       aria-labelledby="faq-title"
       id="faq"
       ref={rootRef}
+      data-section="faq"
     >
       <div className={styles.faq__inner}>
-        <div className={styles.faq__aside}>
+        <div className={styles.faq__aside} data-anim="faq-aside">
           <h2 id="faq-title">
             Частые вопросы от наших новых пользователей
           </h2>
@@ -92,6 +101,8 @@ export default function FAQ() {
                 className={`${styles.faq__item} ${
                   isOpen ? styles["faq__item--open"] : ""
                 }`}
+                data-anim="faq-item"
+                data-index={index}
               >
                 <Button
                   className={styles.faq__trigger}
@@ -114,12 +125,14 @@ export default function FAQ() {
                     width={70}
                     height={70}
                     aria-hidden="true"
+                    data-anim="faq-icon"
                   />
                 </Button>
                 <div
                   className={styles.faq__content}
                   id={contentId}
                   aria-hidden={!isOpen}
+                  data-anim="faq-content"
                 >
                   <p>{item.content}</p>
                 </div>

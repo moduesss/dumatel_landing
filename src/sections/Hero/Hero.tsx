@@ -19,7 +19,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className={styles.hero} ref={rootRef}>
+    <section className={styles.hero} ref={rootRef} data-section="hero">
       <div className={styles["hero__background"]}>
         <video
           className={styles["hero__video"]}
@@ -36,15 +36,15 @@ export default function Hero() {
       </div>
 
       <div className={styles["hero__content"]} data-reveal>
-        <p className={styles["hero__eyebrow"]}>
+        <p className={styles["hero__eyebrow"]} data-anim="hero-eyebrow">
           Понимает. Анализирует. Генерирует.
         </p>
-        <h1 className={styles["hero__title"]}>
+        <h1 className={styles["hero__title"]} data-anim="hero-title">
           ИИ-пространство <em>для работы</em>
           <br />
           с документами и знаниями
         </h1>
-        <p className={styles["hero__subtitle"]}>
+        <p className={styles["hero__subtitle"]} data-anim="hero-subtitle">
           Всё, чтобы понимать, искать и создавать быстрее.
         </p>
       </div>
@@ -55,6 +55,7 @@ export default function Hero() {
             styles["hero__dialog-row"],
             styles["hero__dialog-row--user"],
           ].join(" ")}
+          data-anim="hero-dialog-user"
         >
           <Image
             className={[
@@ -85,6 +86,7 @@ export default function Hero() {
             styles["hero__dialog-row"],
             styles["hero__dialog-row--assistant"],
           ].join(" ")}
+          data-anim="hero-dialog-assistant"
         >
           <div
             className={[
@@ -111,7 +113,7 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className={styles["hero__cta"]}>
+      <div className={styles["hero__cta"]} data-anim="hero-cta">
         <Button variant="primary" size="lg" href="https://app.dumatel.ru/">
           Попробовать Думатель бесплатно
         </Button>

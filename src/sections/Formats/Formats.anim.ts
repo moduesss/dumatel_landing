@@ -1,35 +1,112 @@
 import { gsap } from "gsap";
-import { prefersReducedMotion, revealOnScroll, setVisibleImmediately } from "@/animations";
-
-const getHeadingTargets = (root: HTMLElement): Element[] => {
-  const heading = root.querySelector("h2");
-  if (!heading) {
-    return [];
-  }
-
-  const targets: Element[] = [heading];
-  const next = heading.nextElementSibling;
-
-  if (next && next.tagName === "P") {
-    targets.push(next);
-  }
-
-  return targets;
-};
+import { initGsap, prefersReducedMotion } from "@/animations";
 
 export function setupFormatsAnimations(root: HTMLElement): () => void {
-  const targets = getHeadingTargets(root);
+  initGsap();
+
+  const allTargets = root.querySelectorAll<HTMLElement>("[data-anim]");
 
   if (prefersReducedMotion()) {
-    setVisibleImmediately(targets);
+    gsap.set(allTargets, {
+      autoAlpha: 1,
+      x: 0,
+      y: 0,
+      scale: 1,
+      rotate: 0,
+    });
     return () => {};
   }
 
-  const ctx = gsap.context(() => {
-    if (targets.length) {
-      revealOnScroll(targets);
+  let removeListeners = () => {};
+
+  const ctx = gsap.context((self) => {
+    const q = self.selector as gsap.utils.SelectorFunc;
+    const title = q('[data-anim="formats-title"]');
+    const cards = q('[data-anim="formats-card"]');
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: root,
+        start: "top 85%",
+      },
+    });
+
+    tl.from(title, {
+      y: 24,
+      autoAlpha: 0,
+      duration: 0.6,
+      ease: "power3.out",
+    }).from(cards, {
+      y: 24,
+      autoAlpha: 0,
+      duration: 0.6,
+      ease: "power3.out",
+      stagger: 0.1,
+    });
+
+    (cards as HTMLElement[]).forEach((card) => {
+      const items = Array.from(
+        card.querySelectorAll<HTMLElement>('[data-anim="formats-item"]')
+      );
+
+      if (items.length) {
+        gsap.from(items, {
+          y: 12,
+          autoAlpha: 0,
+          duration: 0.45,
+          ease: "power3.out",
+          stagger: 0.06,
+          scrollTrigger: {
+            trigger: card,
+            start: "top 85%",
+          },
+        });
+      }
+    });
+
+    if (typeof window !== "undefined") {
+      const finePointer = window.matchMedia("(pointer: fine)");
+      if (finePointer.matches) {
+        const handlers = new Map<HTMLElement, { enter: () => void; leave: () => void }>();
+
+        (cards as HTMLElement[]).forEach((card) => {
+          gsap.set(card, { transformOrigin: "50% 50%" });
+
+          const handleEnter = () => {
+            gsap.to(card, {
+              y: -3,
+              scale: 1.01,
+              duration: 0.2,
+              ease: "power2.out",
+            });
+          };
+
+          const handleLeave = () => {
+            gsap.to(card, {
+              y: 0,
+              scale: 1,
+              duration: 0.2,
+              ease: "power2.out",
+            });
+          };
+
+          card.addEventListener("mouseenter", handleEnter);
+          card.addEventListener("mouseleave", handleLeave);
+          handlers.set(card, { enter: handleEnter, leave: handleLeave });
+        });
+
+        removeListeners = () => {
+          handlers.forEach((handler, card) => {
+            card.removeEventListener("mouseenter", handler.enter);
+            card.removeEventListener("mouseleave", handler.leave);
+          });
+        };
+      }
     }
   }, root);
 
-  return () => ctx.revert();
+  return () => {
+    removeListeners();
+    ctx.revert();
+  };
 }
