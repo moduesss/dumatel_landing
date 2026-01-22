@@ -103,7 +103,9 @@ export function animateFaqAccordion(
       startAt: { height: currentHeight },
       duration: 0.25,
       ease: "power2.out",
-      onComplete: () => gsap.set(content, { height: 0 }),
+      onComplete: () => {
+        gsap.set(content, { height: 0 });
+      },
     });
 
     if (icon) {
@@ -148,7 +150,9 @@ export function animateFaqAccordion(
         autoAlpha: 1,
         duration: 0.35,
         ease: "power2.out",
-        onComplete: () => gsap.set(content, { height: "auto" }),
+        onComplete: () => {
+          gsap.set(content, { height: "auto" });
+        },
       }
     );
 
