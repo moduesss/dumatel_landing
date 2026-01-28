@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"; // CHANGE
 import Image from "next/image";
+import Link from "next/link";
 import { withBasePath } from "@/lib/paths";
 import Button from "@/components/Button";
 import buttonStyles from "@/components/Button.module.scss";
@@ -16,13 +17,12 @@ const NAV_LINKS = [
 ] as const;
 
 export default function Header() {
-  const [isOpen, setIsOpen] = useState(false); // CHANGE
-  const dialogId = "mobile-menu"; // CHANGE: стабильный id для SSR/CSR
+  const [isOpen, setIsOpen] = useState(false);
+  const dialogId = "mobile-menu";
 
-  const close = () => setIsOpen(false); // CHANGE
-  const toggle = () => setIsOpen((v) => !v); // CHANGE
+  const close = () => setIsOpen(false);
+  const toggle = () => setIsOpen((v) => !v);
 
-  // CHANGE: закрытие по Esc + запрет скролла страницы
   useEffect(() => {
     if (!isOpen) return;
 
@@ -40,7 +40,6 @@ export default function Header() {
     };
   }, [isOpen]);
 
-  // CHANGE: клик по пункту меню закрывает оверлей
   const onNavClick = () => close();
 
   return (
@@ -48,17 +47,18 @@ export default function Header() {
       <header className={styles["site-header"]} role="banner">
         <div className={styles["site-header__pill"]}>
           <div className={styles["site-header__brand"]}>
-            <Image
-              src={withBasePath("/icons/Group 298956478.svg")}
-              alt="Думатель"
-              width={204}
-              height={44}
-              priority
-            />
+            <Link href="/" aria-label="На главную">
+              <Image
+                src={withBasePath("/icons/Group 298956478.svg")}
+                alt="Думатель"
+                width={204}
+                height={44}
+                priority
+              />
+            </Link>
             <span className={styles["site-header__beta"]}>бета</span>
           </div>
 
-          {/* Desktop blocks */}
           <nav
             className={styles["site-header__nav"]}
             aria-label="Основная навигация"
@@ -97,7 +97,6 @@ export default function Header() {
             Попробовать сейчас
           </a>
 
-          {/* CHANGE: Burger (показывается только <1440px через CSS) */}
           <Button
             className={styles["site-header__burger"]}
             type="button"
@@ -113,7 +112,6 @@ export default function Header() {
         </div>
       </header>
 
-      {/* CHANGE: Overlay + side panel */}
       <div
         className={`${styles["mobile-menu"]} ${isOpen ? styles["mobile-menu--open"] : ""}`}
         id={dialogId}
@@ -122,7 +120,7 @@ export default function Header() {
         aria-label="Мобильное меню"
         onClick={close} // клик по бэкдропу закрывает
       >
-        {/* CHANGE: stop propagation so click inside panel doesn't close */}
+
         <div
           className={styles["mobile-menu__panel"]}
           onClick={(e) => e.stopPropagation()}
@@ -152,6 +150,13 @@ export default function Header() {
                 {l.label}
               </a>
             ))}
+            <a
+              className={styles["mobile-menu__link"]}
+              href="/privacy-policy"
+              onClick={onNavClick}
+            >
+              Политика конфиденциальности
+            </a>
           </nav>
 
           <div className={styles["mobile-menu__contacts"]}>

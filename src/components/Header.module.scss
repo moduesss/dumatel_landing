@@ -113,11 +113,9 @@
   white-space: nowrap;
 }
 
-/* ===========================
-   CHANGE: Burger button
-   =========================== */
+
 .site-header__burger {
-  display: none; /* показываем только <1440px */
+  display: none;
   width: var(--space-6);
   height: var(--space-6);
   border-radius: 999px;
@@ -132,7 +130,7 @@
 
 .burger-lines {
   position: relative;
-  width: 22px;
+  width: 18px;
   height: 2px;
   background: #ffffff;
   display: block;
@@ -144,7 +142,7 @@
   content: "";
   position: absolute;
   left: 0;
-  width: 22px;
+  width: 18px;
   height: 2px;
   background: #ffffff;
   border-radius: 2px;

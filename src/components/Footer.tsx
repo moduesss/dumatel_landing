@@ -71,7 +71,7 @@ export default function Footer() {
           <div className={styles.footer__meta}>
             <span>Copyrights © {year}</span>
             <span>ИНН: 52591293842 ОГРНИП: 39028392873927323</span>
-            <Link href="/" className={styles.footer__policy}>
+            <Link href="/privacy-policy" className={styles.footer__policy}>
               Политика конфиденциальности
             </Link>
           </div>
