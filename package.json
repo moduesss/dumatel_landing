@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "sanity:dev": "sanity dev --config sanity/sanity.config.ts",
+    "sanity:deploy": "sanity deploy --config sanity/sanity.config.ts"
   },
   "dependencies": {
     "gsap": "^3.14.2",
@@ -14,7 +16,8 @@
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "sanity": "^5.4.0",
-    "scss": "^0.2.4"
+    "scss": "^0.2.4",
+    "styled-components": "^6.3.8"
   },
   "devDependencies": {
     "@types/node": "^20",

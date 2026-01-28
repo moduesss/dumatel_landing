@@ -12,6 +12,7 @@ const NAV_LINKS = [
   { href: "#audience", label: "Кому подходит" },
   { href: "#pricing", label: "Тарифы" },
   { href: "#usage", label: "Форма использования" },
+  { href: "/blog", label: "Блог" },
 ] as const;
 
 export default function Header() {

@@ -1,5 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://dumatel.ru/sitemap.xml
-Host: dumatel.ru
