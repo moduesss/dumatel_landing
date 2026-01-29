@@ -1,31 +1,53 @@
 import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { getPosts } from "@/lib/sanity";
+import Container from "@/components/Container";
+import styles from "./page.module.scss";
 
-const MOCK_POSTS = [
-  { title: "Первый пост", slug: "first-post", date: "2026-01-28" },
-  { title: "Второй пост", slug: "second-post", date: "2026-01-29" },
-];
+export default async function BlogPage() {
+  const posts = await getPosts();
 
-export default function BlogPage() {
   return (
     <>
-    <Header />
-    <main style={{ padding: "150px 32px" }}>
-      <h1 style={{ marginBottom: 16, color: "#000" }}>Блог</h1>
+      <Header />
+      <main className={styles.page}>
+        <Container className={styles.container}>
+          <h1 className={styles.title}>Блог</h1>
 
-      <ul style={{ display: "grid", gap: 12, listStyle: "none", padding: 0 }}>
-        {MOCK_POSTS.map((p) => (
-          <li key={p.slug} style={{ border: "1px solid #ddd", padding: 12, borderRadius: 10 }}>
-            <div style={{ fontSize: 12, opacity: 0.7, marginBottom: 6, color: "#656565" }}>{p.date}</div>
-            <Link href={`/blog/${p.slug}`} style={{ fontSize: 18, textDecoration: "none", color: "#000" }}>
-              {p.title}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </main>
-    <Footer />
-    </>  
+          {posts.length === 0 ? (
+            <p className={styles.empty}>Пока нет опубликованных постов.</p>
+          ) : (
+            <ul className={styles.list}>
+              {posts.map((post) => {
+                const slug = post.slug?.current;
+                const dateLabel = post.publishedAt
+                  ? new Date(post.publishedAt).toLocaleDateString("ru-RU")
+                  : "";
+
+                return (
+                  <li key={post._id} className={styles.card}>
+                    {dateLabel && (
+                      <div className={styles.date}>{dateLabel}</div>
+                    )}
+                    {slug ? (
+                      <Link href={`/blog/${slug}`} className={styles.link}>
+                        {post.title}
+                      </Link>
+                    ) : (
+                      <span className={styles.titleText}>{post.title}</span>
+                    )}
+                    {post.excerpt && (
+                      <p className={styles.excerpt}>{post.excerpt}</p>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+        </Container>
+      </main>
+      <Footer />
+    </>
   );
 }

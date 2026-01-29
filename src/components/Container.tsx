@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import styles from "./Container.module.scss";
 
-type TagOption = "div" | "section" | "main" | "header" | "footer";
+type TagOption = "div" | "section" | "main" | "header" | "footer" | "article";
 
 type ContainerProps = {
   children: ReactNode;
