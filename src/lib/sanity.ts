@@ -3,7 +3,6 @@ import { env, hasSanityConfig } from "@/lib/env";
 import {
   postListQuery,
   postBySlugQuery,
-  postBySlugPreviewQuery,
   postSlugsQuery,
   settingsQuery,
 } from "@/lib/sanity.queries";
@@ -20,26 +19,17 @@ const clientConfig: ClientConfig | null = hasSanityConfig
   : null;
 
 export const sanityClient = clientConfig ? createClient(clientConfig) : null;
-const previewClient = clientConfig
-  ? createClient({
-      ...clientConfig,
-      useCdn: false,
-      perspective: "previewDrafts",
-    })
-  : null;
 
 const safeFetch = async <T>(
   query: string,
-  params: Record<string, unknown> = {},
-  options: { preview?: boolean } = {}
+  params: Record<string, unknown> = {}
 ): Promise<T | null> => {
-  const client = options.preview ? previewClient : sanityClient;
-  if (!client) {
+  if (!sanityClient) {
     return null;
   }
 
   try {
-    return await client.fetch<T>(query, params);
+    return await sanityClient.fetch<T>(query, params);
   } catch (error) {
     console.warn("Sanity fetch failed", error);
     return null;
@@ -56,12 +46,8 @@ export const getPosts = async (): Promise<Post[]> => {
   return data ?? [];
 };
 
-export const getPostBySlug = async (
-  slug: string,
-  preview = false
-): Promise<Post | null> => {
-  const query = preview ? postBySlugPreviewQuery : postBySlugQuery;
-  const data = await safeFetch<Post>(query, { slug }, { preview });
+export const getPostBySlug = async (slug: string): Promise<Post | null> => {
+  const data = await safeFetch<Post>(postBySlugQuery, { slug });
   return data ?? null;
 };
 

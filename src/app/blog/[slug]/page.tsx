@@ -5,15 +5,36 @@ import { PortableText } from "@portabletext/react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Container from "@/components/Container";
-import { getPostBySlug, getPostSlugs } from "@/lib/sanity";
+import { getPostBySlug } from "@/lib/sanity";
 import styles from "./page.module.scss";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
 };
 
+const EMPTY_BLOG_SLUG = "__empty__";
+
 export default async function BlogPostPage({ params }: PageProps) {
   const { slug } = await params;
+
+  if (slug === EMPTY_BLOG_SLUG) {
+    return (
+      <>
+        <Header />
+        <main className={styles.page}>
+          <Container className={styles.container} as="article">
+            <header className={styles.header}>
+              <h1 className={styles.title}>Блог</h1>
+              <p className={styles.excerpt}>
+                Пока нет опубликованных постов.
+              </p>
+            </header>
+          </Container>
+        </main>
+        <Footer />
+      </>
+    );
+  }
   const post = await getPostBySlug(slug);
 
   if (!post) {
@@ -77,9 +98,4 @@ export default async function BlogPostPage({ params }: PageProps) {
       <Footer />
     </>
   );
-}
-
-export async function generateStaticParams() {
-  const slugs = await getPostSlugs();
-  return slugs.map((slug) => ({ slug }));
 }

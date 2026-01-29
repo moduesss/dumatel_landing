@@ -21,7 +21,7 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    "types": ["node", "next/image-types/global"]
+    "types": ["node", "next", "next/image-types/global", "react", "react-dom"]
   },
   "include": [
     "next-env.d.ts",

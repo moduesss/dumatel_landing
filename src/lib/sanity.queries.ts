@@ -64,37 +64,6 @@ export const postBySlugQuery = `*[
   }
 }`;
 
-export const postBySlugPreviewQuery = `*[
-  _type == "post" &&
-  slug.current == $slug
-] | order(_updatedAt desc)[0] {
-  _id,
-  title,
-  slug,
-  excerpt,
-  seoKeywords,
-  body,
-  publishedAt,
-  coverImage {
-    asset-> {
-      url
-    }
-  },
-  author-> {
-    name,
-    slug,
-    image {
-      asset-> {
-        url
-      }
-    }
-  },
-  categories[]-> {
-    title,
-    slug
-  }
-}`;
-
 export const postSlugsQuery = `*[
   _type == "post" &&
   defined(slug.current) &&
