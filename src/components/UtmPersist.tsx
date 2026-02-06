@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect } from "react";
-import { useSearchParams } from "next/navigation";
 
 // Stored once on first visit; reused when URL has no utm_*.
 const UTM_STORAGE_KEY = "utm_params";
@@ -17,16 +16,13 @@ const getUtmFromSearchParams = (searchParams: URLSearchParams) => {
 };
 
 export default function UtmPersist() {
-  const searchParams = useSearchParams();
-  const searchParamsString = searchParams.toString();
-
   useEffect(() => {
     if (typeof window === "undefined") {
       return;
     }
 
     const utm = getUtmFromSearchParams(
-      new URLSearchParams(searchParamsString),
+      new URLSearchParams(window.location.search),
     );
     if (Object.keys(utm).length === 0) {
       return;
@@ -38,7 +34,7 @@ export default function UtmPersist() {
 
     // Persist only the first landing utm_* values.
     window.localStorage.setItem(UTM_STORAGE_KEY, JSON.stringify(utm));
-  }, [searchParamsString]);
+  }, []);
 
   return null;
 }

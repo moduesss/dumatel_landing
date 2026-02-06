@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo } from "react";
-import { useSearchParams } from "next/navigation";
 import type { ButtonHTMLAttributes, AnchorHTMLAttributes } from "react";
 import styles from "./Button.module.scss";
 
@@ -102,9 +101,6 @@ export default function Button({
   href,
   ...props
 }: Props) {
-  const searchParams = useSearchParams();
-  const searchParamsString = searchParams.toString();
-
   const resolvedHref = useMemo(() => {
     if (!href) {
       return href;
@@ -119,6 +115,7 @@ export default function Button({
       return href;
     }
 
+    const searchParamsString = window.location.search.replace(/^\?/, "");
     const utmFromUrl = getUtmFromSearchParams(
       new URLSearchParams(searchParamsString),
     );
@@ -130,7 +127,7 @@ export default function Button({
     }
 
     return appendUtmToHref(href, utm);
-  }, [href, searchParamsString]);
+  }, [href]);
 
   const classes = [
     styles.button,
