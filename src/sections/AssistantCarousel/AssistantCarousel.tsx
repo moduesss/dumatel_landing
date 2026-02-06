@@ -169,7 +169,7 @@ export default function AssistantCarousel() {
       if (!video) return;
       const src = video.dataset.src;
 
-      if (warm.has(index) && src && !video.src) {
+      if (src && !video.src) {
         video.src = src;
         video.load();
       }
@@ -314,7 +314,7 @@ export default function AssistantCarousel() {
                     muted
                     playsInline
                     loop
-                    preload="none"
+                    preload="metadata"
                     data-anim="ac-video"
                   />
                 </div>
