@@ -7,8 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "sanity:dev": "sanity dev --config sanity/sanity.config.ts",
-    "sanity:deploy": "sanity deploy --config sanity/sanity.config.ts"
+    "sanity:dev": "sanity dev --config sanity.config.ts",
+    "sanity:deploy": "sanity deploy --config sanity.config.ts"
   },
   "dependencies": {
     "@portabletext/react": "^3.2.1",

@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PortableText } from "@portabletext/react";
-import Header from "@/components/Header";
+import BlogHeader from "@/components/BlogHeader";
 import Footer from "@/components/Footer";
 import { getPostBySlug, getPosts } from "@/lib/sanity";
 import styles from "./page.module.scss";
@@ -30,7 +30,7 @@ export default async function BlogPostPage({ params }: PageProps) {
   if (slug === EMPTY_BLOG_SLUG) {
     return (
       <>
-        <Header />
+        <BlogHeader />
         <main className={styles.page}>
           <div className={styles.article}>
             <h1 className={styles.title}>Блог</h1>
@@ -55,7 +55,7 @@ export default async function BlogPostPage({ params }: PageProps) {
 
   return (
     <>
-      <Header />
+      <BlogHeader />
       <main className={styles.page}>
         <div className={styles.article}>
           <Link className={styles.backButton} href="/blog">

@@ -158,13 +158,27 @@ export default function AssistantCarousel() {
   }, [slideStride]);
 
   useEffect(() => {
-    videoRefs.current.forEach((v, i) => {
-      if (!v) return;
-      if (i === activeIndex) {
-        v.currentTime = 0;
-        v.play().catch(() => {});
+    const total = slides.length;
+    const warm = new Set([
+      activeIndex,
+      (activeIndex + 1) % total,
+      (activeIndex - 1 + total) % total,
+    ]);
+
+    videoRefs.current.forEach((video, index) => {
+      if (!video) return;
+      const src = video.dataset.src;
+
+      if (warm.has(index) && src && !video.src) {
+        video.src = src;
+        video.load();
+      }
+
+      if (index === activeIndex) {
+        video.currentTime = 0;
+        video.play().catch(() => {});
       } else {
-        v.pause();
+        video.pause();
       }
     });
   }, [activeIndex]);
@@ -296,11 +310,11 @@ export default function AssistantCarousel() {
                       videoRefs.current[index] = el;
                     }}
                     className={styles["assistant-carousel__media-video"]}
-                    src={withBasePath(slide.videoSrc)}
+                    data-src={withBasePath(slide.videoSrc)}
                     muted
                     playsInline
                     loop
-                    preload="metadata"
+                    preload="none"
                     data-anim="ac-video"
                   />
                 </div>
