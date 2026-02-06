@@ -17,14 +17,11 @@ export function setupPricingPlansAnimations(root: HTMLElement): () => void {
     return () => {};
   }
 
-  let removeListeners = () => {};
-
   const ctx = gsap.context((self) => {
     const q = self.selector as gsap.utils.SelectorFunc;
     const heading = q('[data-anim="pricing-heading"]');
     const toggle = q('[data-anim="pricing-toggle"]');
     const device = q('[data-anim="pricing-device"]');
-    const ctas = q('[data-anim="pricing-cta"]') as HTMLElement[];
 
     const tl = gsap.timeline({
       scrollTrigger: {
@@ -51,48 +48,9 @@ export function setupPricingPlansAnimations(root: HTMLElement): () => void {
         duration: 0.7,
         ease: "power3.out",
       });
-
-    if (typeof window !== "undefined") {
-      const finePointer = window.matchMedia("(pointer: fine)");
-      if (finePointer.matches && ctas.length) {
-        const handlers = new Map<HTMLElement, { enter: () => void; leave: () => void }>();
-
-        ctas.forEach((cta) => {
-          gsap.set(cta, { transformOrigin: "50% 50%" });
-
-          const handleEnter = () => {
-            gsap.to(cta, {
-              scale: 1.02,
-              duration: 0.15,
-              ease: "power2.out",
-            });
-          };
-
-          const handleLeave = () => {
-            gsap.to(cta, {
-              scale: 1,
-              duration: 0.15,
-              ease: "power2.out",
-            });
-          };
-
-          cta.addEventListener("mouseenter", handleEnter);
-          cta.addEventListener("mouseleave", handleLeave);
-          handlers.set(cta, { enter: handleEnter, leave: handleLeave });
-        });
-
-        removeListeners = () => {
-          handlers.forEach((handler, cta) => {
-            cta.removeEventListener("mouseenter", handler.enter);
-            cta.removeEventListener("mouseleave", handler.leave);
-          });
-        };
-      }
-    }
   }, root);
 
   return () => {
-    removeListeners();
     ctx.revert();
   };
 }

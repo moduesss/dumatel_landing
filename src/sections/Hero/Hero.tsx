@@ -132,9 +132,7 @@ export default function Hero() {
 
       <div className={styles["hero__cta"]} data-anim="hero-cta">
         <Button
-          className={styles["hero__cta-button"]}
           variant="primary"
-          size="lg"
           href="https://app.dumatel.ru/"
         >
           Попробовать работать с Думателем

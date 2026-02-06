@@ -55,9 +55,15 @@
 .security__card {
   display: grid;
   grid-template-rows: 72px auto auto;
-  row-gap: var(--space-3);
+  row-gap: var(--space-8);
   max-width: 400px;
   align-content: start;
+}
+
+.security__title {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2)
 }
 
 .security__card h3 {
@@ -226,5 +232,19 @@
 
   .security__device {
     display: none;
+  }
+
+  .security__card {
+    row-gap: var(--space-6);
+  }
+
+  .security__title {
+    flex-direction: row;
+    gap: var(--space-3);
+
+    img {
+      width: 42px;
+      height: 42px;
+    }
   }
 }

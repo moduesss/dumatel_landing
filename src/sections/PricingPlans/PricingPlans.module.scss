@@ -104,7 +104,7 @@
   content: "";
   position: absolute;
   inset: var(--space-4);
-  border-radius: var(--radius-4);
+  border-radius: var(--radius-5);
   z-index: 0;
   pointer-events: none;
   background:
@@ -135,7 +135,7 @@
   content: "";
   position: absolute;
   inset: var(--space-4);
-  border-radius: var(--radius-4);
+  border-radius: var(--radius-5);
   pointer-events: none;
   z-index: 1;
   background:
@@ -155,7 +155,7 @@
 .pricing-plans__bg {
   position: absolute;
   inset: var(--space-4);
-  border-radius: var(--radius-4);
+  border-radius: var(--radius-5);
   z-index: 5;
   pointer-events: none;
   overflow: hidden;
@@ -344,16 +344,6 @@
 
   &:hover {
     background-color: #222222;
-    transition: 0.2s;
-  }
-}
-
-.plan-card__cta--accent {
-  background: #ff7f30;
-  color: #ffffff;
-
-  &:hover {
-    background-color: #da6116;
     transition: 0.2s;
   }
 }

@@ -5,10 +5,9 @@ import { withBasePath } from "@/lib/paths";
 import { memo, useEffect, useRef, useState } from "react";
 import type { Ref } from "react";
 import Button from "@/components/Button";
-import { animateReviewsEntering, setupReviewsAnimations } from "./Reviews.anim";
+import { setupReviewsAnimations } from "./Reviews.anim";
 import styles from "./Reviews.module.scss";
 
-const SLIDE_GAP = 85;
 const VISIBLE_CARDS = 3;
 
 const reviews = [
@@ -163,7 +162,9 @@ const ReviewCard = memo(function ReviewCard({
 export default function Reviews() {
   const rootRef = useRef<HTMLElement | null>(null);
   const cardRef = useRef<HTMLElement | null>(null);
+  const trackRef = useRef<HTMLDivElement | null>(null);
   const [cardWidth, setCardWidth] = useState(0);
+  const [cardGap, setCardGap] = useState(0);
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
@@ -175,19 +176,17 @@ export default function Reviews() {
   }, []);
 
   useEffect(() => {
-    if (!rootRef.current) {
-      return;
-    }
-
-    animateReviewsEntering(rootRef.current, index, VISIBLE_CARDS);
-  }, [index, cardWidth]);
-
-  useEffect(() => {
     const updateWidth = () => {
       if (!cardRef.current) {
         return;
       }
       setCardWidth(cardRef.current.getBoundingClientRect().width);
+      if (trackRef.current) {
+        const style = window.getComputedStyle(trackRef.current);
+        const gapValue = style.columnGap || style.gap || "0";
+        const parsedGap = Number.parseFloat(gapValue);
+        setCardGap(Number.isNaN(parsedGap) ? 0 : parsedGap);
+      }
     };
 
     updateWidth();
@@ -205,7 +204,7 @@ export default function Reviews() {
     setIndex((prev) => Math.min(maxIndex, prev + 1));
   };
 
-  const offset = cardWidth ? -(cardWidth + SLIDE_GAP) * index : 0;
+  const offset = cardWidth ? -(cardWidth + cardGap) * index : 0;
 
   return (
     <section
@@ -219,10 +218,6 @@ export default function Reviews() {
           <h2 id="reviews-title" data-anim="reviews-heading">
             Что о нас говорят пользователи
           </h2>
-          <p data-anim="reviews-heading">
-            Сценарии, где Думатель экономит часы и снижает ошибки. В каждом
-            примере: работа с документами и Web-агент!
-          </p>
         </header>
 
         <div
@@ -232,6 +227,7 @@ export default function Reviews() {
         >
           <div
             className={styles["reviews__track"]}
+            ref={trackRef}
             style={{ transform: `translateX(${offset}px)` }}
           >
             {reviews.map((review, reviewIndex) => (

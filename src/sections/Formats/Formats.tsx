@@ -94,11 +94,7 @@ export default function Formats() {
                 </li>
               ))}
             </ul>
-            <Button 
-              variant="primary" 
-              href="https://app.dumatel.ru"
-              style={{ width: 250 }}
-            >
+            <Button variant="primary" href="https://app.dumatel.ru">
               Обсудить интеграцию
             </Button>
           </article>

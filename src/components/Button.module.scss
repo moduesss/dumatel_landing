@@ -28,20 +28,23 @@
 
 :where(.button):disabled {
   cursor: default;
-  opacity: 0.6; /* CHANGE: чуть логичнее поведение */
+  opacity: 0.6;
 }
 
-/* =========================
-   Sizes
-   ========================= */
+:where(.button):focus-visible {
+  outline: 2px solid rgba(10, 34, 64, 0.3);
+  outline-offset: 2px;
+}
+
+/* Sizes */
 .button--md {
-  padding: 14px 28px; /* CHANGE */
+  padding: 14px 28px;
   font-size: 14px;
   font-weight: 700;
 }
 
 .button--lg {
-  padding: 15px 55px; /* под твою CTA */
+  padding: 15px 55px;
   font-size: 14px;
   font-weight: 700;
 }
@@ -52,24 +55,23 @@
   height: 48px;
 }
 
-/* =========================
-   Variants
-   ========================= */
+/*  Variants */
 .button--ghost {
-  /* как было: прозрачная */
   background: transparent;
   color: inherit;
 }
 
-/* CHANGE: оранжевая кнопка */
 .button--primary {
   background: #ff7f30;
   color: #ffffff;
   box-shadow: 0 10px 22px rgba(0, 0, 0, 0.18);
   text-decoration: none;
+  --neural-mask-size-x: 260px;
+  --neural-mask-size-y: 140px;
+  --neural-mask-speed: 1.5s;
 }
 
-/* мягкое затемнение на hover */
+/* hover */
 .button--primary::before {
   content: "";
   position: absolute;
@@ -80,7 +82,7 @@
   z-index: 0;
 }
 
-/* CHANGE: слой “нейросвязей” — SVG mask + подсветка */
+/* SVG mask + подсветка */
 .button--primary::after {
   content: "";
   position: absolute;
@@ -100,18 +102,18 @@
   mix-blend-mode: screen;
   filter: blur(0.2px);
 
-  /* SVG маска (нейросеть: узлы + связи) */
+  /* SVG маска */
   -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='140' viewBox='0 0 260 140'%3E%3Cg fill='none' stroke='%23000' stroke-opacity='1'%3E%3Cpath d='M22 86 L78 52 L136 78 L204 40' stroke-width='2'/%3E%3Cpath d='M78 52 L120 26 L170 58 L232 22' stroke-width='1.6'/%3E%3Cpath d='M78 52 L70 104 L136 78 L150 118' stroke-width='1.6'/%3E%3Cpath d='M136 78 L196 96 L238 72' stroke-width='1.4'/%3E%3Cpath d='M120 26 L150 118' stroke-width='1' stroke-dasharray='3 10'/%3E%3C/g%3E%3Cg%3E%3Ccircle cx='22' cy='86' r='4' fill='%23000'/%3E%3Ccircle cx='78' cy='52' r='4' fill='%23000'/%3E%3Ccircle cx='120' cy='26' r='3.2' fill='%23000'/%3E%3Ccircle cx='136' cy='78' r='4' fill='%23000'/%3E%3Ccircle cx='170' cy='58' r='3.2' fill='%23000'/%3E%3Ccircle cx='204' cy='40' r='4' fill='%23000'/%3E%3Ccircle cx='232' cy='22' r='3.2' fill='%23000'/%3E%3Ccircle cx='70' cy='104' r='3' fill='%23000'/%3E%3Ccircle cx='150' cy='118' r='3' fill='%23000'/%3E%3Ccircle cx='196' cy='96' r='3.4' fill='%23000'/%3E%3Ccircle cx='238' cy='72' r='3.2' fill='%23000'/%3E%3C/g%3E%3C/svg%3E");
   mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='140' viewBox='0 0 260 140'%3E%3Cg fill='none' stroke='%23000' stroke-opacity='1'%3E%3Cpath d='M22 86 L78 52 L136 78 L204 40' stroke-width='2'/%3E%3Cpath d='M78 52 L120 26 L170 58 L232 22' stroke-width='1.6'/%3E%3Cpath d='M78 52 L70 104 L136 78 L150 118' stroke-width='1.6'/%3E%3Cpath d='M136 78 L196 96 L238 72' stroke-width='1.4'/%3E%3Cpath d='M120 26 L150 118' stroke-width='1' stroke-dasharray='3 10'/%3E%3C/g%3E%3Cg%3E%3Ccircle cx='22' cy='86' r='4' fill='%23000'/%3E%3Ccircle cx='78' cy='52' r='4' fill='%23000'/%3E%3Ccircle cx='120' cy='26' r='3.2' fill='%23000'/%3E%3Ccircle cx='136' cy='78' r='4' fill='%23000'/%3E%3Ccircle cx='170' cy='58' r='3.2' fill='%23000'/%3E%3Ccircle cx='204' cy='40' r='4' fill='%23000'/%3E%3Ccircle cx='232' cy='22' r='3.2' fill='%23000'/%3E%3Ccircle cx='70' cy='104' r='3' fill='%23000'/%3E%3Ccircle cx='150' cy='118' r='3' fill='%23000'/%3E%3Ccircle cx='196' cy='96' r='3.4' fill='%23000'/%3E%3Ccircle cx='238' cy='72' r='3.2' fill='%23000'/%3E%3C/g%3E%3C/svg%3E");
 
   -webkit-mask-repeat: repeat;
   mask-repeat: repeat;
 
-  -webkit-mask-size: 260px 140px;
-  mask-size: 260px 140px;
+  -webkit-mask-size: var(--neural-mask-size-x) var(--neural-mask-size-y);
+  mask-size: var(--neural-mask-size-x) var(--neural-mask-size-y);
 
-  -webkit-mask-position: 0% 50%;
-  mask-position: 0% 50%;
+  -webkit-mask-position: 0px 50%;
+  mask-position: 0px 50%;
 }
 
 /* Текст/контент всегда поверх */
@@ -121,7 +123,7 @@
 }
 
 @media (any-hover: hover) and (any-pointer: fine) {
-  /* Hover: затемнить + включить нейросеть */
+
   .button--primary:hover:not(:disabled) {
     filter: brightness(0.92) saturate(1.04);
     transform: translateY(-1px);
@@ -134,7 +136,7 @@
 
   .button--primary:hover:not(:disabled)::after {
     opacity: 1;
-    animation: neuralMaskMove 1.25s linear infinite;
+    animation: neuralMaskMove var(--neural-mask-speed) linear infinite;
   }
 }
 
@@ -150,7 +152,7 @@
 
 .button--primary:active:not(:disabled)::after {
   opacity: 1;
-  animation: neuralMaskMove 1.25s linear infinite;
+  animation: neuralMaskMove var(--neural-mask-speed) linear infinite;
 }
 
 /* Motion safety */
@@ -163,11 +165,11 @@
 /* Маска “едет” по кнопке — ощущение проходящих связей */
 @keyframes neuralMaskMove {
   0% {
-    -webkit-mask-position: 0% 50%;
-    mask-position: 0% 50%;
+    -webkit-mask-position: 0px 50%;
+    mask-position: 0px 50%;
   }
   100% {
-    -webkit-mask-position: 160% 50%;
-    mask-position: 160% 50%;
+    -webkit-mask-position: var(--neural-mask-size-x) 50%;
+    mask-position: var(--neural-mask-size-x) 50%;
   }
 }

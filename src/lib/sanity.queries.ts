@@ -18,6 +18,7 @@ export const postListQuery = `*[
   author-> {
     name,
     slug,
+    role,
     image {
       asset-> {
         url
@@ -42,7 +43,15 @@ export const postBySlugQuery = `*[
   slug,
   excerpt,
   seoKeywords,
-  body,
+  body[]{
+    ...,
+    _type == "image" => {
+      ...,
+      asset->{
+        url
+      }
+    }
+  },
   publishedAt,
   coverImage {
     asset-> {
@@ -52,6 +61,7 @@ export const postBySlugQuery = `*[
   author-> {
     name,
     slug,
+    role,
     image {
       asset-> {
         url

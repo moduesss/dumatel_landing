@@ -97,24 +97,6 @@
   margin-right: var(--space-1);
 }
 
-.formats__cta {
-  margin-top: auto;
-  align-self: flex-start;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--space-2) var(--space-6);
-  border-radius: var(--radius-5);
-  background: #ff7f30;
-  color: #ffffff;
-  font-size: var(--fs-1);
-  font-weight: 700;
-  text-align: center;
-  white-space: nowrap;
-  position: relative;
-  z-index: 1;
-}
-
 @media (max-width: 768px) {
   .formats__cards {
     flex-direction: column;

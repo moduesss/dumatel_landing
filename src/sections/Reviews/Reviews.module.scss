@@ -46,35 +46,16 @@
   position: relative;
 }
 
-.reviews__viewport::before,
-.reviews__viewport::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: clamp(24px, 6vw, 96px);
-  pointer-events: none;
-  z-index: 1;
-}
-
-.reviews__viewport::before {
-  left: 0;
-  background: linear-gradient(90deg, var(--reviews-bg) 0%, transparent 100%);
-}
-
-.reviews__viewport::after {
-  right: 0;
-  background: linear-gradient(270deg, var(--reviews-bg) 0%, transparent 100%);
-}
-
 .reviews__track {
+  --reviews-gap: var(--space-7);
   display: flex;
-  gap: var(--space-8);
+  width: 100%;
+  gap: var(--reviews-gap);
   transition: transform 0.6s ease;
 }
 
 .review-card {
-  width: 380px;
+  width: calc((100% - (var(--reviews-gap) * 2)) / 3);
   height: 470px;
   background: #ffffff;
   border-radius: var(--radius-4);
@@ -178,21 +159,6 @@
   }
 }
 
-.reviews__cta {
-  justify-self: center;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--space-2) var(--space-4);
-  border-radius: 999px;
-  background: #ff7f30;
-  color: #ffffff;
-  font-size: var(--fs-1);
-  font-weight: 700;
-  text-align: center;
-  white-space: nowrap;
-}
-
 @media (max-width: 900px) {
   .reviews {
     padding: var(--space-8) var(--space-4);
@@ -207,7 +173,8 @@
   }
 
   .reviews__track {
-    gap: var(--space-6);
+    --reviews-gap: var(--space-6);
+    gap: var(--reviews-gap);
   }
 
   .review-card {

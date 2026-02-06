@@ -64,9 +64,9 @@ export default function QuestionWindow() {
               </p>
             </div>
             <Button
-              className={styles.question__button}
               type="button"
               variant="primary"
+              size="lg"
               data-anim="question-button"
             >
               Узнать ответ

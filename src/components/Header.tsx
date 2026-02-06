@@ -5,7 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { withBasePath } from "@/lib/paths";
 import Button from "@/components/Button";
-import buttonStyles from "@/components/Button.module.scss";
 import styles from "./Header.module.scss";
 
 const NAV_LINKS = [
@@ -85,17 +84,9 @@ export default function Header() {
             </a>
           </div>
 
-          <a
-            className={[
-              buttonStyles.button,
-              buttonStyles["button--primary"],
-              buttonStyles["button--md"],
-              styles["site-header__cta"],
-            ].join(" ")}
-            href="https://app.dumatel.ru/"
-          >
-            Попробовать сейчас
-          </a>
+          <Button className={styles["site-header__cta"]} variant="primary" href="https://app.dumatel.ru">
+            Начать бесплатно
+          </Button> 
 
           <Button
             className={styles["site-header__burger"]}

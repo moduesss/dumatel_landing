@@ -185,20 +185,6 @@ $comparison-label-icon-scale: math.div(
   justify-content: start;
 }
 
-.comparison__cta {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--space-2) var(--space-6);
-  border-radius: var(--radius-5);
-  background: #ff7f30;
-  color: #ffffff;
-  font-size: var(--fs-1);
-  font-weight: 700;
-  text-align: center;
-  white-space: nowrap;
-}
-
 .comparison__card {
   background: #ffffff;
   border-radius: var(--radius-4);

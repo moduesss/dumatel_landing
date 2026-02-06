@@ -130,10 +130,10 @@
 }
 
 .faq__content {
-  max-height: 0;
+  height: 0;
   opacity: 0;
   padding: 0 var(--space-6);
-  transition: max-height 0.3s ease, opacity 0.3s ease, padding 0.3s ease;
+  overflow: hidden;
 }
 
 .faq__content p {
@@ -142,12 +142,6 @@
   line-height: var(--lh-normal);
   letter-spacing: -0.02em;
   color: #84909f;
-}
-
-.faq__item--open .faq__content {
-  max-height: 310px;
-  opacity: 1;
-  padding: 0 var(--space-6) var(--space-5);
 }
 
 @media (max-width: 900px) {
@@ -191,7 +185,4 @@
     font-size: var(--fs-1);
   }
 
-  .faq__item--open .faq__content {
-    padding: 0 var(--space-3) var(--space-3);
-  }
 }

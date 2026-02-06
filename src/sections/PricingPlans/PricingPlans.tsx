@@ -207,7 +207,6 @@ export default function PricingPlans() {
                       styles["plan-card__cta--dark"],
                     ].join(" ")}
                     href="https://app.dumatel.ru/"
-                    data-anim="pricing-cta"
                   >
                     Попробовать бесплатно
                   </a>
@@ -273,16 +272,9 @@ export default function PricingPlans() {
                     </div>
                   </div>
 
-                  <a
-                    className={[
-                      styles["plan-card__cta"],
-                      styles["plan-card__cta--accent"],
-                    ].join(" ")}
-                    href="https://app.dumatel.ru/"
-                    data-anim="pricing-cta"
-                  >
+                  <Button variant="primary" size="md" href="https://app.dumatel.ru/">
                     Подключиться сейчас
-                  </a>
+                  </Button>
                 </div>
               </article>
             </div>

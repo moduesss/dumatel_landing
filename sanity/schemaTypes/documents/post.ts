@@ -38,6 +38,7 @@ export const post = defineType({
       of: [{ type: "string" }],
       options: { layout: "tags" },
       description: "Ключевые слова для поисковиков и мета-тегов.",
+      validation: (rule) => rule.required().error("Обязательно для заполнения."),
     }),
     defineField({
       name: "author",

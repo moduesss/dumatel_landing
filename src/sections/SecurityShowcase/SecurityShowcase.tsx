@@ -74,15 +74,17 @@ export default function SecurityShowcase() {
                 className={styles.security__card}
                 data-anim="security-card"
               >
-                <div className={styles.security__icon}>
-                  <Image
-                    src={withBasePath(item.icon)}
-                    alt=""
-                    width={72}
-                    height={72}
-                  />
+                <div className={styles.security__title} aria-hidden="true">
+                  <div className={styles.security__icon}>
+                    <Image
+                      src={withBasePath(item.icon)}
+                      alt=""
+                      width={72}
+                      height={72}
+                      />
+                  </div>
+                  <h3>{item.title}</h3>
                 </div>
-                <h3>{item.title}</h3>
                 <p>{item.description}</p>
               </article>
             ))}
@@ -90,7 +92,6 @@ export default function SecurityShowcase() {
         </div>
 
         <div className={styles.security__device} aria-hidden="true">
-          {/* CHANGE: экран под рамкой — теперь позиционируется по реальным координатам SVG */}
           <div className={styles.security__screen}>
             <span className={styles.security__camera} aria-hidden="true" />
             <div className={styles.security__badge} data-anim="security-badge">
@@ -99,12 +100,11 @@ export default function SecurityShowcase() {
             </div>
           </div>
 
-          {/* CHANGE: рамка всегда 100% ширины контейнера, без фиксированных px */}
           <Image
             src={withBasePath("/icons/macbook.svg")}
             alt=""
-            width={1008}     // CHANGE: реальные размеры SVG (viewBox 1008x623)
-            height={623}     // CHANGE
+            width={1008}
+            height={623}
             priority
             className={styles.security__frame}
           />
