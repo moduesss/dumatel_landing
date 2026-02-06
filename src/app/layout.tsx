@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
+import UtmPersist from "@/components/UtmPersist";
 import "./globals.scss";
 
 const siteUrl = "https://dumatel.ru";
@@ -86,6 +87,7 @@ export default function RootLayout({
   return (
     <html lang="ru">
       <body className={`${geistSans.variable} ${geistMono.variable} ${inter.variable}`}>
+        <UtmPersist />
         {children}
       </body>
     </html>

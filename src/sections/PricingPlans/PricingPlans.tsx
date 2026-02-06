@@ -13,24 +13,86 @@ import {
 } from "./PricingPlans.anim";
 import styles from "./PricingPlans.module.scss";
 
-const freeFeatures = [
-  "400 кредитов",
-  "Ограниченная загрузка файлов",
-  "Загрузка только PDF форматов",
-  "Поиск в сети",
-  "Замедленная индексация файлов",
+type PlanFeature = {
+  label: string;
+  tooltip?: string;
+  status?: "included" | "excluded";
+};
+
+const freeFeatures: PlanFeature[] = [
+  {
+    label: "400 кредитов / мес",
+    tooltip:
+      "1 кредит = единица вычислений. Вопрос по файлам – 2 кр., веб-агент – 15 кр., голос – 1 кр./мин. Загрузка: PDF – 0.5 кр./стр., скан – 1 кр./стр., веб-поиск – 5 кр.",
+    status: "included",
+  },
+  {
+    label: "Ограниченные форматы",
+    tooltip: "PDF, DOCX, XLSX",
+    status: "included",
+  },
+  {
+    label: "Генерация артефактов",
+    tooltip: "Создание готовых документов и отчётов на основе ваших данных и запросов.",
+    status: "included",
+  },
+  {
+    label: "Веб-агент",
+    tooltip: "Интеллектуальные задачи с поиском и анализом источников",
+    status: "included",
+  },
+  {
+    label: "Замедленная индексация файлов",
+    tooltip:
+      "Не включает приоритетную загрузку, быстрое распознавание текста",
+    status: "included",
+  },
 ];
 
-const proFeatures = [
-  "5000 кредитов в месяц",
-  "Расширенные форматы документов (PDF, DOX, TXT)",
-  "Ускоренная индексация документов",
-  "Генерация артефактов (документов и отчётов)",
-  "Веб-Агент",
-  "Поиск в сети",
-  "Голосовой ввод",
-  "Генерация MindMap",
-  "Поддержка",
+const proFeatures: PlanFeature[] = [
+  {
+    label: "5000 кредитов / мес",
+    status: "included",
+  },
+  {
+    label: "Расширенные форматы",
+    tooltip: "DOCX, PDF, TXT, XLSX, PNG, CSV",
+    status: "included",
+  },
+  {
+    label: "Генерация артефактов",
+    tooltip: "Создание готовых документов и отчётов на основе ваших данных и запросов.",
+    status: "included",
+  },
+  {
+    label: "Веб-агент",
+    tooltip: "Интеллектуальные задачи с поиском и анализом источников",
+    status: "included",
+  },
+  {
+    label: "Создание проектов",
+    tooltip: "Организация документов и отчётов по темам для удобной работы.",
+    status: "included",
+  },
+  {
+    label: "Ускоренная индексация документов",
+    tooltip:
+      "Включает приоритетную загрузку, быстрое распознавание текста и ускоренный анализ содержимого.",
+    status: "included",
+  },
+  {
+    label: "Генерация Mindmap",
+    tooltip: "Создание интеллектуальных карт по вашим данным или документам",
+    status: "included",
+  },
+  {
+    label: "Голосовой ввод",
+    status: "included",
+  },
+  {
+    label: "Базовая поддержка",
+    status: "included",
+  },
 ];
 
 export default function PricingPlans() {
@@ -185,14 +247,32 @@ export default function PricingPlans() {
 
                 <ul className={styles["plan-card__features"]}>
                   {freeFeatures.map((feature) => (
-                    <li key={feature}>
+                    <li
+                      key={feature.label}
+                      className={styles["plan-card__feature"]}
+                      data-status={feature.status ?? "included"}
+                    >
                       <Image
                         src={withBasePath("/icons/Vector-18.svg")}
                         alt=""
                         width={16}
                         height={16}
+                        className={styles["plan-card__feature-icon"]}
                       />
-                      <span>{feature}</span>
+                      <span className={styles["plan-card__feature-label"]}>
+                        {feature.label}
+                      </span>
+                      {feature.tooltip ? (
+                        <span
+                          className={styles["plan-card__tooltip"]}
+                          data-tooltip={feature.tooltip}
+                          role="note"
+                          aria-label={feature.tooltip}
+                          tabIndex={0}
+                        >
+                          i
+                        </span>
+                      ) : null}
                     </li>
                   ))}
                 </ul>
@@ -232,14 +312,32 @@ export default function PricingPlans() {
 
                 <ul className={styles["plan-card__features"]}>
                   {proFeatures.map((feature) => (
-                    <li key={feature}>
+                    <li
+                      key={feature.label}
+                      className={styles["plan-card__feature"]}
+                      data-status={feature.status ?? "included"}
+                    >
                       <Image
                         src={withBasePath("/icons/Vector-18.svg")}
                         alt=""
                         width={16}
                         height={16}
+                        className={styles["plan-card__feature-icon"]}
                       />
-                      <span>{feature}</span>
+                      <span className={styles["plan-card__feature-label"]}>
+                        {feature.label}
+                      </span>
+                      {feature.tooltip ? (
+                        <span
+                          className={styles["plan-card__tooltip"]}
+                          data-tooltip={feature.tooltip}
+                          role="note"
+                          aria-label={feature.tooltip}
+                          tabIndex={0}
+                        >
+                          i
+                        </span>
+                      ) : null}
                     </li>
                   ))}
                 </ul>

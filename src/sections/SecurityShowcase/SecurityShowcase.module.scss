@@ -223,7 +223,7 @@
   }
 
   .security__content {
-    gap: var(--space-6);
+    gap: var(--space-3);
   }
 
   .security__header h2 {
@@ -235,12 +235,17 @@
   }
 
   .security__card {
-    row-gap: var(--space-6);
+    row-gap: var(--space-1);
   }
 
   .security__title {
     flex-direction: row;
     gap: var(--space-3);
+    align-items: center;
+
+    h3 {
+      min-height: 0;
+    }
 
     img {
       width: 42px;

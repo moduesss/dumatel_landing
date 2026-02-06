@@ -202,6 +202,7 @@ export default function ComparisonMatrix() {
               </div>
             ))}
           </div>
+
         </div>
 
         <Button variant="primary" size="lg" href="https://app.dumatel.ru/">

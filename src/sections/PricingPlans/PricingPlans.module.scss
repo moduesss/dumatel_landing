@@ -224,14 +224,15 @@
 .pricing-plans__cards {
   display: flex;
   align-items: stretch;
+  justify-content: center;
   gap: var(--space-8);
   z-index: 1;
   margin-top: var(--space-4);
 }
 
 .plan-card {
-  width: clamp(260px, 24vw, 320px);
-  min-height: 520px;
+  width: clamp(240px, 22vw, 300px);
+  min-height: 480px;
   background: #ffffff;
   border-radius: var(--radius-4);
   box-shadow: 0 4px 25px rgba(0, 0, 0, 0.1);
@@ -306,11 +307,112 @@
   letter-spacing: -0.02em;
 }
 
-.plan-card__features li {
+.plan-card__feature {
   display: flex;
   gap: var(--space-1);
-  align-items: flex-start;
+  align-items: center;
   line-height: 1.35;
+}
+
+.plan-card__feature-label {
+  flex: 1;
+}
+
+.plan-card__feature[data-status="excluded"] {
+  opacity: 0.55;
+}
+
+.plan-card__feature-icon {
+  flex: none;
+  opacity: 0.9;
+}
+
+.plan-card__feature[data-status="excluded"] .plan-card__feature-icon {
+  opacity: 0.35;
+}
+
+.plan-card__tooltip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  font-size: 11px;
+  font-weight: 700;
+  color: #0a2240;
+  cursor: pointer;
+  flex: none;
+  background: #ffffff;
+}
+
+.plan-card__tooltip::before {
+  content: "";
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: #0a2240;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.plan-card__tooltip::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 12px);
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 260px;
+  min-width: 200px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #0a2240;
+  color: #ffffff;
+  font-size: 12px;
+  line-height: 1.4;
+  white-space: normal;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  transform-origin: bottom center;
+}
+
+.plan-card__tooltip:hover::before,
+.plan-card__tooltip:hover::after,
+.plan-card__tooltip:focus::before,
+.plan-card__tooltip:focus::after {
+  opacity: 1;
+}
+
+.plan-card__tooltip:hover::after,
+.plan-card__tooltip:focus::after {
+  transform: translateX(-50%) translateY(-4px);
+}
+
+@media (max-width: 900px) {
+  .plan-card__tooltip::before {
+    left: auto;
+    right: 10px;
+    transform: none;
+  }
+
+  .plan-card__tooltip::after {
+    left: auto;
+    right: 0;
+    transform: translateY(0);
+    max-width: min(240px, 70vw);
+    min-width: 160px;
+  }
+
+  .plan-card__tooltip:hover::after,
+  .plan-card__tooltip:focus::after {
+    transform: translateY(-4px);
+  }
 }
 
 .plan-card__notice {
@@ -446,9 +548,28 @@
 
   .pricing-plans__screen::before {
     inset: var(--space-4);
-    background-size: 360px 360px, 360px 360px, 220px, 220px, cover;
-    background-position: center, center, left 10% bottom 12%, right 10% top 18%,
-      center;
+    background:
+      radial-gradient(
+        700px 520px at 18% 82%,
+        rgba(255, 127, 48, 0.45) 0%,
+        rgba(255, 127, 48, 0) 62%
+      ),
+      radial-gradient(
+        620px 520px at 82% 86%,
+        rgba(255, 127, 48, 0.4) 0%,
+        rgba(255, 127, 48, 0) 60%
+      ),
+      radial-gradient(
+        520px 420px at 78% 18%,
+        rgba(255, 210, 120, 0.18) 0%,
+        rgba(255, 210, 120, 0) 62%
+      ),
+      radial-gradient(
+        420px 420px at 25% 25%,
+        rgba(255, 255, 255, 0.08) 0%,
+        rgba(255, 255, 255, 0) 65%
+      ),
+      linear-gradient(155deg, #000000 0%, #1b1b1b 120%);
   }
 
   .pricing-plans__screen::before,
@@ -456,13 +577,19 @@
     background-repeat: no-repeat;
   }
 
+  .pricing-plans__screen::after {
+    opacity: 0.7;
+  }
+
   .pricing-plans__cards {
     flex-direction: column;
     gap: 24px;
+    align-items: center;
   }
 
   .plan-card {
     width: 100%;
+    max-width: 360px;
     height: auto;
     min-height: auto;
     padding: var(--space-3);
@@ -476,12 +603,34 @@
   }
 
   .pricing-plans__screen::before {
-    background-size: 260px 260px, 260px 260px, 180px, 180px, cover;
+    background:
+      radial-gradient(
+        520px 420px at 18% 82%,
+        rgba(255, 127, 48, 0.35) 0%,
+        rgba(255, 127, 48, 0) 62%
+      ),
+      radial-gradient(
+        460px 420px at 82% 86%,
+        rgba(255, 127, 48, 0.32) 0%,
+        rgba(255, 127, 48, 0) 60%
+      ),
+      radial-gradient(
+        420px 360px at 78% 18%,
+        rgba(255, 210, 120, 0.15) 0%,
+        rgba(255, 210, 120, 0) 62%
+      ),
+      radial-gradient(
+        360px 360px at 25% 25%,
+        rgba(255, 255, 255, 0.06) 0%,
+        rgba(255, 255, 255, 0) 65%
+      ),
+      linear-gradient(155deg, #000000 0%, #1b1b1b 120%);
   }
 
   .pricing-plans__bg-left,
   .pricing-plans__bg-right {
     height: clamp(220px, 30vw, 320px);
+    opacity: 0.5;
   }
 
   .pricing-plans__bg-left {

@@ -68,7 +68,7 @@ function ScenarioCard({
   media: React.ReactNode;
 }) {
   return (
-    <article className={styles["scenario-card"]} data-anim="sc-card">
+    <article className={styles["scenario-card"]} data-anim="sc-card" data-scenario-card>
       <div className={styles["scenario-card__media"]}>{media}</div>
 
       <div className={styles["scenario-card__body"]}>
@@ -885,7 +885,13 @@ const contentById: Record<ScenarioSetId, React.ComponentType> = {
 
 export default function Scenarios() {
   const rootRef = useRef<HTMLElement | null>(null);
+  const trackRef = useRef<HTMLDivElement | null>(null);
   const [activeId, setActiveId] = useState<ScenarioSetId>("work");
+  const [cardIndex, setCardIndex] = useState(0);
+  const [cardCount, setCardCount] = useState(0);
+  const [cardWidth, setCardWidth] = useState(0);
+  const [cardGap, setCardGap] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
 
   const ActiveContent = useMemo(() => contentById[activeId] ?? WorkCards, [activeId]);
 
@@ -893,6 +899,56 @@ export default function Scenarios() {
     if (!rootRef.current) return;
     return setupScenariosAnimations(rootRef.current);
   }, []);
+
+  useEffect(() => {
+    const media = window.matchMedia("(max-width: 900px)");
+    const onChange = () => setIsMobile(media.matches);
+    onChange();
+    media.addEventListener("change", onChange);
+    return () => media.removeEventListener("change", onChange);
+  }, []);
+
+  const handleBadgeClick = (id: ScenarioSetId) => {
+    setActiveId(id);
+    setCardIndex(0);
+  };
+
+  useEffect(() => {
+    const updateWidth = () => {
+      if (!trackRef.current) return;
+      const firstCard = trackRef.current.querySelector<HTMLElement>("[data-scenario-card]");
+      if (firstCard) {
+        setCardWidth(firstCard.getBoundingClientRect().width);
+      }
+      const style = window.getComputedStyle(trackRef.current);
+      const gapValue = style.columnGap || style.gap || "0";
+      const parsedGap = Number.parseFloat(gapValue);
+      setCardGap(Number.isNaN(parsedGap) ? 0 : parsedGap);
+      setCardCount(trackRef.current.querySelectorAll("[data-scenario-card]").length);
+    };
+
+    updateWidth();
+    const observer = new ResizeObserver(updateWidth);
+    if (trackRef.current) {
+      observer.observe(trackRef.current);
+    }
+    return () => observer.disconnect();
+  }, [activeId]);
+
+  const maxIndex = Math.max(0, cardCount - 1);
+
+  const handlePrev = () => {
+    setCardIndex((prev) => Math.max(0, prev - 1));
+  };
+
+  const handleNext = () => {
+    setCardIndex((prev) => Math.min(maxIndex, prev + 1));
+  };
+
+  const safeIndex = Math.min(cardIndex, maxIndex);
+
+  const offset =
+    isMobile && cardWidth ? -(cardWidth + cardGap) * safeIndex : 0;
 
   return (
     <section
@@ -922,7 +978,7 @@ export default function Scenarios() {
               className={styles.scenarios__badge}
               data-active={b.id === activeId}
               aria-pressed={b.id === activeId}
-              onClick={() => setActiveId(b.id)}
+              onClick={() => handleBadgeClick(b.id)}
               data-anim="sc-badge"
             >
               {b.label}
@@ -930,8 +986,49 @@ export default function Scenarios() {
           ))}
         </div>
 
-        <div className={styles.scenarios__grid}>
-          <ActiveContent />
+        <div className={styles.scenarios__viewport}>
+          <div
+            className={styles.scenarios__track}
+            ref={trackRef}
+            style={{ transform: `translateX(${offset}px)` }}
+          >
+            <ActiveContent />
+          </div>
+        </div>
+
+        <div className={styles.scenarios__controls}>
+          <Button
+            className={styles.scenarios__arrow}
+            type="button"
+            variant="ghost"
+            size="icon"
+            onClick={handlePrev}
+            aria-label="Предыдущая карточка"
+            disabled={safeIndex === 0}
+          >
+            <Image
+              src={withBasePath("/icons/Arrow Left.svg")}
+              alt=""
+              width={48}
+              height={48}
+            />
+          </Button>
+          <Button
+            className={styles.scenarios__arrow}
+            type="button"
+            variant="ghost"
+            size="icon"
+            onClick={handleNext}
+            aria-label="Следующая карточка"
+            disabled={safeIndex === maxIndex}
+          >
+            <Image
+              src={withBasePath("/icons/Arrow Right.svg")}
+              alt=""
+              width={48}
+              height={48}
+            />
+          </Button>
         </div>
 
         <Button variant="primary" size="lg" href="https://app.dumatel.ru/">
