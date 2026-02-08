@@ -8,8 +8,8 @@ import { withBasePath } from "@/lib/paths";
 import styles from "./BlogHeader.module.scss";
 
 const NAV_LINKS = [
-  { href: "/", label: "Главная" },
-  { href: "/blog", label: "Блог" },
+  { href: "https://dumatel.ru", label: "Главная" },
+  { href: "/", label: "Блог" },
 ] as const;
 
 export default function BlogHeader() {

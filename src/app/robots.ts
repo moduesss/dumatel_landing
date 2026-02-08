@@ -1,14 +1,9 @@
-import type { MetadataRoute } from "next";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://blog.dumatel.ru";
 
-export const dynamic = "force-static";
-
-export default function robots(): MetadataRoute.Robots {
+export default function robots() {
   return {
-    rules: {
-      userAgent: "*",
-      allow: "/",
-    },
-    sitemap: "https://dumatel.ru/sitemap.xml",
-    host: "dumatel.ru",
+    rules: { userAgent: "*", allow: "/" },
+    sitemap: `${siteUrl}/sitemap.xml`,
+    host: siteUrl.replace("https://", ""),
   };
 }
